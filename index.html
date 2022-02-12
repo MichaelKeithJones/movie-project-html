@@ -7,8 +7,14 @@
         <link rel="icon" type="image/x-icon" href="./img/icons8-popcorn-48.png">
         
         <style>
+            @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap");
             :root{
                 --card-height: 300px;
+            }
+            * {
+                padding: 0;
+                margin: 0;
+                font-family: 'Roboto Condensed', sans-serif;
             }
             .wrapper {
                 height: var(--card-height);
@@ -19,6 +25,7 @@
                 position: relative;
                 overflow: hidden;
                 margin: 0 auto;
+                z-index: 0;
             }
             .button-wrapper {
                 width: 100%;
@@ -37,10 +44,10 @@
                 position: absolute;
                 left: 0;
                 transition: all 1s ease;
+                z-index: 1;
             }
             .card {
-                color: white;
-                background: black;
+                background-color: transparent;
                 min-width: 200px;
                 height:  var(--card-height);
                 margin-right: 1rem;
@@ -49,6 +56,38 @@
             .card img{
                 width: 100%;
                 height: 100%;
+            }
+            .card-inner {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                transition: transform 1.5s;
+                transform-style: preserve-3d;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            }
+            .card:hover .card-inner {
+                transform: rotateY(180deg);
+            }
+            .card-front, .card-back {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                backface-visibility: hidden;
+            }
+            .card-front {
+                background-color: black;
+                color: white;
+            }
+            .card-back {
+                padding: 5px;
+                background-color: rgb(64, 64, 64);
+                color: whitesmoke;
+                transform: rotateY(180deg);
+            }
+            .card-text {
+                padding: 5px;
+                font-size: 13px;
             }
             .left { background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
             .right { background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
@@ -60,6 +99,7 @@
                 border: none;
                 opacity: 0;
                 transition: all 0.5s ease;
+                z-index: 11;
             }
             .arrow-button:hover {
                 opacity: 1;
@@ -153,7 +193,6 @@
                     let wrapper = e.target.parentElement.parentElement.firstElementChild;
                     const x = getCurrentTranslateXValue(wrapper);
                     const value = x - (carouselWidth + cardMarginRight);
-
                     if (x !== maxX) wrapper.style.transform = `translateX(${value}px)`;
 
                     let startListening = () => { e.target.addEventListener("click", moveCarouselRight); }
@@ -167,17 +206,28 @@
                         .then(data => {
                             console.log(data.results);
                             let cards = '';
+                            document.querySelector("[data-target='" + carouselGenre + "Carousel']").innerHTML = '';
                             data.results.forEach(movie => {
-                                cards += `
-                                    <li class="card" data-target="card">
-                                        <img src="https://image.tmdb.org/t/p/original${movie.poster_path}">
-                                    </li>
+                                cards = `
+                                    <div class="card" data-target="card">
+                                        <div class="card-inner">
+                                            <div class="card-front">
+                                                <img src="https://image.tmdb.org/t/p/original${movie.poster_path}">
+                                            </div>
+                                            <div class="card-back">
+                                                <h3>${movie.title}</h1> 
+                                                <p class="card-text">Overview: ${movie.overview}</p>
+                                                <p>Release Date: ${movie.release_date}</p> 
+                                            </div>
+                                        </div>
+                                    </div>
                                 `;
+                                document.querySelector("[data-target='" + carouselGenre + "Carousel']").innerHTML += cards;
                             })
-                            document.querySelector("[data-target='" + carouselGenre + "Carousel']").innerHTML = cards;
                         })
                         .catch(err => console.log(err));
                 }
+ 
 
                 //--------------------------------//
                 // Event Handlers
