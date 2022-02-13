@@ -7,91 +7,76 @@
         <link rel="icon" type="image/x-icon" href="./img/icons8-popcorn-48.png">
         
         <style>
+            /*-------------------------*\ 
+            Import
+            \*-------------------------*/
+
             @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap");
+
+            /*-------------------------*\ 
+            General
+            \*-------------------------*/
+
             :root{
-                --card-height: 300px;
+                --poster-height: 300px;
             }
             * {
                 padding: 0;
                 margin: 0;
                 font-family: 'Roboto Condensed', sans-serif;
             }
-            .wrapper {
-                height: var(--card-height);
-                /* 5 Cards -> Card Width: 200px;  (200px * 5) + (16px margin * 4) = 1064px*/
-                /* 3 Cards -> Card Width: 200px;  (200px * 3) + (16px margin * 2) = 632px*/
-                /* 1 Cards -> Card Width: 200px;  (200px * 1) + (16px margin * 0) = 200px*/
+
+            /*-------------------------*\ 
+            Carousel
+            \*-------------------------*/
+            .poster-carousel {
+                height: var(--poster-height);
+                /* 5 Poster -> Poster Width: 200px;  (200px * 5) + (16px margin * 4) = 1064px*/
+                /* 3 Poster -> Poster Width: 200px;  (200px * 3) + (16px margin * 2) = 632px*/
+                /* 1 Poster -> Poster Width: 200px;  (200px * 1) + (16px margin * 0) = 200px*/
                 width: 1064px;
                 position: relative;
                 overflow: hidden;
                 margin: 0 auto;
                 z-index: 0;
             }
-            .button-wrapper {
+            .poster-gallery {
+                list-style: none;
+                position: absolute;
+                z-index: 1;
+                width: 100%;
+                left: 0;
+                margin: 0;
+                padding: 0;
+                transition: all 1s ease;
+                display: flex;
+            }
+            .poster {
+                display: inline-block;
+                min-width: 200px;
+                height:  var(--poster-height);
+                margin-right: 1rem;
+                background-color: transparent;
+            }
+            .poster img{
+                width: 100%;
+                height: 100%;
+            }
+
+            /*-------------------------*\ 
+            Carousel Buttons
+            \*-------------------------*/
+            .carousel-buttons {
+                position: absolute;
                 width: 100%;
                 height: 100%;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                position: absolute;
             }
-            .carousel {
-                margin: 0;
-                padding: 0;
-                list-style: none;
-                width: 100%;
-                display: flex;
-                position: absolute;
-                left: 0;
-                transition: all 1s ease;
-                z-index: 1;
-            }
-            .card {
-                background-color: transparent;
-                min-width: 200px;
-                height:  var(--card-height);
-                margin-right: 1rem;
-                display: inline-block;
-            }
-            .card img{
-                width: 100%;
-                height: 100%;
-            }
-            .card-inner {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                text-align: center;
-                transition: transform 1.5s;
-                transform-style: preserve-3d;
-                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            }
-            .card:hover .card-inner {
-                transform: rotateY(180deg);
-            }
-            .card-front, .card-back {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                backface-visibility: hidden;
-            }
-            .card-front {
-                background-color: black;
-                color: white;
-            }
-            .card-back {
-                padding: 5px;
-                background-color: rgb(64, 64, 64);
-                color: whitesmoke;
-                transform: rotateY(180deg);
-            }
-            .card-text {
-                padding: 5px;
-                font-size: 13px;
-            }
-            .left { background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
-            .right { background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
-            .arrow-button {
+            .left-button { background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
+            .right-button { background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
+            .arrow {
                 color: white;
                 width: 50px;
                 height: 100%;
@@ -100,18 +85,95 @@
                 opacity: 0;
                 transition: all 0.5s ease;
                 z-index: 11;
+                cursor: pointer;
             }
-            .arrow-button:hover {
-                opacity: 1;
-            }
+            .arrow:hover { opacity: 1; }
             .stretch {
                 display: inline-block;
                 transform: scale(1, 3);
             }
-            .add-button{
+
+            /*-------------------------*\ 
+            Modal
+            \*-------------------------*/
+
+            /* Actually the overlay, padding-top positions modal box */
+            #add-modal {
+                display: none; /* Hidden by default */
+
+                position: fixed; /* Stay in place */
+                left: 0;
+                top: 0;
+                z-index: 50; /* Sit on top */
+
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+
+                background-color: rgba(0, 0, 0, 0.75); /* Black w/ opacity */
+
+                padding-top: 100px; /* Location of the box */
+            }
+
+            #add-modal .content {
+                position: relative;
+                background-color: rgb(75, 75, 75);
+                width: 800px;
+                height: 650px;
+                margin: auto;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.75), 0 6px 20px 0 rgba(0, 0, 0, 0.75);
+                animation: modal-slide-down 0.5s ease;
+            }
+
+            @keyframes modal-slide-down {
+                from { top: -300px; opacity: 0 }
+                to { top: 0; opacity: 1 }
+            }
+
+            #add-modal .header {
+                width: 100%;
+                height: 450px;
+                background-image: 
+                linear-gradient(to bottom, transparent, rgb(0, 0, 0)),
+                url(https://image.tmdb.org/t/p/original/xHRabofjmMGoIV3mb6xgy4nwOcS.jpg);
+                background-repeat: no-repeat;
+                background-size: contain;
                 color: white;
-                background: black;
-                padding: 20px 30px;
+            }
+
+            #add-modal .close-button {
+                color: white;
+                position: absolute;
+                right: 0;
+
+                margin: 20px;
+
+                font-size: 35px;
+                line-height: 23px;
+
+                text-align: center;
+                background-color: black;
+                border-radius: 50%;
+                width: 28px;
+                height: 28px; 
+            }
+
+            #add-modal .close-button:hover,
+            #add-modal .close-button:focus {
+                color: rgb(49, 49, 49);
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            #add-modal img {
+                width: 100%;
+                height: 100%;
+            }
+
+            #add-modal .body {
+                width: 100%;
+                height: 200px;
+                background: rgb(0, 0, 0);
+                color: white;
             }
         </style>
     </head>
@@ -119,15 +181,32 @@
 
         <main>
 
-            <div class="wrapper">
-                <ul class="carousel" data-target="horrorCarousel">
+            <div class="poster-carousel">
+                <ul class="poster-gallery" id="poster-gallery-horror">
                 </ul>
-                <div class="button-wrapper">
-                  <button class="left arrow-button stretch" data-action="slideLeft">&lt</button>
-                  <button class="right arrow-button stretch" data-action="slideRight">&gt</button>
+                <div class="carousel-buttons">
+                  <button class="left-button arrow stretch">&lt</button>
+                  <button class="right-button arrow stretch">&gt</button>
                 </div>
             </div>
-              
+        
+            <button id="add-modal-button">Open Modal</button>
+
+            <div id="add-modal" class="overlay">
+                <div class="content">
+                    <div class="header">
+                        <div class="title"></div>
+                        <div class="close-button">&times</div>
+                    </div>
+                    <div class="body">
+                        <div class="release-date"></div>
+                        <div class="overview"></div>
+                        <div class="language"></div>
+                        <div class="genres"></div>
+                    </div>
+                </div>
+            </div>
+
         </main>
         <footer>
             Loading...
@@ -142,35 +221,35 @@
                 // Constant Variables
                 //--------------------------------//
                 const genre = {
-                    'action':         '28',
-                    'adventure':      '12',
-                    'animation':      '16',
-                    'comedy':         '35',
-                    'crime':          '80',
-                    'documentary':    '99',
-                    'drama':          '18',
-                    'family':         '10751',
-                    'fantasy':        '14',
-                    'history':        '36',
-                    'horror':         '27',
-                    'music':          '10402',
-                    'mystery':        '9648',
-                    'romance':        '10749',
-                    'scienceFiction': '878',
-                    'tVMovie':        '10770',
-                    'thriller':       '53',
-                    'war':            '10752',
-                    'western':        '37'
+                    '28':       'action',
+                    '12':       'adventure',
+                    '16':       'animation',
+                    '35':       'comedy',
+                    '80':       'crime',
+                    '99':       'documentary',
+                    '18':       'drama',
+                    '10751':    'family',
+                    '14':       'fantasy',
+                    '36':       'history',
+                    '27':       'horror',
+                    '10402':    'music',
+                    '9648':     'mystery',
+                    '10749':    'romance',
+                    '878':      'sci-fi',
+                    '10770':    'tv-movie',
+                    '53':       'thriller',
+                    '10752':    'war',
+                    '37':       'western'
                 }
 
-                const leftButtons = document.getElementsByClassName("left");
-                const rightButtons = document.getElementsByClassName("right");
+                const leftButtons = document.getElementsByClassName("left-button");
+                const rightButtons = document.getElementsByClassName("right-button");
 
-                const numOfCards = 5;
+                const numOfPosters = 5;
                 const carouselWidth = 1064;
-                const cardMarginRight = 16;
-                const cardCount = 20;
-                const maxX = -((cardCount / numOfCards) * carouselWidth + (cardMarginRight * (cardCount / numOfCards)) - carouselWidth - cardMarginRight);
+                const posterMarginRight = 16;
+                const posterCount = 20;
+                const maxX = -((posterCount / numOfPosters) * carouselWidth + (posterMarginRight * (posterCount / numOfPosters)) - carouselWidth - posterMarginRight);
 
                 const myMovieListUrl = `https://aluminum-purple-grouse.glitch.me/movies`;
 
@@ -178,12 +257,12 @@
                 // Global Variables
                 //--------------------------------//
 
-                let addButtons = {};
-                let myMovieList = [];
-
                 //--------------------------------//
                 // Global Functions
                 //--------------------------------//
+                let capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1);
+                let convertTMDBGenreIDS = ids => ids.map(genreID => capitalizeFirstLetter(genre[genreID])).join(', ');
+
                 function getCurrentTranslateXValue (element) {
                     var style = window.getComputedStyle(element);
                     var matrix = new WebKitCSSMatrix(style.transform);
@@ -194,7 +273,7 @@
 
                     let wrapper = e.target.parentElement.parentElement.firstElementChild;
                     const x = getCurrentTranslateXValue(wrapper);
-                    const value = x + (carouselWidth + cardMarginRight);
+                    const value = x + (carouselWidth + posterMarginRight);
                     if (x !== 0) wrapper.style.transform = `translateX(${value}px)`;
 
                     let startListening = () => { e.target.addEventListener("click", moveCarouselLeft); }
@@ -205,114 +284,38 @@
 
                     let wrapper = e.target.parentElement.parentElement.firstElementChild;
                     const x = getCurrentTranslateXValue(wrapper);
-                    const value = x - (carouselWidth + cardMarginRight);
+                    const value = x - (carouselWidth + posterMarginRight);
                     if (x !== maxX) wrapper.style.transform = `translateX(${value}px)`;
 
                     let startListening = () => { e.target.addEventListener("click", moveCarouselRight); }
                     const myTimeout = setTimeout(startListening, 1000);
                 }
-                function addMovie(e){
-                    e.target.removeEventListener('click', addMovie);
-
-                    let movieTitle = e.target.parentElement.firstElementChild.innerHTML.split(' ').join('+');
-                    let url = `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&t=${movieTitle}`;
-                    fetch(url)
-                        .then(response => response.json())
-                        .then(data => {
-                            myMovieList.push({
-                                title: data.Title,
-                                poster: data.Poster,
-                                year: data.Year,
-                                genre: data.Genre,
-                                director: data.Director,
-                                plot: data.Plot,
-                                actors: data.Actors,
-                                rating: 0,
-                                watched: false
-                            });
-                            console.log(myMovieList);
-                        })
-                        .catch(err => console.log(err));
-
-                    let startListening = () => { e.target.addEventListener("click", addMovie); }
-                    const myTimeout = setTimeout(startListening, 500);
-                }
                 function buildCarousel(carouselGenre) {
-                    let url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=${genre[carouselGenre]}&sort_by=popularity.desc&language=en-US&page=1`;
+                    let url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=${carouselGenre}&sort_by=popularity.desc&language=en-US&page=1`;
                     fetch(url)
                         .then(response => response.json())
                         .then(data => {
-                            let cards = '';
-                            document.querySelector("[data-target='" + carouselGenre + "Carousel']").innerHTML = '';
+                            console.log(data);
+                            document.getElementById(`poster-gallery-${genre[carouselGenre]}`).innerHTML = '';
                             data.results.forEach(movie => {
-                                cards = `
-                                    <div class="card" data-target="card">
-                                        <div class="card-inner">
-                                            <div class="card-front">
-                                                <img src="https://image.tmdb.org/t/p/original${movie.poster_path}">
-                                            </div>
-                                            <div class="card-back">
-                                                <h3>${movie.title}</h1> 
-                                                <p class="card-text">Overview: ${movie.overview}</p>
-                                                <p>Release Date: ${movie.release_date}</p>
-                                                <input class="add-button" type="button" value="ADD">
-                                            </div>
-                                        </div>
+                                document.getElementById(`poster-gallery-${genre[carouselGenre]}`).innerHTML += `
+                                    <div class="poster" data-target="poster">
+                                        <img src="https://image.tmdb.org/t/p/original${movie.poster_path}">
+                                        <span hidden>"https://image.tmdb.org/t/p/original${movie.poster_path}"</span>
+                                        <span hidden>"https://image.tmdb.org/t/p/original${movie.backdrop_path}"</span>
+                                        <span hidden>${movie.title}</span>
+                                        <span hidden>${movie.release_date}</span>
+                                        <span hidden>${movie.overview}</span>
+                                        <span hidden>${movie.language}</span>
+                                        <span hidden>${convertTMDBGenreIDS(movie.genre_ids)}</span>
+                                        <span hidden>${movie.id}</span>
                                     </div>
                                 `;
-                                document.querySelector("[data-target='" + carouselGenre + "Carousel']").innerHTML += cards;
-                                addButtons = document.getElementsByClassName("add-button");
-                                Array.from(addButtons).forEach(element => element.addEventListener("click", addMovie));
                             })
                         })
                         .catch(err => console.log(err));
                 }
  
-                function test() {
-                    // ----------- GET:
-                    // fetch(myMovieListUrl)
-                    //     .then(response => response.json())
-                    //     .then(data => console.log(data))
-                    //     .catch(err => console.log(err));
-
-                    // const movieObj = {
-                    //     // title: data.Title,
-                    //     // poster: data.Poster,
-                    //     // year: data.Year,
-                    //     // genre: data.Genre,
-                    //     // director: data.Director,
-                    //     // plot: data.Plot,
-                    //     // actors: data.Actors,
-                    //     rating: 0,
-                    //     watched: false
-                    // };
-
-                    // // ----------- POST:
-                    // fetch(myMovieListUrl, {
-                    //     method: 'POST',
-                    //     headers: { 'Content-Type': 'application/json'},
-                    //     body: JSON.stringify(movieObj)
-                    // }).then(response => console.log(response)).catch(err => console.log(err));
-                   
-                    // const movieObj = {
-                    //     // title: data.Title,
-                    //     // poster: data.Poster,
-                    //     // year: data.Year,
-                    //     // genre: data.Genre,
-                    //     // director: data.Director,
-                    //     // plot: data.Plot,
-                    //     // actors: data.Actors,
-                    //     rating: 0,
-                    //     watched: false,
-                    // };
-
-                    // // ----------- PUT:
-                    // fetch(myMovieListUrl + '/' + '12', {
-                    //     method: 'PUT',
-                    //     headers: { 'Content-Type': 'application/json'},
-                    //     body: JSON.stringify(movieObj)
-                    // }).then(response => console.log(response)).catch(err => console.log(err)); 
-                }
                 //--------------------------------//
                 // Event Handlers
                 //--------------------------------// 
@@ -323,7 +326,15 @@
                 //--------------------------------//
                 // Main Function
                 //--------------------------------// 
-                buildCarousel('horror');
+                buildCarousel('27');                                            //-- '27' is genre code: Horror 
+
+                const addModal = document.getElementById("add-modal");
+                const addModalButton = document.getElementById("add-modal-button");
+                const addModalCloseButton = document.getElementsByClassName("close-button")[0];
+
+                addModalButton.addEventListener("click", () => { addModal.style.display = "block"; });
+                addModalCloseButton.addEventListener("click", () => { addModal.style.display = "none"; });
+                window.addEventListener("click", (event) => { if (event.target == addModal) addModal.style.display = "none"; });
             })();
         </script>
     </body>
