@@ -11,7 +11,7 @@
             Import
             \*-------------------------*/
 
-            @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap");
+            @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
             /*-------------------------*\ 
             General
@@ -21,9 +21,10 @@
                 --poster-height: 300px;
             }
             * {
+                box-sizing: border-box;
                 padding: 0;
                 margin: 0;
-                font-family: 'Roboto Condensed', sans-serif;
+                font-family: 'Montserrat', sans-serif;
             }
 
             /*-------------------------*\ 
@@ -62,7 +63,9 @@
                 width: 100%;
                 height: 100%;
             }
-
+            .poster:hover {
+                cursor: pointer;
+            }
             /*-------------------------*\ 
             Carousel Buttons
             \*-------------------------*/
@@ -94,7 +97,7 @@
             }
 
             /*-------------------------*\ 
-            Modal
+            Add Modal
             \*-------------------------*/
 
             /* Actually the overlay, padding-top positions modal box */
@@ -113,7 +116,6 @@
 
                 padding-top: 100px; /* Location of the box */
             }
-
             #add-modal .content {
                 position: relative;
                 background-color: rgb(75, 75, 75);
@@ -123,23 +125,91 @@
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.75), 0 6px 20px 0 rgba(0, 0, 0, 0.75);
                 animation: modal-slide-down 0.5s ease;
             }
-
             @keyframes modal-slide-down {
-                from { top: -300px; opacity: 0 }
-                to { top: 0; opacity: 1 }
+                0% { top: -300px; opacity: 0 }
+                100% { top: 0; opacity: 1 }
             }
-
             #add-modal .header {
+                position: relative;
                 width: 100%;
                 height: 450px;
-                background-image: 
-                linear-gradient(to bottom, transparent, rgb(0, 0, 0)),
-                url(https://image.tmdb.org/t/p/original/xHRabofjmMGoIV3mb6xgy4nwOcS.jpg);
-                background-repeat: no-repeat;
-                background-size: contain;
                 color: white;
             }
+            #add-modal .title {
+                position: absolute;
+                bottom: 65px;
+                margin: 0 20px;
+                font-size: 48px;
+                font-weight: 200;
+                border-bottom: 1px solid rgb(41, 41, 41);
+            }
+            #add-modal .add-button {
+                color: white;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                margin: 20px;
 
+                font-size: 35px;
+                line-height: 30px;
+
+                text-align: center;
+                background-color: black;
+                border-radius: 50%;
+                border: 1px solid white;
+                width: 35px;
+                height: 35px; 
+                transition: .25s;
+            }
+            #add-modal .add-button:hover {
+                color: green;
+                border: 1px solid green;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            #add-modal .green-button {
+                color: white;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                margin: 20px;
+
+                font-size: 35px;
+                line-height: 30px;
+
+                text-align: center;
+                border-radius: 50%;
+                width: 35px;
+                height: 35px; 
+                transition: .25s;
+
+                background-color: green;
+                border: 1px solid green;
+            }
+            #add-modal .stars {
+                position: absolute;
+                left: 80px;
+                bottom: 17px;
+
+                font-size: 35px;
+                transition: 0.25s;
+            }
+            #add-modal .add-star{
+                display: inline-block;
+                color: white;
+                background: transparent;
+            }
+            #add-modal .add-star:hover {
+                color: rgb(49, 49, 49);
+                text-decoration: none;
+                cursor: pointer;
+                transition: 0.25s ease;
+            }
+            #add-modal .gold-star {
+                display: inline-block;
+                color: gold;
+                background: transparent;
+            }
             #add-modal .close-button {
                 color: white;
                 position: absolute;
@@ -148,33 +218,138 @@
                 margin: 20px;
 
                 font-size: 35px;
-                line-height: 23px;
+                line-height: 27px;
 
                 text-align: center;
                 background-color: black;
                 border-radius: 50%;
                 width: 28px;
                 height: 28px; 
+                transition: .25s;
             }
-
             #add-modal .close-button:hover,
             #add-modal .close-button:focus {
                 color: rgb(49, 49, 49);
                 text-decoration: none;
                 cursor: pointer;
             }
-
             #add-modal img {
                 width: 100%;
                 height: 100%;
             }
-
             #add-modal .body {
                 width: 100%;
                 height: 200px;
                 background: rgb(0, 0, 0);
                 color: white;
+                font-weight: 400;
+                padding: 20px;
+
+                display:grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr 5fr;
+                grid-auto-flow: column;
+                gap: 10px;
             }
+            #add-modal .overview {
+                overflow: auto;
+            }
+            #add-modal .muted { color:rgb(87, 87, 87); }
+
+            /*-------------------------*\ 
+            Watchlist
+            \*-------------------------*/
+
+            #watchlist {
+                width: 100;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, 200px);
+                column-gap: 16px;
+                justify-items: center;
+                align-items: center;
+            }
+
+            #watchlist .item {
+                display: inline-block;
+                width: 200px;
+                height: 300px;
+                height:  var(--poster-height);
+                background-color: transparent;
+            }
+            #watchlist .item img{
+                width: 100%;
+                height: 100%;
+            }
+
+            /*-------------------------*\ 
+            Edit/Delete Modal
+            \*-------------------------*/
+
+            #edit-modal {
+                display: none; /* Hidden by default */
+
+                position: fixed; /* Stay in place */
+                left: 0;
+                top: 0;
+                z-index: 50; /* Sit on top */
+
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+
+                background-color: rgba(0, 0, 0, 0.75); /* Black w/ opacity */
+
+                padding-top: 100px; /* Location of the box */
+            }
+
+            #edit-modal .content {
+                position: relative;
+                background-color: rgb(75, 75, 75);
+                width: 800px;
+                height: 650px;
+                margin: auto;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.75), 0 6px 20px 0 rgba(0, 0, 0, 0.75);
+                animation: modal-slide-down 0.5s ease;
+            }
+
+            #edit-modal .body {
+                position: relative;
+
+                width: 100%;
+                height: 650px;
+
+                color: white;
+                background: black;
+            }
+
+            #edit-modal .close-button {
+                color: white;
+                position: absolute;
+                right: 0;
+
+                margin: 20px;
+
+                font-size: 35px;
+                line-height: 27px;
+
+                text-align: center;
+                background-color: black;
+                border-radius: 50%;
+                width: 28px;
+                height: 28px; 
+                transition: .25s;
+            }
+            #edit-modal .close-button:hover,
+            #edit-modal .close-button:focus {
+                color: rgb(49, 49, 49);
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            #edit-modal img {
+                width: 100%;
+                height: 100%;
+            }
+
         </style>
     </head>
     <body>
@@ -190,27 +365,51 @@
                 </div>
             </div>
         
-            <button id="add-modal-button">Open Modal</button>
+            <br><hr><br>
+
+            <div id="watchlist"></div>
+
+            <!--------------------------------
+            Hidden
+            ---------------------------------->
 
             <div id="add-modal" class="overlay">
                 <div class="content">
                     <div class="header">
+                        <div class="close-button">&times;</div>
                         <div class="title"></div>
-                        <div class="close-button">&times</div>
+                        <label><input hidden type="radio" id="add-button-check" name="add-button-check"><div class="add-button">&plus;</div>
+                        </label>
+                        <div class="stars">
+                            <label><input hidden id="add-star-one" type="radio" name="addRating" value="1"><div class="add-star">&#9733;</div></label>
+                            <label><input hidden id="add-star-two" type="radio" name="addRating" value="2"><div class="add-star">&#9733;</div></label>
+                            <label><input hidden id="add-star-three" type="radio" name="addRating" value="3"><div class="add-star">&#9733;</div></label>
+                            <label><input hidden id="add-star-four" type="radio" name="addRating" value="4"><div class="add-star">&#9733;</div></label>
+                            <label><input hidden id="add-star-five" type="radio" name="addRating" value="5"><div class="add-star">&#9733;</div></label>
+                        </div>
                     </div>
                     <div class="body">
-                        <div class="release-date"></div>
-                        <div class="overview"></div>
-                        <div class="language"></div>
-                        <div class="genres"></div>
+                        <section class="release-date"></section>
+                        <section class="overview"></section>
+                        <section><span class="muted">Language: </span><span class="language"></span></section>
+                        <section><span class="muted">Genres: </span><span class="genres"></span></section>
+                        <span hidden class="poster-path"></span>
+                        <span hidden class="backdrop-path"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="edit-modal" class="overlay">
+                <div class="content">
+                    <div class="body">
+                        <div class="close-button">&times;</div>
+                        <img>
                     </div>
                 </div>
             </div>
 
         </main>
-        <footer>
-            Loading...
-        </footer> -->
+        <footer></footer>
 
         <script src="./key.js"></script>
         <script>
@@ -220,6 +419,7 @@
                 //--------------------------------//
                 // Constant Variables
                 //--------------------------------//
+                let watchlist = [];
                 const genre = {
                     '28':       'action',
                     '12':       'adventure',
@@ -240,6 +440,16 @@
                     '53':       'thriller',
                     '10752':    'war',
                     '37':       'western'
+                }
+                const languages = {
+                    'en': 'English',
+                    'es': 'Spanish',
+                    'fr': 'French',
+                    'ru': 'Russian',
+                    'th': 'Thai',
+                    'de': 'German',
+                    'zh': 'Chineses',
+                    'ja': 'Japanese'
                 }
 
                 const leftButtons = document.getElementsByClassName("left-button");
@@ -262,6 +472,8 @@
                 //--------------------------------//
                 let capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1);
                 let convertTMDBGenreIDS = ids => ids.map(genreID => capitalizeFirstLetter(genre[genreID])).join(', ');
+                let convertTMDBLanguage = code => languages[code] ? languages[code] : code;
+                let convertTMDBDate = date => date.split('-')[0];
 
                 function getCurrentTranslateXValue (element) {
                     var style = window.getComputedStyle(element);
@@ -295,27 +507,171 @@
                     fetch(url)
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
                             document.getElementById(`poster-gallery-${genre[carouselGenre]}`).innerHTML = '';
                             data.results.forEach(movie => {
                                 document.getElementById(`poster-gallery-${genre[carouselGenre]}`).innerHTML += `
                                     <div class="poster" data-target="poster">
                                         <img src="https://image.tmdb.org/t/p/original${movie.poster_path}">
-                                        <span hidden>"https://image.tmdb.org/t/p/original${movie.poster_path}"</span>
-                                        <span hidden>"https://image.tmdb.org/t/p/original${movie.backdrop_path}"</span>
+                                        <span hidden>https://image.tmdb.org/t/p/original${movie.poster_path}</span>
+                                        <span hidden>https://image.tmdb.org/t/p/original${movie.backdrop_path}</span>
                                         <span hidden>${movie.title}</span>
-                                        <span hidden>${movie.release_date}</span>
+                                        <span hidden>${convertTMDBDate(movie.release_date)}</span>
                                         <span hidden>${movie.overview}</span>
-                                        <span hidden>${movie.language}</span>
+                                        <span hidden>${convertTMDBLanguage(movie.original_language)}</span>
                                         <span hidden>${convertTMDBGenreIDS(movie.genre_ids)}</span>
                                         <span hidden>${movie.id}</span>
                                     </div>
                                 `;
                             })
+                            const posters = document.getElementsByClassName("poster");
+                            Array.from(posters).forEach(element => element.addEventListener("click", showAddMovieModal));
                         })
                         .catch(err => console.log(err));
                 }
- 
+                function changesStars(e) {
+                    resetStars();
+                    let rating = e.target.value;
+                    addModalStarRating.forEach(element => {
+                        if (element.value <= rating) {
+                            element.nextElementSibling.classList.remove("add-star");
+                            element.nextElementSibling.classList.add("gold-star");
+                        }
+                    });
+                }
+                function resetStars() {
+                    addModalStarRating.forEach(element => { 
+                        element.nextElementSibling.classList.remove("gold-star");
+                        element.nextElementSibling.classList.add("add-star");
+                    });
+                }
+                function showAddMovieModal(e){
+                    const poster = e.target.parentElement.children;
+                    let header = document.querySelector('#add-modal .header').style;
+                    document.querySelector('#add-modal .poster-path').innerHTML     = poster[1].innerHTML;
+                    document.querySelector('#add-modal .backdrop-path').innerHTML   = poster[2].innerHTML;
+                    header.backgroundImage = "linear-gradient(to bottom, transparent, rgb(0, 0, 0)), url(" + poster[2].innerHTML + ")";
+                    header.backgroundRepeat = "no-repeat";
+                    header.backgroundSize = 'contain';
+                    document.querySelector('#add-modal .title').innerHTML           = poster[3].innerHTML;
+                    document.querySelector('#add-modal .release-date').innerHTML    = poster[4].innerHTML;
+                    document.querySelector('#add-modal .overview').innerHTML        = poster[5].innerHTML;
+                    document.querySelector('#add-modal .language').innerHTML        = poster[6].innerHTML;
+                    document.querySelector('#add-modal .genres').innerHTML          = poster[7].innerHTML;
+                    addModal.style.display = "block";
+                }
+                function closeAddMovieModal (){
+                    resetStars();
+                    document.querySelector('#add-modal #add-button-check').checked = false;
+                    addModalStarRating.forEach(element => { 
+                        element.checked = false;
+                    });
+                    addModalAddButton.classList.remove("green-button");
+                    addModalAddButton.classList.add("add-button");
+                    addModal.style.display = "none";
+                }
+                function addMovieToGlitch(e) {
+                    addModalAddButton.classList.remove("add-button");
+                    addModalAddButton.classList.add("green-button");
+
+                    let title = document.querySelector('#add-modal .title').innerHTML;
+                    let year = document.querySelector('#add-modal .release-date').innerHTML;
+                    let poster = document.querySelector('#add-modal .poster-path').innerHTML;
+                    let backdrop = document.querySelector('#add-modal .backdrop-path').innerHTML;
+                    let genre = document.querySelector('#add-modal .genres').innerHTML;
+                    let overview = document.querySelector('#add-modal .overview').innerHTML;
+                    let language = document.querySelector('#add-modal .language').innerHTML;
+
+                    let url = `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&t=${title}&y=${year}`;
+                    let rating = 0;
+                    addModalStarRating.forEach((element, index) => {
+                        if (element.checked === true)
+                            rating = index + 1;
+                    });
+
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            const movieObj = {
+                                title,
+                                poster,
+                                backdrop,
+                                year,
+                                genre,
+                                country: data.Country,
+                                language,
+                                actors: data.Actors,
+                                director: data.Director,
+                                writer: data.Writer,
+                                overview,
+                                runtime: data.Runtime,
+                                rating,
+                                watched: false
+                            };
+
+                            fetch(myMovieListUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json'},
+                                body: JSON.stringify(movieObj)
+                            }).then(response => console.log(response.statusText)).catch(err => console.log(err));
+
+                            let wait = () => { closeAddMovieModal(); };
+                            const myTimeout = setTimeout(wait, 750);
+                        })
+                        .catch(err => console.log(err));
+                }
+                
+                function showEditMovieModel(e) {
+                    editModal.style.display = "block";
+                }
+                function closeEditMovieModal (){
+                    editModal.style.display = "none";
+                }
+                
+                function showMyWatchlist(list) {
+                    document.getElementById('watchlist').innerHTML = '';
+                    list.forEach(element => {
+                        document.getElementById('watchlist').innerHTML += `
+                        <div class="item" data-target="item">
+                            <img src=${element.poster}>
+                            <span hidden>${element.poster}</span>
+                            <span hidden>${element.backdrop}</span>
+                            <span hidden>${element.title}</span>
+                            <span hidden>${element.year}</span>
+                            <span hidden>${element.overview}</span>
+                            <span hidden>${element.language}</span>
+                            <span hidden>${element.genre}</span>
+                            <span hidden>${element.id}</span>
+                        </div>
+                        `;
+                    })
+                    const items = document.getElementsByClassName("item");
+                    Array.from(items).forEach(element => element.addEventListener("click", showEditMovieModel));
+                }
+                function getMyWatchlist(){
+                    fetch(myMovieListUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            watchlist = data;
+                            showMyWatchlist(watchlist);
+                        })
+                        .catch(err => console.log(err));
+                }
+                getMyWatchlist();
+
+                function clearGlitch() {
+                    fetch(myMovieListUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            for(let i = 1; i < data.length; i++)
+                            fetch(myMovieListUrl + `/${i}`, {
+                                method: 'DELETE'
+                            }).then(response => console.log(response.statusText)).catch(err => console.log(err));
+                        })
+                        .catch(err => console.log(err));
+                }
+                // clearGlitch();
+
                 //--------------------------------//
                 // Event Handlers
                 //--------------------------------// 
@@ -329,12 +685,23 @@
                 buildCarousel('27');                                            //-- '27' is genre code: Horror 
 
                 const addModal = document.getElementById("add-modal");
-                const addModalButton = document.getElementById("add-modal-button");
                 const addModalCloseButton = document.getElementsByClassName("close-button")[0];
+                const addModalStarRating = document.querySelectorAll('input[type=radio][name="addRating"]');
+                const addModalAddButton = document.querySelector('#add-modal .add-button');
+        
+                const editModal = document.getElementById("edit-modal");
+                const editModalCloseButton = document.getElementsByClassName("close-button")[1];
 
-                addModalButton.addEventListener("click", () => { addModal.style.display = "block"; });
-                addModalCloseButton.addEventListener("click", () => { addModal.style.display = "none"; });
-                window.addEventListener("click", (event) => { if (event.target == addModal) addModal.style.display = "none"; });
+                addModalCloseButton.addEventListener("click", closeAddMovieModal);
+                editModalCloseButton.addEventListener("click", closeEditMovieModal);
+                window.addEventListener("click", (event) => { 
+                    if (event.target == addModal) closeAddMovieModal(); 
+                    if (event.target == editModal) closeEditMovieModal(); 
+                });
+                addModalStarRating.forEach(element => element.addEventListener("change", changesStars));
+                
+                addModalAddButton.addEventListener('click', addMovieToGlitch);
+
             })();
         </script>
     </body>
