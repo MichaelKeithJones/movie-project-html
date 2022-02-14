@@ -19,6 +19,8 @@
 
             :root{
                 --poster-height: 300px;
+                --add-modal-height: 650px;
+                --edit-modal-height: 550px;
             }
             * {
                 box-sizing: border-box;
@@ -120,7 +122,7 @@
                 position: relative;
                 background-color: rgb(75, 75, 75);
                 width: 800px;
-                height: 650px;
+                height: var(--add-modal-height);
                 margin: auto;
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.75), 0 6px 20px 0 rgba(0, 0, 0, 0.75);
                 animation: modal-slide-down 0.5s ease;
@@ -261,14 +263,16 @@
             \*-------------------------*/
 
             #watchlist {
-                width: 100;
-                display: grid;
-                grid-template-columns: repeat(auto-fill, 200px);
-                column-gap: 16px;
-                justify-items: center;
-                align-items: center;
+                background-color: black;
             }
 
+            #watchlist .items {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, 200px);
+                grid-gap: 16px;
+                justify-content: center;
+            }
             #watchlist .item {
                 display: inline-block;
                 width: 200px;
@@ -276,7 +280,7 @@
                 height:  var(--poster-height);
                 background-color: transparent;
             }
-            #watchlist .item img{
+            #watchlist img{
                 width: 100%;
                 height: 100%;
             }
@@ -303,9 +307,8 @@
 
             #edit-modal .content {
                 position: relative;
-                background-color: rgb(75, 75, 75);
                 width: 800px;
-                height: 650px;
+                height: var(--edit-modal-height);
                 margin: auto;
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.75), 0 6px 20px 0 rgba(0, 0, 0, 0.75);
                 animation: modal-slide-down 0.5s ease;
@@ -315,7 +318,7 @@
                 position: relative;
 
                 width: 100%;
-                height: 650px;
+                height: var(--edit-modal-height);
 
                 color: white;
                 background: black;
@@ -345,10 +348,219 @@
                 cursor: pointer;
             }
 
-            #edit-modal img {
+            #edit-modal .info {
                 width: 100%;
-                height: 100%;
+                height: var(--edit-modal-height);
+                display: grid;
+                grid-template-columns: 200px 1fr;
+                grid-template-rows: repeat(9, 1fr) 6fr;
+                grid-gap: 15px;
+                grid-auto-flow:column;
+                padding: 10px;
             }
+
+            #edit-modal img {
+                width: 200px;
+                height: 300px;
+                object-fit: contain;
+                grid-row: span 8;
+            }
+
+            /*-------------------------*\ 
+            Buttons
+            \*-------------------------*/
+            #edit-modal .button {
+                grid-row: span 1;
+
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                justify-items: center;
+                align-items: center;
+            }
+
+            /*-------------------------*\ 
+            Delete Button
+            \*-------------------------*/
+            #edit-modal .delete-button {
+                display: inline-block;
+                color: white;
+
+                font-size: 25px;
+                font-weight: bold;
+                line-height: 32px;
+
+                text-align: center;
+                background-color: black;
+                border-radius: 50%;
+                border: 1px solid white;
+                width: 35px;
+                height: 35px; 
+                transition: .25s;
+            }
+            #edit-modal .delete-button:hover {
+                display: inline-block;
+                color: red;
+                border: 1px solid red;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            #edit-modal .red-button {
+                display: inline-block;
+                color: white;
+
+                font-size: 25px;
+                font-weight: bold;
+                line-height: 32px;
+
+                text-align: center;
+                border-radius: 50%;
+                width: 35px;
+                height: 35px; 
+                transition: .25s;
+
+                background-color: red;
+                border: 1px solid red;
+            }
+            #edit-modal .red-button:hover {
+                display: inline-block;
+                color: white;
+                border: 1px solid red;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            /*-------------------------*\ 
+            Edit Button
+            \*-------------------------*/
+            #edit-modal .edit-button {
+                display: inline-block;
+                color: white;
+
+                font-size: 25px;
+                line-height: 30px;
+
+                text-align: center;
+                background-color: black;
+                border-radius: 50%;
+                border: 1px solid white;
+                width: 35px;
+                height: 35px; 
+                transition: .25s;
+            }
+            #edit-modal .edit-button:hover {
+                display: inline-block;
+                color: blue;
+                border: 1px solid blue;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            #edit-modal .blue-button {
+                display: inline-block;
+                color: white;
+
+                font-size: 25px;
+                line-height: 30px;
+
+                text-align: center;
+                border-radius: 50%;
+                width: 35px;
+                height: 35px; 
+                transition: .25s;
+
+                background-color: blue;
+                border: 1px solid blue;
+            }
+            #edit-modal .blue-button:hover {
+                display: inline-block;
+                color: white;
+                border: 1px solid blue;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            /*-------------------------*\ 
+            Watch Button
+            \*-------------------------*/
+            #edit-modal .watch-button {
+                display: inline-block;
+                color: white;
+
+                font-size: 25px;
+                line-height: 30px;
+
+                text-align: center;
+                background-color: black;
+                border-radius: 50%;
+                border: 1px solid white;
+                width: 35px;
+                height: 35px; 
+                transition: .25s;
+            }
+            #edit-modal .watch-button:hover {
+                display: inline-block;
+                color: yellow;
+                border: 1px solid yellow;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            #edit-modal .yellow-button {
+                display: inline-block;
+                color: white;
+
+                font-size: 25px;
+                line-height: 30px;
+
+                text-align: center;
+                border-radius: 50%;
+                width: 35px;
+                height: 35px; 
+                transition: .25s;
+
+                background-color: rgb(200, 200, 0);
+                border: 1px solid rgb(200, 200, 0);
+            }
+            #edit-modal .yellow-button:hover {
+                display: inline-block;
+                color: white;
+                border: 1px solid rgb(200, 200, 0);
+                text-decoration: none;
+                cursor: pointer;
+            }
+            /*-------------------------*\ 
+            Stars
+            \*-------------------------*/
+            #edit-modal .stars {
+                bottom: 17px;
+
+                font-size: 35px;
+                transition: 0.25s;
+
+                grid-row: span 1;
+
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                justify-items: center;
+            }
+            #edit-modal .edit-star{
+                display: inline-block;
+                color: white;
+                background: transparent;
+            }
+            #edit-modal .edit-star:hover {
+                color: rgb(49, 49, 49);
+                text-decoration: none;
+                cursor: pointer;
+                transition: 0.25s ease;
+            }
+            #edit-modal .gold-star {
+                display: inline-block;
+                color: gold;
+                background: transparent;
+            }
+
+            #edit-modal .overview {
+                overflow: auto;
+            }
+
+            #edit-modal .muted { color:rgb(87, 87, 87); }
 
         </style>
     </head>
@@ -367,7 +579,9 @@
         
             <br><hr><br>
 
-            <div id="watchlist"></div>
+            <div id="watchlist">
+                <div class="items"></div>
+            </div>
 
             <!--------------------------------
             Hidden
@@ -403,7 +617,32 @@
                 <div class="content">
                     <div class="body">
                         <div class="close-button">&times;</div>
-                        <img>
+                        <div class="info">
+                            <img>
+                            <section class="button">
+                                <label><input hidden type="checkbox" checked="false" id="delete-button-check" name="delete-button-check"><span class="delete-button">&minus;</span></label>
+                                <label><input hidden type="checkbox" checked="false" id="watch-button-check" name="watch-button-check"><span class="watch-button">&#128065;</span></label>
+                                <label><input hidden type="checkbox" checked="false" id="edit-button-check" name="edit-button-check"><span class="edit-button">&#9998;</span></label>
+                            </section>  
+                            <div class="stars">
+                                <label><input hidden id="edit-star-one" type="radio" name="editRating" value="1"><div class="edit-star">&#9733;</div></label>
+                                <label><input hidden id="edit-star-two" type="radio" name="editRating" value="2"><div class="edit-star">&#9733;</div></label>
+                                <label><input hidden id="edit-star-three" type="radio" name="editRating" value="3"><div class="edit-star">&#9733;</div></label>
+                                <label><input hidden id="edit-star-four" type="radio" name="editRating" value="4"><div class="edit-star">&#9733;</div></label>
+                                <label><input hidden id="edit-star-five" type="radio" name="editRating" value="5"><div class="edit-star">&#9733;</div></label>
+                            </div>
+                            <span class="title"></span>
+                            <section><span class="year"></span></section>
+                            <span class="runtime"></span>
+                            <span class="country"></span>
+                            <span class="language"></span>
+                            <span class="genre"></span>
+                            <span class="actors"></span>
+                            <span class="director"></span>
+                            <span class="writer"></span>
+                            <span class="overview"></span>
+                            <span hidden class="id"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -419,7 +658,6 @@
                 //--------------------------------//
                 // Constant Variables
                 //--------------------------------//
-                let watchlist = [];
                 const genre = {
                     '28':       'action',
                     '12':       'adventure',
@@ -467,6 +705,8 @@
                 // Global Variables
                 //--------------------------------//
 
+                let watchlist = [];
+
                 //--------------------------------//
                 // Global Functions
                 //--------------------------------//
@@ -475,6 +715,7 @@
                 let convertTMDBLanguage = code => languages[code] ? languages[code] : code;
                 let convertTMDBDate = date => date.split('-')[0];
 
+                //--| Carousel Logic |-----------------//
                 function getCurrentTranslateXValue (element) {
                     var style = window.getComputedStyle(element);
                     var matrix = new WebKitCSSMatrix(style.transform);
@@ -528,8 +769,10 @@
                         })
                         .catch(err => console.log(err));
                 }
-                function changesStars(e) {
-                    resetStars();
+                
+                //--| Add Modal Logic |----------------//
+                function addModalChangeStars(e) {
+                    addModalResetStars();
                     let rating = e.target.value;
                     addModalStarRating.forEach(element => {
                         if (element.value <= rating) {
@@ -538,7 +781,7 @@
                         }
                     });
                 }
-                function resetStars() {
+                function addModalResetStars() {
                     addModalStarRating.forEach(element => { 
                         element.nextElementSibling.classList.remove("gold-star");
                         element.nextElementSibling.classList.add("add-star");
@@ -560,7 +803,7 @@
                     addModal.style.display = "block";
                 }
                 function closeAddMovieModal (){
-                    resetStars();
+                    addModalResetStars();
                     document.querySelector('#add-modal #add-button-check').checked = false;
                     addModalStarRating.forEach(element => { 
                         element.checked = false;
@@ -614,32 +857,143 @@
                                 body: JSON.stringify(movieObj)
                             }).then(response => console.log(response.statusText)).catch(err => console.log(err));
 
+                            getMyWatchlist();
+
                             let wait = () => { closeAddMovieModal(); };
                             const myTimeout = setTimeout(wait, 750);
+                        })
+                        .then(() => {
+
                         })
                         .catch(err => console.log(err));
                 }
                 
+                //--| Edit Modal Logic |---------------//
+                function editModalChangeStars(e) {
+                    editModalResetStars();
+                    let rating = e.target.value;
+                    editModalStarRating.forEach(element => {
+                        if (element.value <= rating) {
+                            element.nextElementSibling.classList.remove("edit-star");
+                            element.nextElementSibling.classList.add("gold-star");
+                        }
+                    });
+                }
+                function editModalResetStars() {
+                    editModalStarRating.forEach(element => { 
+                        element.nextElementSibling.classList.remove("gold-star");
+                        element.nextElementSibling.classList.add("edit-star");
+                    });
+                }
                 function showEditMovieModel(e) {
+                    const item = e.target.parentElement.children;
+                    document.querySelector('#edit-modal .title').innerHTML      = `<span class="muted">Title: </span>${item[1].innerHTML}`;
+                    document.querySelector('#edit-modal img').setAttribute('src', item[2].innerHTML)
+                    document.querySelector('#edit-modal .year').innerHTML       = `<span class="muted">Release Year: </span>${item[4].innerHTML}`;
+                    document.querySelector('#edit-modal .genre').innerHTML      = `<span class="muted">Genre: </span>${item[5].innerHTML}`;
+                    document.querySelector('#edit-modal .country').innerHTML    = `<span class="muted">Country: </span>${item[6].innerHTML}`;
+                    document.querySelector('#edit-modal .language').innerHTML   = `<span class="muted">Language: </span>${item[7].innerHTML}`;
+                    document.querySelector('#edit-modal .actors').innerHTML     = `<span class="muted">Actor: </span>${item[8].innerHTML}`;
+                    document.querySelector('#edit-modal .director').innerHTML   = `<span class="muted">Director: </span>${item[9].innerHTML}`;
+                    document.querySelector('#edit-modal .writer').innerHTML     = `<span class="muted">Writer: </span>${item[10].innerHTML}`;
+                    document.querySelector('#edit-modal .overview').innerHTML   = `<span class="muted">Overview: </span>${item[11].innerHTML}`;
+                    document.querySelector('#edit-modal .runtime').innerHTML    = `<span class="muted">Runtime: </span>${item[12].innerHTML}`;
+                    editModalStarRating.forEach(element => {
+                        if (element.value <= item[13].innerHTML) {
+                            element.nextElementSibling.classList.remove("edit-star");
+                            element.nextElementSibling.classList.add("gold-star");
+                        }
+                    });
+                    if (item[14].innerHTML === 'true') {
+                        editModalWatchButton.classList.toggle("yellow-button");
+                        document.querySelector('#edit-modal #watch-button-check').checked = true;
+                    }
+                    document.querySelector('#edit-modal .id').innerHTML         = `${item[15].innerHTML}`;
                     editModal.style.display = "block";
                 }
                 function closeEditMovieModal (){
+                    editModalResetStars();
+                    editModalStarRating.forEach(element => { 
+                        element.checked = false;
+                    });
+
+                    document.querySelector('#edit-modal #delete-button-check').checked = false;
+                    editModalDeleteButton.classList.remove("red-button");
+                    editModalDeleteButton.classList.add("delete-button");
+                    document.querySelector('#edit-modal #watch-button-check').checked = false;
+                    editModalWatchButton.classList.remove("yellow-button");
+                    editModalWatchButton.classList.add("watch-button");
+                    document.querySelector('#edit-modal #edit-button-check').checked = false;
+                    editModalEditButton.classList.remove("blue-button");
+                    editModalEditButton.classList.add("edit-button");
                     editModal.style.display = "none";
                 }
+                function editMovieOnGlitch() {
+                    editModalEditButton.classList.toggle("blue-button");
+
+                    const id = document.querySelector('#edit-modal .id').innerHTML;
+                    const watched = document.querySelector('#edit-modal #watch-button-check').checked;
+                    let rating = 0;
+                    editModalStarRating.forEach((element, index) => {
+                        if (element.checked === true)
+                            rating = index + 1;
+                    });
+
+                    fetch(myMovieListUrl + `/${id}`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json'},
+                        body: JSON.stringify({ 
+                            rating: rating,
+                            watched: watched
+                         })
+                    })
+                    .then(response => response.json())
+                    .then(() => {
+                        getMyWatchlist();
+
+                        let wait = () => { closeEditMovieModal(); };
+                        const myTimeout = setTimeout(wait, 750);
+                    }).catch(err => console.log(err)); 
+                }
+                function deleteMovieFromGlitch(e) {
+                    editModalDeleteButton.classList.toggle("red-button");
+
+                    const id = document.querySelector('#edit-modal .id').innerHTML;
+                    fetch(myMovieListUrl + `/${id}`, { method: 'DELETE' })
+                    .then(response => console.log(response.statusText))
+                    .then(() => {
+                        getMyWatchlist();
+
+                        let wait = () => { closeEditMovieModal(); };
+                        const myTimeout = setTimeout(wait, 750);
+                    })
+                    .catch(err => console.log(err));
+                }
+                function watchButtonToggle() {
+                    editModalWatchButton.classList.toggle("yellow-button");
+                }
                 
+                //--| Watchlist Logic |---------------//
                 function showMyWatchlist(list) {
-                    document.getElementById('watchlist').innerHTML = '';
+                    document.querySelector('#watchlist .items').innerHTML = '';
                     list.forEach(element => {
-                        document.getElementById('watchlist').innerHTML += `
+                        document.querySelector('#watchlist .items').innerHTML += `
                         <div class="item" data-target="item">
                             <img src=${element.poster}>
+                            <span hidden>${element.title}</span>
                             <span hidden>${element.poster}</span>
                             <span hidden>${element.backdrop}</span>
-                            <span hidden>${element.title}</span>
                             <span hidden>${element.year}</span>
-                            <span hidden>${element.overview}</span>
-                            <span hidden>${element.language}</span>
                             <span hidden>${element.genre}</span>
+                            <span hidden>${element.country}</span>
+                            <span hidden>${element.language}</span>
+                            <span hidden>${element.actors}</span>
+                            <span hidden>${element.director}</span>
+                            <span hidden>${element.writer}</span>
+                            <span hidden>${element.overview}</span>
+                            <span hidden>${element.runtime}</span>
+                            <span hidden>${element.rating}</span>
+                            <span hidden>${element.watched}</span>
                             <span hidden>${element.id}</span>
                         </div>
                         `;
@@ -652,25 +1006,10 @@
                         .then(response => response.json())
                         .then(data => {
                             watchlist = data;
-                            showMyWatchlist(watchlist);
+                            showMyWatchlist(watchlist)
                         })
                         .catch(err => console.log(err));
                 }
-                getMyWatchlist();
-
-                function clearGlitch() {
-                    fetch(myMovieListUrl)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data);
-                            for(let i = 1; i < data.length; i++)
-                            fetch(myMovieListUrl + `/${i}`, {
-                                method: 'DELETE'
-                            }).then(response => console.log(response.statusText)).catch(err => console.log(err));
-                        })
-                        .catch(err => console.log(err));
-                }
-                // clearGlitch();
 
                 //--------------------------------//
                 // Event Handlers
@@ -682,26 +1021,42 @@
                 //--------------------------------//
                 // Main Function
                 //--------------------------------// 
-                buildCarousel('27');                                            //-- '27' is genre code: Horror 
+                buildCarousel('27');                                            //-- '27' is genre code: Horror
+                getMyWatchlist();
 
+                //--| Add Modal |-----------------//
                 const addModal = document.getElementById("add-modal");
                 const addModalCloseButton = document.getElementsByClassName("close-button")[0];
                 const addModalStarRating = document.querySelectorAll('input[type=radio][name="addRating"]');
                 const addModalAddButton = document.querySelector('#add-modal .add-button');
-        
-                const editModal = document.getElementById("edit-modal");
-                const editModalCloseButton = document.getElementsByClassName("close-button")[1];
 
                 addModalCloseButton.addEventListener("click", closeAddMovieModal);
+                addModalStarRating.forEach(element => element.addEventListener("change", addModalChangeStars));
+                addModalAddButton.addEventListener('click', addMovieToGlitch);
+        
+                //--| Edit Modal |-----------------//
+                const editModal = document.getElementById("edit-modal");
+                const editModalCloseButton = document.getElementsByClassName("close-button")[1];
+                const editModalStarRating = document.querySelectorAll('input[type=radio][name="editRating"]');
+                const editModalEditButton = document.querySelector('#edit-modal .edit-button');
+
                 editModalCloseButton.addEventListener("click", closeEditMovieModal);
+                editModalStarRating.forEach(element => element.addEventListener("change", editModalChangeStars));
+                editModalEditButton.addEventListener('click', editMovieOnGlitch);
+
+                //--| Delete Button |---------------//
+                const editModalDeleteButton = document.querySelector('#edit-modal .delete-button');
+                editModalDeleteButton.addEventListener('click', deleteMovieFromGlitch);
+
+                //--| Watched Button |---------------//
+                const editModalWatchButton = document.querySelector('#edit-modal .watch-button');
+                editModalWatchButton.addEventListener('click', watchButtonToggle);
+
+                //--| Events |---------------------//
                 window.addEventListener("click", (event) => { 
                     if (event.target == addModal) closeAddMovieModal(); 
                     if (event.target == editModal) closeEditMovieModal(); 
                 });
-                addModalStarRating.forEach(element => element.addEventListener("change", changesStars));
-                
-                addModalAddButton.addEventListener('click', addMovieToGlitch);
-
             })();
         </script>
     </body>
