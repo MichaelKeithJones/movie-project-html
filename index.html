@@ -625,11 +625,11 @@
                                 <!-- <label><input hidden type="checkbox" id="edit-button-check" name="edit-button-check"><span class="edit-button">&#9998;</span></label> -->
                             </section>  
                             <div class="stars">
-                                <label><input hidden id="edit-star-one" type="radio" name="editRating" value="1"><div class="edit-star">&#9733;</div></label>
-                                <label><input hidden id="edit-star-two" type="radio" name="editRating" value="2"><div class="edit-star">&#9733;</div></label>
-                                <label><input hidden id="edit-star-three" type="radio" name="editRating" value="3"><div class="edit-star">&#9733;</div></label>
-                                <label><input hidden id="edit-star-four" type="radio" name="editRating" value="4"><div class="edit-star">&#9733;</div></label>
-                                <label><input hidden id="edit-star-five" type="radio" name="editRating" value="5"><div class="edit-star">&#9733;</div></label>
+                                <label><input hidden id="edit-star-one"     type="checkbox" value="1"><div class="edit-star">&#9733;</div></label>
+                                <label><input hidden id="edit-star-two"     type="checkbox" value="2"><div class="edit-star">&#9733;</div></label>
+                                <label><input hidden id="edit-star-three"   type="checkbox" value="3"><div class="edit-star">&#9733;</div></label>
+                                <label><input hidden id="edit-star-four"    type="checkbox" value="4"><div class="edit-star">&#9733;</div></label>
+                                <label><input hidden id="edit-star-five"    type="checkbox" value="5"><div class="edit-star">&#9733;</div></label>
                             </div>
                             <span class="title"></span>
                             <section><span class="year"></span></section>
@@ -705,7 +705,7 @@
                 // Global Variables
                 //--------------------------------//
 
-                let watchlist = [];
+                let watchlist = {};
 
                 //--------------------------------//
                 // Global Functions
@@ -771,6 +771,21 @@
                 }
                 
                 //--| Add Modal Logic |----------------//
+                function showAddMovieModal(e){
+                    const poster = e.target.parentElement.children;
+                    let header = document.querySelector('#add-modal .header').style;
+                    document.querySelector('#add-modal .poster-path').innerHTML     = poster[1].innerHTML;
+                    document.querySelector('#add-modal .backdrop-path').innerHTML   = poster[2].innerHTML;
+                    header.backgroundImage = "linear-gradient(to bottom, transparent, rgb(0, 0, 0)), url(" + poster[2].innerHTML + ")";
+                    header.backgroundRepeat = "no-repeat";
+                    header.backgroundSize = 'contain';
+                    document.querySelector('#add-modal .title').innerHTML           = poster[3].innerHTML;
+                    document.querySelector('#add-modal .release-date').innerHTML    = poster[4].innerHTML;
+                    document.querySelector('#add-modal .overview').innerHTML        = poster[5].innerHTML;
+                    document.querySelector('#add-modal .language').innerHTML        = poster[6].innerHTML;
+                    document.querySelector('#add-modal .genres').innerHTML          = poster[7].innerHTML;
+                    addModal.style.display = "block";
+                }
                 function addModalChangeStars(e) {
                     addModalResetStars();
                     let rating = e.target.value;
@@ -786,21 +801,6 @@
                         element.nextElementSibling.classList.remove("gold-star");
                         element.nextElementSibling.classList.add("add-star");
                     });
-                }
-                function showAddMovieModal(e){
-                    const poster = e.target.parentElement.children;
-                    let header = document.querySelector('#add-modal .header').style;
-                    document.querySelector('#add-modal .poster-path').innerHTML     = poster[1].innerHTML;
-                    document.querySelector('#add-modal .backdrop-path').innerHTML   = poster[2].innerHTML;
-                    header.backgroundImage = "linear-gradient(to bottom, transparent, rgb(0, 0, 0)), url(" + poster[2].innerHTML + ")";
-                    header.backgroundRepeat = "no-repeat";
-                    header.backgroundSize = 'contain';
-                    document.querySelector('#add-modal .title').innerHTML           = poster[3].innerHTML;
-                    document.querySelector('#add-modal .release-date').innerHTML    = poster[4].innerHTML;
-                    document.querySelector('#add-modal .overview').innerHTML        = poster[5].innerHTML;
-                    document.querySelector('#add-modal .language').innerHTML        = poster[6].innerHTML;
-                    document.querySelector('#add-modal .genres').innerHTML          = poster[7].innerHTML;
-                    addModal.style.display = "block";
                 }
                 function closeAddMovieModal (){
                     addModalResetStars();
@@ -869,6 +869,45 @@
                 }
                 
                 //--| Edit Modal Logic |---------------//
+                function showEditMovieModel(e) {
+                    const id = e.target.parentElement.children[1].innerHTML;
+
+                    document.querySelector('#edit-modal .id').innerHTML         = id;
+                    document.querySelector('#edit-modal img').setAttribute('src', watchlist[`${id}`].poster)
+                    document.querySelector('#edit-modal .title').innerHTML      = `<span class="muted">Title: </span>${watchlist[`${id}`].title}`;
+                    document.querySelector('#edit-modal .year').innerHTML       = `<span class="muted">Release Year: </span>${watchlist[`${id}`].year}`;
+                    document.querySelector('#edit-modal .genre').innerHTML      = `<span class="muted">Genre: </span>${watchlist[`${id}`].genre}`;
+                    document.querySelector('#edit-modal .country').innerHTML    = `<span class="muted">Country: </span>${watchlist[`${id}`].country}`;
+                    document.querySelector('#edit-modal .language').innerHTML   = `<span class="muted">Language: </span>${watchlist[`${id}`].language}`;
+                    document.querySelector('#edit-modal .actors').innerHTML     = `<span class="muted">Actor: </span>${watchlist[`${id}`].actors}`;
+                    document.querySelector('#edit-modal .director').innerHTML   = `<span class="muted">Director: </span>${watchlist[`${id}`].director}`;
+                    document.querySelector('#edit-modal .writer').innerHTML     = `<span class="muted">Writer: </span>${watchlist[`${id}`].writer}`;
+                    document.querySelector('#edit-modal .overview').innerHTML   = `<span class="muted">Overview: </span>${watchlist[`${id}`].overview}`;
+                    document.querySelector('#edit-modal .runtime').innerHTML    = `<span class="muted">Runtime: </span>${watchlist[`${id}`].runtime}`;
+                    
+                    editModalStarRating.forEach(element => {
+                        if (element.value <= watchlist[`${id}`].rating) {
+                            element.nextElementSibling.classList.remove("edit-star");
+                            element.nextElementSibling.classList.add("gold-star");
+                            element.setAttribute("checked", "true");
+                        }
+                    });
+
+                    if (watchlist[`${id}`].watched === 'true') {
+                        editModalWatchButton.classList.toggle("yellow-button");
+                        document.querySelector('#watch-button-check').checked = true;
+                    }
+
+                    editModal.style.display = "block";
+                }
+                function editModalResetStars() {
+                    editModalStarRating.forEach(element => {
+                        element.setAttribute('checked', 'false');
+                        element.checked = false;
+                        element.nextElementSibling.classList.remove("gold-star");
+                        element.nextElementSibling.classList.add("edit-star");
+                    });
+                }
                 function editModalChangeStars(e) {
                     editModalResetStars();
                     let rating = e.target.value;
@@ -876,58 +915,24 @@
                         if (element.value <= rating) {
                             element.nextElementSibling.classList.remove("edit-star");
                             element.nextElementSibling.classList.add("gold-star");
+                            element.setAttribute('checked', 'checked');
+                            element.checked = true;
                         }
                     });
-                }
-                function editModalResetStars() {
-                    editModalStarRating.forEach(element => { 
-                        element.nextElementSibling.classList.remove("gold-star");
-                        element.nextElementSibling.classList.add("edit-star");
-                    });
-                }
-                function showEditMovieModel(e) {
-                    const item = e.target.parentElement.children;
-                    document.querySelector('#edit-modal .title').innerHTML      = `<span class="muted">Title: </span>${item[1].innerHTML}`;
-                    document.querySelector('#edit-modal img').setAttribute('src', item[2].innerHTML)
-                    document.querySelector('#edit-modal .year').innerHTML       = `<span class="muted">Release Year: </span>${item[4].innerHTML}`;
-                    document.querySelector('#edit-modal .genre').innerHTML      = `<span class="muted">Genre: </span>${item[5].innerHTML}`;
-                    document.querySelector('#edit-modal .country').innerHTML    = `<span class="muted">Country: </span>${item[6].innerHTML}`;
-                    document.querySelector('#edit-modal .language').innerHTML   = `<span class="muted">Language: </span>${item[7].innerHTML}`;
-                    document.querySelector('#edit-modal .actors').innerHTML     = `<span class="muted">Actor: </span>${item[8].innerHTML}`;
-                    document.querySelector('#edit-modal .director').innerHTML   = `<span class="muted">Director: </span>${item[9].innerHTML}`;
-                    document.querySelector('#edit-modal .writer').innerHTML     = `<span class="muted">Writer: </span>${item[10].innerHTML}`;
-                    document.querySelector('#edit-modal .overview').innerHTML   = `<span class="muted">Overview: </span>${item[11].innerHTML}`;
-                    document.querySelector('#edit-modal .runtime').innerHTML    = `<span class="muted">Runtime: </span>${item[12].innerHTML}`;
-                    editModalStarRating.forEach(element => {
-                        if (element.value <= item[13].innerHTML) {
-                            element.nextElementSibling.classList.remove("edit-star");
-                            element.nextElementSibling.classList.add("gold-star");
-                            element.setAttribute("checked", "true");
-                        }
-                    });
-                    if (item[14].innerHTML === 'true') {
-                        editModalWatchButton.classList.toggle("yellow-button");
-                        document.querySelector('#watch-button-check').checked = true;
-                    }
-                    document.querySelector('#edit-modal .id').innerHTML         = `${item[15].innerHTML}`;
-                    console.log(`Starting: ${item[13].innerHTML}, ${item[14].innerHTML}, ${item[15].innerHTML}`);
-                    editModal.style.display = "block";
                 }
                 function closeEditMovieModal (){
                     editModalResetStars();
-                    editModalStarRating.forEach(element => { 
-                        element.setAttribute('checked', 'false');
-                    });
 
+                    document.querySelector('#edit-modal #delete-button-check').setAttribute('checked', 'false');
                     document.querySelector('#edit-modal #delete-button-check').checked = false;
                     editModalDeleteButton.classList.remove("red-button");
                     editModalDeleteButton.classList.add("delete-button");
+
+                    document.querySelector('#edit-modal #watch-button-check').setAttribute('checked', 'false');
                     document.querySelector('#edit-modal #watch-button-check').checked = false;
                     editModalWatchButton.classList.remove("yellow-button");
                     editModalWatchButton.classList.add("watch-button");
-                    // document.querySelector('#edit-modal #edit-button-check').checked = false;
-                    // editModalEditButton.classList.remove("blue-button");
-                    // editModalEditButton.classList.add("edit-button");
+
                     editModal.style.display = "none";
                 }
                 function editMovieOnGlitch() {
@@ -938,8 +943,6 @@
                         console.log(element);
                         if (element.checked === true) {
                             rating = index + 1;
-                            console.log('Rating: ' + rating);
-                            console.log('Element.Checked: ' + element.checked);
                         }
                     });
 
@@ -980,39 +983,32 @@
                 }
                 
                 //--| Watchlist Logic |---------------//
-                function showMyWatchlist(list) {
+
+                //--| Note: Renders watchlist to screen |---------------//
+                function showMyWatchlist(list) {              
                     document.querySelector('#watchlist .items').innerHTML = '';
-                    list.forEach(element => {
+
+                    Object.keys(list).forEach(key => {
+                        let element = list[key];
                         document.querySelector('#watchlist .items').innerHTML += `
                         <div class="item" data-target="item">
                             <img src=${element.poster}>
-                            <span hidden>${element.title}</span>
-                            <span hidden>${element.poster}</span>
-                            <span hidden>${element.backdrop}</span>
-                            <span hidden>${element.year}</span>
-                            <span hidden>${element.genre}</span>
-                            <span hidden>${element.country}</span>
-                            <span hidden>${element.language}</span>
-                            <span hidden>${element.actors}</span>
-                            <span hidden>${element.director}</span>
-                            <span hidden>${element.writer}</span>
-                            <span hidden>${element.overview}</span>
-                            <span hidden>${element.runtime}</span>
-                            <span hidden>${element.rating}</span>
-                            <span hidden>${element.watched}</span>
                             <span hidden>${element.id}</span>
-                        </div>
-                        `;
-                    })
+                        </div>`;
+                    }); 
                     const items = document.getElementsByClassName("item");
                     Array.from(items).forEach(element => element.addEventListener("click", showEditMovieModel));
                 }
+                
+                //--| Notes: Pulls list from Glitch & Renders watchlist to screen |-----------------//
                 function getMyWatchlist(){
                     fetch(myMovieListUrl)
                         .then(response => response.json())
                         .then(data => {
-                            watchlist = data;
-                            showMyWatchlist(watchlist)
+                            Array.from(data).forEach(element => {
+                                watchlist[`${element.id}`] = element;
+                            });
+                            showMyWatchlist(watchlist);
                         })
                         .catch(err => console.log(err));
                 }
@@ -1043,7 +1039,7 @@
                 //--| Edit Modal |-----------------//
                 const editModal = document.getElementById("edit-modal");
                 const editModalCloseButton = document.getElementsByClassName("close-button")[1];
-                const editModalStarRating = document.querySelectorAll('input[type=radio][name="editRating"]');
+                const editModalStarRating = document.querySelectorAll('#edit-modal .stars input');
                 // const editModalEditButton = document.querySelector('#edit-modal .edit-button');
 
                 editModalCloseButton.addEventListener("click", editMovieOnGlitch);
