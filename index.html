@@ -29,80 +29,10 @@
                 font-family: 'Montserrat', sans-serif;
             }
 
-            /*-------------------------*\ 
-            Carousel
-            \*-------------------------*/
-            #carousel {
-                height: var(--poster-height);
-                /* 5 Poster -> Poster Width: 200px;  (200px * 5) + (16px margin * 4) = 1064px*/
-                /* 3 Poster -> Poster Width: 200px;  (200px * 3) + (16px margin * 2) = 632px*/
-                /* 1 Poster -> Poster Width: 200px;  (200px * 1) + (16px margin * 0) = 200px*/
-                width: 1064px;
-                position: relative;
-                overflow: hidden;
-                margin: 0 auto;
-                z-index: 0;
-            }
-            #carousel .gallery {
-                list-style: none;
-                position: absolute;
-                z-index: 1;
-                width: 100%;
-                left: 0;
-                margin: 0;
-                padding: 0;
-                transition: all 1s ease;
-                display: flex;
-            }
-            .poster {
-                display: inline-block;
-                min-width: 200px;
-                height:  var(--poster-height);
-                margin-right: 1rem;
-                background-color: transparent;
-            }
-            .poster img{
-                width: 100%;
-                height: 100%;
-            }
-            .poster:hover {
-                cursor: pointer;
-            }
-            /*-------------------------*\ 
-            Carousel Buttons
-            \*-------------------------*/
-            .carousel-buttons {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .left-button { background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
-            .right-button { background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
-            .arrow {
-                color: white;
-                width: 50px;
-                height: 100%;
-                font-size: 32px;
-                border: none;
-                opacity: 0;
-                transition: all 0.5s ease;
-                z-index: 11;
-                cursor: pointer;
-            }
-            .arrow:hover { opacity: 1; }
-            .stretch {
-                display: inline-block;
-                transform: scale(1, 3);
-            }
-
-            /*-------------------------*\ 
+            /*-------------------------*\
             Add Modal
             \*-------------------------*/
 
-            /* Actually the overlay, padding-top positions modal box */
             #add-modal {
                 display: none; /* Hidden by default */
 
@@ -131,7 +61,6 @@
                 0% { top: -300px; opacity: 0 }
                 100% { top: 0; opacity: 1 }
             }
-
             #add-modal .header {
                 position: relative;
                 width: 100%;
@@ -161,7 +90,7 @@
                 border-radius: 50%;
                 border: 1px solid white;
                 width: 35px;
-                height: 35px; 
+                height: 35px;
                 transition: .25s;
             }
             #add-modal .add-button:hover {
@@ -183,17 +112,11 @@
                 text-align: center;
                 border-radius: 50%;
                 width: 35px;
-                height: 35px; 
+                height: 35px;
                 transition: .25s;
 
                 background-color: green;
                 border: 1px solid green;
-            }
-            #add-modal .green-button:hover {
-                color: white;
-                border: 1px solid green;
-                text-decoration: none;
-                cursor: pointer;
             }
             #add-modal .stars {
                 position: absolute;
@@ -233,7 +156,7 @@
                 background-color: black;
                 border-radius: 50%;
                 width: 28px;
-                height: 28px; 
+                height: 28px;
                 transition: .25s;
             }
             #add-modal .close-button:hover,
@@ -265,35 +188,8 @@
             }
             #add-modal .muted { color:rgb(87, 87, 87); }
 
-            /*-------------------------*\ 
-            Watchlist
-            \*-------------------------*/
-
-            #watchlist {
-                background-color: black;
-            }
-
-            #watchlist .items {
-                width: 100%;
-                display: grid;
-                grid-template-columns: repeat(auto-fit, 200px);
-                grid-gap: 16px;
-                justify-content: center;
-            }
-            #watchlist .item {
-                display: inline-block;
-                width: 200px;
-                height: 300px;
-                height:  var(--poster-height);
-                background-color: transparent;
-            }
-            #watchlist img{
-                width: 100%;
-                height: 100%;
-            }
-
-            /*-------------------------*\ 
-            Edit/Delete Modal
+            /*-------------------------*\
+            Edit Modal
             \*-------------------------*/
 
             #edit-modal {
@@ -311,7 +207,6 @@
 
                 padding-top: 100px; /* Location of the box */
             }
-
             #edit-modal .content {
                 position: relative;
                 width: 800px;
@@ -320,7 +215,6 @@
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.75), 0 6px 20px 0 rgba(0, 0, 0, 0.75);
                 animation: modal-slide-down 0.5s ease;
             }
-
             #edit-modal .body {
                 position: relative;
 
@@ -330,7 +224,6 @@
                 color: white;
                 background: black;
             }
-
             #edit-modal .close-button {
                 color: white;
                 position: absolute;
@@ -345,7 +238,7 @@
                 background-color: black;
                 border-radius: 50%;
                 width: 28px;
-                height: 28px; 
+                height: 28px;
                 transition: .25s;
             }
             #edit-modal .close-button:hover,
@@ -354,7 +247,6 @@
                 text-decoration: none;
                 cursor: pointer;
             }
-
             #edit-modal .info {
                 width: 100%;
                 height: var(--edit-modal-height);
@@ -365,7 +257,6 @@
                 grid-auto-flow:column;
                 padding: 10px;
             }
-
             #edit-modal img {
                 width: 200px;
                 height: 300px;
@@ -373,9 +264,10 @@
                 grid-row: span 8;
             }
 
-            /*-------------------------*\ 
-            Buttons
+            /*-------------------------*\
+            Edit Modal - Buttons
             \*-------------------------*/
+
             #edit-modal .button {
                 grid-row: span 1;
 
@@ -385,9 +277,10 @@
                 align-items: center;
             }
 
-            /*-------------------------*\ 
-            Delete Button
+            /*-------------------------*\
+            Edit Modal - Delete Button
             \*-------------------------*/
+
             #edit-modal .delete-button {
                 display: inline-block;
                 color: white;
@@ -401,7 +294,7 @@
                 border-radius: 50%;
                 border: 1px solid white;
                 width: 35px;
-                height: 35px; 
+                height: 35px;
                 transition: .25s;
             }
             #edit-modal .delete-button:hover {
@@ -422,7 +315,7 @@
                 text-align: center;
                 border-radius: 50%;
                 width: 35px;
-                height: 35px; 
+                height: 35px;
                 transition: .25s;
 
                 background-color: red;
@@ -435,10 +328,11 @@
                 text-decoration: none;
                 cursor: pointer;
             }
- 
-            /*-------------------------*\ 
-            Watch Button
+
+            /*-------------------------*\
+            Edit Modal - Watch Button
             \*-------------------------*/
+
             #edit-modal .watch-button {
                 display: inline-block;
                 color: white;
@@ -451,17 +345,17 @@
                 border-radius: 50%;
                 border: 1px solid white;
                 width: 35px;
-                height: 35px; 
+                height: 35px;
                 transition: .25s;
             }
             #edit-modal .watch-button:hover {
                 display: inline-block;
-                color: yellow;
-                border: 1px solid yellow;
+                color: blue;
+                border: 1px solid blue;
                 text-decoration: none;
                 cursor: pointer;
             }
-            #edit-modal .yellow-button {
+            #edit-modal .blue-button {
                 display: inline-block;
                 color: white;
 
@@ -471,22 +365,24 @@
                 text-align: center;
                 border-radius: 50%;
                 width: 35px;
-                height: 35px; 
+                height: 35px;
                 transition: .25s;
 
-                background-color: rgb(200, 200, 0);
-                border: 1px solid rgb(200, 200, 0);
+                background-color: blue;
+                border: 1px solid blue;
             }
-            #edit-modal .yellow-button:hover {
+            #edit-modal .blue-button:hover {
                 display: inline-block;
                 color: white;
-                border: 1px solid rgb(200, 200, 0);
+                border: 1px solid blue;
                 text-decoration: none;
                 cursor: pointer;
             }
-            /*-------------------------*\ 
-            Stars
+
+            /*-------------------------*\
+            Edit Modal - Stars
             \*-------------------------*/
+
             #edit-modal .stars {
                 font-size: 35px;
                 transition: 0.25s;
@@ -514,12 +410,108 @@
                 color: gold;
                 background: transparent;
             }
-
             #edit-modal .overview {
                 overflow: auto;
             }
-
             #edit-modal .muted { color:rgb(87, 87, 87); }
+
+            /*-------------------------*\
+            Carousel
+            \*-------------------------*/
+
+            #carousel {
+                height: var(--poster-height);
+                /* 5 Poster -> Poster Width: 200px;  (200px * 5) + (16px margin * 4) = 1064px*/
+                /* 3 Poster -> Poster Width: 200px;  (200px * 3) + (16px margin * 2) = 632px*/
+                /* 1 Poster -> Poster Width: 200px;  (200px * 1) + (16px margin * 0) = 200px*/
+                width: 1064px;
+                position: relative;
+                overflow: hidden;
+                margin: 0 auto;
+                z-index: 0;
+            }
+            #carousel .gallery {
+                list-style: none;
+                position: absolute;
+                z-index: 1;
+                width: 100%;
+                left: 0;
+                margin: 0;
+                padding: 0;
+                transition: all 1s ease;
+                display: flex;
+            }
+            .poster {
+                display: inline-block;
+                min-width: 200px;
+                height:  var(--poster-height);
+                margin-right: 1rem;
+                background-color: transparent;
+            }
+            .poster img{
+                width: 100%;
+                height: 100%;
+            }
+            .poster:hover {
+                cursor: pointer;
+            }
+
+            /*-------------------------*\
+            Carousel - Buttons
+            \*-------------------------*/
+
+            .carousel-buttons {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .left-button { background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
+            .right-button { background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
+            .arrow {
+                color: white;
+                width: 50px;
+                height: 100%;
+                font-size: 32px;
+                border: none;
+                opacity: 0;
+                transition: all 0.5s ease;
+                z-index: 11;
+                cursor: pointer;
+            }
+            .arrow:hover { opacity: 1; }
+            .stretch {
+                display: inline-block;
+                transform: scale(1, 3);
+            }
+
+            /*-------------------------*\
+            Watchlist
+            \*-------------------------*/
+
+            #watchlist {
+                background-color: black;
+            }
+            #watchlist .items {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, 200px);
+                grid-gap: 16px;
+                justify-content: center;
+            }
+            #watchlist .item {
+                display: inline-block;
+                width: 200px;
+                height: 300px;
+                height:  var(--poster-height);
+                background-color: transparent;
+            }
+            #watchlist img{
+                width: 100%;
+                height: 100%;
+            }
 
         </style>
     </head>
@@ -527,25 +519,7 @@
 
         <main>
 
-            <div id="carousel">
-                <ul class="gallery" id="poster-gallery-horror">
-                </ul>
-                <div class="carousel-buttons">
-                  <button class="left-button arrow stretch">&lt</button>
-                  <button class="right-button arrow stretch">&gt</button>
-                </div>
-            </div>
-        
-            <br><hr><br>
-
-            <div id="watchlist">
-                <div class="items"></div>
-            </div>
-
-            <!--------------------------------
-            Hidden
-            ---------------------------------->
-
+            <!--| Modal-Add |--------------------->
             <div id="add-modal" class="overlay">
                 <div class="content">
                     <div class="header">
@@ -566,12 +540,11 @@
                         <section class="overview"></section>
                         <section><span class="muted">Language: </span><span class="language"></span></section>
                         <section><span class="muted">Genres: </span><span class="genres"></span></section>
-                        <span hidden class="poster-path"></span>
-                        <span hidden class="backdrop-path"></span>
                     </div>
                 </div>
             </div>
 
+            <!--| Modal-Edit |--------------------->
             <div id="edit-modal" class="overlay">
                 <div class="content">
                     <div class="body">
@@ -581,7 +554,7 @@
                             <section class="button">
                                 <label><input hidden type="checkbox" id="delete-button-check" name="delete-button-check"><span class="delete-button">&minus;</span></label>
                                 <label><input hidden type="checkbox" id="watch-button-check" name="watch-button-check"><span class="watch-button">&#128065;</span></label>
-                            </section>  
+                            </section>
                             <div class="stars">
                                 <label><input hidden id="edit-star-one"     type="checkbox" value="1"><div class="edit-star">&#9733;</div></label>
                                 <label><input hidden id="edit-star-two"     type="checkbox" value="2"><div class="edit-star">&#9733;</div></label>
@@ -605,6 +578,23 @@
                 </div>
             </div>
 
+            <!--| Carousel |--------------------->
+            <div id="carousel">
+                <ul class="gallery" id="gallery-horror">
+                </ul>
+                <div class="carousel-buttons">
+                    <button class="left-button arrow stretch">&lt</button>
+                    <button class="right-button arrow stretch">&gt</button>
+                </div>
+            </div>
+
+            <br><hr><br>
+
+            <!--| Watchlist |--------------------->
+            <div id="watchlist">
+                <div class="items"></div>
+            </div>
+
         </main>
         <footer></footer>
 
@@ -616,6 +606,7 @@
                 //--------------------------------//
                 // Constant Variables
                 //--------------------------------//
+
                 const genre = {
                     '28':       'action',
                     '12':       'adventure',
@@ -648,23 +639,9 @@
                     'ja': 'Japanese'
                 }
 
-                const leftButtons = document.getElementsByClassName("left-button");
-                const rightButtons = document.getElementsByClassName("right-button");
-
-                const numOfPosters = 5;
-                const carouselWidth = 1064;
-                const posterMarginRight = 16;
-                const posterCount = 20;
-                const maxX = -((posterCount / numOfPosters) * carouselWidth + (posterMarginRight * (posterCount / numOfPosters)) - carouselWidth - posterMarginRight);
-
-                const myMovieListUrl = `https://aluminum-purple-grouse.glitch.me/movies`;
-
                 //--------------------------------//
                 // Global Variables
                 //--------------------------------//
-
-                let watchlist = {};
-                let browselist = {};
 
                 //--------------------------------//
                 // Global Functions
@@ -674,394 +651,204 @@
                 let convertTMDBLanguage = code => languages[code] ? languages[code] : code;
                 let convertTMDBDate = date => date.split('-')[0];
 
-                //--| Carousel Logic |-----------------//
-                function getCurrentTranslateXValue (element) {
-                    var style = window.getComputedStyle(element);
-                    var matrix = new WebKitCSSMatrix(style.transform);
-                    return matrix.m41;
-                }
-                function moveCarouselLeft(e) {
-                    e.target.removeEventListener('click', moveCarouselLeft);
+                function main() {
 
-                    let wrapper = e.target.parentElement.parentElement.firstElementChild;
-                    const x = getCurrentTranslateXValue(wrapper);
-                    const value = x + (carouselWidth + posterMarginRight);
-                    if (x !== 0) wrapper.style.transform = `translateX(${value}px)`;
+                    //--| Horror Movie URL|---------------------//
+                    const horrorTMDBURL = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=27&sort_by=popularity.desc&language=en-US&page=1`;
+                    //--| Action Movie URL|---------------------//
+                    const actionTMDBURL = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=28&sort_by=popularity.desc&language=en-US&page=1`;
+                    //--| Comedy Movie URL|---------------------//
+                    const comedyTMDBURL = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=35&sort_by=popularity.desc&language=en-US&page=1`;
+                    //--| Animation Movie URL|---------------------//
+                    const animationTMDBURL = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=16&sort_by=popularity.desc&language=en-US&page=1`;
+                    //--| Drama Movie URL|---------------------//
+                    const dramaTMDBURL = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=18&sort_by=popularity.desc&language=en-US&page=1`;
 
-                    let startListening = () => { e.target.addEventListener("click", moveCarouselLeft); }
-                    const myTimeout = setTimeout(startListening, 1000);
-                }
-                function moveCarouselRight(e) {
-                    e.target.removeEventListener('click', moveCarouselRight);
+                    //--| Promise: Movie Genres|---------------------//
+                    const promiseHorrorMovies = fetch(horrorTMDBURL);
+                    const promiseActionMovies = fetch(actionTMDBURL);
+                    const promiseComedyMovies = fetch(comedyTMDBURL);
+                    const promiseAnimationMovies = fetch(animationTMDBURL);
+                    const promiseDramaMovies = fetch(dramaTMDBURL);
 
-                    let wrapper = e.target.parentElement.parentElement.firstElementChild;
-                    const x = getCurrentTranslateXValue(wrapper);
-                    const value = x - (carouselWidth + posterMarginRight);
-                    if (x !== maxX) wrapper.style.transform = `translateX(${value}px)`;
-
-                    let startListening = () => { e.target.addEventListener("click", moveCarouselRight); }
-                    const myTimeout = setTimeout(startListening, 1000);
-                }
-                function showMoviesTMDB() {
-
-                    console.log(browselist.Action);
-
-                    
-
-                    // document.getElementById(`poster-gallery-${genre[carouselGenre]}`).innerHTML = '';
-
-                    // data.results.forEach(movie => {
-                    //     document.getElementById(`poster-gallery-${genre[carouselGenre]}`).innerHTML += `
-                    //         <div class="poster" data-target="poster">
-                    //             <img src="https://image.tmdb.org/t/p/original${movie.poster_path}">
-                    //             <span hidden>https://image.tmdb.org/t/p/original${movie.poster_path}</span>
-                    //             <span hidden>https://image.tmdb.org/t/p/original${movie.backdrop_path}</span>
-                    //             <span hidden>${movie.title}</span>
-                    //             <span hidden>${convertTMDBDate(movie.release_date)}</span>
-                    //             <span hidden>${movie.overview}</span>
-                    //             <span hidden>${convertTMDBLanguage(movie.original_language)}</span>
-                    //             <span hidden>${convertTMDBGenreIDS(movie.genre_ids)}</span>
-                    //             <span hidden>${movie.id}</span>
-                    //         </div>
-                    //     `;
-                    // })
-                    
-                    // const posters = document.getElementsByClassName("poster");
-                    // Array.from(posters).forEach(element => element.addEventListener("click", showAddMovieModal));
-                }
-                function getMoviesTMDB() {
-                    const getHorrorMovies = fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=27&sort_by=popularity.desc&language=en-US&page=1`);
-                    const getActionMovies = fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=28&sort_by=popularity.desc&language=en-US&page=1`);
-                    const getComdeyMovies = fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=35&sort_by=popularity.desc&language=en-US&page=1`);
-                    const getAnimationMovies = fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=16&sort_by=popularity.desc&language=en-US&page=1`);
-                    const getDramaMovies = fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=18&sort_by=popularity.desc&language=en-US&page=1`);
-
-                    Promise.all([getHorrorMovies, getActionMovies, getComdeyMovies, getAnimationMovies,getDramaMovies])
+                    Promise.all([promiseHorrorMovies, promiseActionMovies, promiseComedyMovies, promiseAnimationMovies,promiseDramaMovies])
                         .then(data => {
-                            let test = [];
+                            //--| Constant Variables |---------------------//
+                            const posterTMDBURL = `https://image.tmdb.org/t/p/original`;
+
+                            //--| Instance Variables |---------------------//
+                            let tempBrowselist = {}
+                            let promiseBrowselist = [];
+
+                            //--| Note: Build browse list from responses |---------------------//
                             data.forEach(element => {
-                                 test = element.json().then(data => {
+                                promiseBrowselist = element.json().then(data => {
                                     let tempArray = [];
                                     let templist = {};
                                     data.results.forEach((movie, index) => {
-                                        let id = index + 1;
-                                        templist[`${id}`] = { 
-                                            poster: `https://image.tmdb.org/t/p/original${movie.poster_path}`,
-                                            backdrop: `https://image.tmdb.org/t/p/original${movie.backdrop_path}`,
+                                        templist[`${index + 1}`] = {
+                                            id: index + 1,
+                                            tmdb: movie.id,
                                             title: movie.title,
-                                            year: convertTMDBDate(movie.release_date),
                                             overview: movie.overview,
+                                            year: convertTMDBDate(movie.release_date),
                                             language: convertTMDBLanguage(movie.original_language),
-                                            genre: convertTMDBGenreIDS(movie.genre_ids), 
-                                            tmdb: movie.id, 
-                                            id: id 
+                                            genre: convertTMDBGenreIDS(movie.genre_ids),
+                                            poster: posterTMDBURL + movie.poster_path,
+                                            backdrop: posterTMDBURL + movie.backdrop_path
                                         };
                                         tempArray.push(convertTMDBGenreIDS(movie.genre_ids));
                                     })
+                                    //--| Note: Pulls most common genre/key value name from movie list |---------------------//
                                     let result = {};
                                     tempArray.join(', ').split(', ').sort().map(element => { result[element] = result[element] ? result[element] + 1 : 1; });
-                                    for (const key in result) { if (result[key] === 20) { browselist[key] = templist; } }
-
-                                    return browselist;
+                                    for (const key in result) { if (result[key] === 20) { tempBrowselist[key.toLowerCase()] = templist;  return tempBrowselist;} }
                                 }).catch(err => console.log(err));
-                                
                             });
-                            
-                            test.then(data => {
-                                console.log(data.Action)
-                            });
-                        })
-                        .catch(err => console.log(err));
+
+                            //--| Promise: Watchlist |---------------------//
+                            const watchlistGlitchURL = `https://aluminum-purple-grouse.glitch.me/movies`;
+                            const promiseWatchlist = fetch(watchlistGlitchURL).then(response => response.json().then(data => data));
+
+                            Promise.all([promiseBrowselist, promiseWatchlist]).then(data => {
+
+                                //--| Constant Variables |---------------------//
+                                const leftButtons = document.getElementsByClassName("left-button");
+                                const rightButtons = document.getElementsByClassName("right-button");
+
+                                const numOfPosters = 5;
+                                const carouselWidth = 1064;
+                                const posterMarginRight = 16;
+                                const posterCount = 20;
+                                const maxX = -((posterCount / numOfPosters) * carouselWidth + (posterMarginRight * (posterCount / numOfPosters)) - carouselWidth - posterMarginRight);
+
+                                const addModal = document.getElementById("add-modal");
+                                const addModalCloseButton = document.getElementsByClassName("close-button")[0];
+
+                                const editModal = document.getElementById("edit-modal");
+                                const editModalCloseButton = document.getElementsByClassName("close-button")[1];
+
+                                //--| Instance Variables |---------------------//
+                                let browselist = data[0];
+                                let watchlist = data[1];
+
+                                //--------------------------------//
+                                // Event Handlers
+                                //--------------------------------//
+
+                                Array.from(leftButtons).forEach(element => element.addEventListener("click", moveCarouselLeft));
+                                Array.from(rightButtons).forEach(element => element.addEventListener("click", moveCarouselRight));
+
+                                addModalCloseButton.addEventListener("click", () => { addModal.style.display = "none"; });
+                                editModalCloseButton.addEventListener("click", () => { editModal.style.display = "none"; });
+
+                                window.addEventListener("click", (event) => {
+                                    if (event.target == addModal) { addModal.style.display = "none"; };
+                                    if (event.target == editModal) { editModal.style.display = "none"; };
+                                });
+
+                                //--| Add Modal Logic |----------------//
+                                function showAddMovieModal(e){
+                                    const poster = e.target.parentElement;
+                                    const movie = browselist[poster.getAttribute('data-genre')][poster.getAttribute('data-id')];
+                                    let header = document.querySelector('#add-modal .header').style;
+                                    header.backgroundImage = "linear-gradient(to bottom, transparent, rgb(0, 0, 0)), url(" + movie.backdrop + ")";
+                                    header.backgroundRepeat = "no-repeat";
+                                    header.backgroundSize = 'contain';
+                                    document.querySelector('#add-modal .title').innerHTML           = movie.title;
+                                    document.querySelector('#add-modal .release-date').innerHTML    = movie.year;
+                                    document.querySelector('#add-modal .overview').innerHTML        = movie.overview;
+                                    document.querySelector('#add-modal .language').innerHTML        = movie.language;
+                                    document.querySelector('#add-modal .genres').innerHTML          = movie.genre;
+                                    addModal.style.display = "block";
+                                }
+
+                                //--| Edit Modal Logic |----------------//
+                                function showEditMovieModel(e) {
+                                    const id = e.target.parentElement.getAttribute('data-id') - 1;
+
+                                    document.querySelector('#edit-modal .info').setAttribute('data-id', id);
+                                    document.querySelector('#edit-modal img').setAttribute('src', watchlist[id].poster)
+                                    document.querySelector('#edit-modal .title').innerHTML      = `<span class="muted">Title: </span>${watchlist[id].title}`;
+                                    document.querySelector('#edit-modal .year').innerHTML       = `<span class="muted">Release Year: </span>${watchlist[id].year}`;
+                                    document.querySelector('#edit-modal .genre').innerHTML      = `<span class="muted">Genre: </span>${watchlist[id].genre}`;
+                                    document.querySelector('#edit-modal .country').innerHTML    = `<span class="muted">Country: </span>${watchlist[id].country}`;
+                                    document.querySelector('#edit-modal .language').innerHTML   = `<span class="muted">Language: </span>${watchlist[id].language}`;
+                                    document.querySelector('#edit-modal .actors').innerHTML     = `<span class="muted">Actor: </span>${watchlist[id].actors}`;
+                                    document.querySelector('#edit-modal .director').innerHTML   = `<span class="muted">Director: </span>${watchlist[id].director}`;
+                                    document.querySelector('#edit-modal .writer').innerHTML     = `<span class="muted">Writer: </span>${watchlist[id].writer}`;
+                                    document.querySelector('#edit-modal .overview').innerHTML   = `<span class="muted">Overview: </span>${watchlist[id].overview}`;
+                                    document.querySelector('#edit-modal .runtime').innerHTML    = `<span class="muted">Runtime: </span>${watchlist[id].runtime}`;
+
+                                    editModal.style.display = "block";
+                                }
+
+                                //--| Carousel Logic |-----------------//
+                                function getCurrentTranslateXValue (element) {
+                                    var style = window.getComputedStyle(element);
+                                    var matrix = new WebKitCSSMatrix(style.transform);
+                                    return matrix.m41;
+                                }
+                                function moveCarouselLeft(e) {
+                                    e.target.removeEventListener('click', moveCarouselLeft);
+
+                                    let wrapper = e.target.parentElement.parentElement.firstElementChild;
+                                    const x = getCurrentTranslateXValue(wrapper);
+                                    const value = x + (carouselWidth + posterMarginRight);
+                                    if (x !== 0) wrapper.style.transform = `translateX(${value}px)`;
+
+                                    let startListening = () => { e.target.addEventListener("click", moveCarouselLeft); }
+                                    const myTimeout = setTimeout(startListening, 1000);
+                                }
+                                function moveCarouselRight(e) {
+                                    e.target.removeEventListener('click', moveCarouselRight);
+
+                                    let wrapper = e.target.parentElement.parentElement.firstElementChild;
+                                    const x = getCurrentTranslateXValue(wrapper);
+                                    const value = x - (carouselWidth + posterMarginRight);
+                                    if (x !== maxX) wrapper.style.transform = `translateX(${value}px)`;
+
+                                    let startListening = () => { e.target.addEventListener("click", moveCarouselRight); }
+                                    const myTimeout = setTimeout(startListening, 1000);
+                                }
+                                function showCarousel(carouselGenre) {
+                                    const galleryElement = document.getElementById(`gallery-${carouselGenre}`);
+                                    let tempMovielist = browselist[carouselGenre];
+                                    galleryElement.innerHTML = '';
+                                    for (const key in tempMovielist) {
+                                        galleryElement.innerHTML += `
+                                            <div class="poster" data-id="${tempMovielist[key].id}" data-genre="${carouselGenre}">
+                                                <img src=${tempMovielist[key].poster}>
+                                            </div>
+                                        `;
+                                    }
+                                    const posters = document.getElementsByClassName("poster");
+                                    Array.from(posters).forEach(element => element.addEventListener("click", showAddMovieModal));
+                                }
+
+                                //--| Watchlist Logic |---------------//
+                                function showWatchlist(list) {
+                                    document.querySelector('#watchlist .items').innerHTML = '';
+                                    list.forEach(element => {
+                                        document.querySelector('#watchlist .items').innerHTML += `
+                                            <div class="item" data-id="${element.id}">
+                                                <img src=${element.poster}>
+                                            </div>
+                                        `;
+                                    })
+                                    const items = document.getElementsByClassName("item");
+                                    Array.from(items).forEach(element => element.addEventListener("click", showEditMovieModel));
+                                }
+
+                                //--| Logic Calls |-----------------//
+                                showCarousel('horror');
+                                showWatchlist(watchlist);
+                            })
+                        }).catch(err => console.log(err));
                 }
 
-
-                //--| Add Modal Logic |----------------//
-                function showAddMovieModal(e){
-                    const poster = e.target.parentElement.children;
-                    let header = document.querySelector('#add-modal .header').style;
-                    document.querySelector('#add-modal .poster-path').innerHTML     = poster[1].innerHTML;
-                    document.querySelector('#add-modal .backdrop-path').innerHTML   = poster[2].innerHTML;
-                    header.backgroundImage = "linear-gradient(to bottom, transparent, rgb(0, 0, 0)), url(" + poster[2].innerHTML + ")";
-                    header.backgroundRepeat = "no-repeat";
-                    header.backgroundSize = 'contain';
-                    document.querySelector('#add-modal .title').innerHTML           = poster[3].innerHTML;
-                    document.querySelector('#add-modal .release-date').innerHTML    = poster[4].innerHTML;
-                    document.querySelector('#add-modal .overview').innerHTML        = poster[5].innerHTML;
-                    document.querySelector('#add-modal .language').innerHTML        = poster[6].innerHTML;
-                    document.querySelector('#add-modal .genres').innerHTML          = poster[7].innerHTML;
-                    addModal.style.display = "block";
-                }
-                function addModalResetStars() {
-                    addModalStarRating.forEach(element => { 
-                        element.checked = false;
-                        element.nextElementSibling.classList.remove("gold-star");
-                        element.nextElementSibling.classList.add("add-star");
-                    });
-                }
-                function addModalChangeStars(e) {
-                    addModalResetStars();
-                    let rating = e.target.value;
-                    addModalStarRating.forEach(element => {
-                        if (element.value <= rating) {
-                            element.nextElementSibling.classList.remove("add-star");
-                            element.nextElementSibling.classList.add("gold-star");
-                            element.checked = true;
-                        }
-                    });
-                }
-                function closeAddMovieModal (){
-                    addModalResetStars();
-                    document.querySelector('#add-modal #add-button-check').checked = false;
-                    addModalStarRating.forEach(element => { 
-                        element.checked = false;
-                    });
-                    addModalAddButton.classList.remove("green-button");
-                    addModalAddButton.classList.add("add-button");
-                    addModal.style.display = "none";
-                }
-                function addMovieToGlitch(e) {
-                    addModalAddButton.classList.remove("add-button");
-                    addModalAddButton.classList.add("green-button");
-
-                    let title = document.querySelector('#add-modal .title').innerHTML;
-                    let year = document.querySelector('#add-modal .release-date').innerHTML;
-                    let poster = document.querySelector('#add-modal .poster-path').innerHTML;
-                    let backdrop = document.querySelector('#add-modal .backdrop-path').innerHTML;
-                    let genre = document.querySelector('#add-modal .genres').innerHTML;
-                    let overview = document.querySelector('#add-modal .overview').innerHTML;
-                    let language = document.querySelector('#add-modal .language').innerHTML;
-
-                    let url = `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&t=${title}&y=${year}`;
-                    let rating = 0;
-                    addModalStarRating.forEach((element, index) => {
-                        if (element.checked === true)
-                            rating = index + 1;
-                    });
-
-                    fetch(url)
-                        .then(response => response.json())
-                        .then(data => {
-                            const movieObj = {
-                                title,
-                                poster,
-                                backdrop,
-                                year,
-                                genre,
-                                country: data.Country,
-                                language,
-                                actors: data.Actors,
-                                director: data.Director,
-                                writer: data.Writer,
-                                overview,
-                                runtime: data.Runtime,
-                                rating,
-                                watched: false
-                            };
-
-                            fetch(myMovieListUrl, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json'},
-                                body: JSON.stringify(movieObj)
-                            }).then(response => console.log(response.statusText)).catch(err => console.log(err));
-
-                            getMyWatchlist();
-
-                            let wait = () => { closeAddMovieModal(); };
-                            const myTimeout = setTimeout(wait, 750);
-                        })
-                        .then(() => {
-
-                        })
-                        .catch(err => console.log(err));
-                }
-                
-                //--| Edit Modal Logic |---------------//
-                function showEditMovieModel(e) {
-                    const id = e.target.parentElement.children[1].innerHTML;
-
-                    document.querySelector('#edit-modal .id').innerHTML         = id;
-                    document.querySelector('#edit-modal img').setAttribute('src', watchlist[`${id}`].poster)
-                    document.querySelector('#edit-modal .title').innerHTML      = `<span class="muted">Title: </span>${watchlist[`${id}`].title}`;
-                    document.querySelector('#edit-modal .year').innerHTML       = `<span class="muted">Release Year: </span>${watchlist[`${id}`].year}`;
-                    document.querySelector('#edit-modal .genre').innerHTML      = `<span class="muted">Genre: </span>${watchlist[`${id}`].genre}`;
-                    document.querySelector('#edit-modal .country').innerHTML    = `<span class="muted">Country: </span>${watchlist[`${id}`].country}`;
-                    document.querySelector('#edit-modal .language').innerHTML   = `<span class="muted">Language: </span>${watchlist[`${id}`].language}`;
-                    document.querySelector('#edit-modal .actors').innerHTML     = `<span class="muted">Actor: </span>${watchlist[`${id}`].actors}`;
-                    document.querySelector('#edit-modal .director').innerHTML   = `<span class="muted">Director: </span>${watchlist[`${id}`].director}`;
-                    document.querySelector('#edit-modal .writer').innerHTML     = `<span class="muted">Writer: </span>${watchlist[`${id}`].writer}`;
-                    document.querySelector('#edit-modal .overview').innerHTML   = `<span class="muted">Overview: </span>${watchlist[`${id}`].overview}`;
-                    document.querySelector('#edit-modal .runtime').innerHTML    = `<span class="muted">Runtime: </span>${watchlist[`${id}`].runtime}`;
-                    
-                    editModalStarRating.forEach(element => {
-                        if (element.value <= watchlist[`${id}`].rating) {
-                            element.nextElementSibling.classList.remove("edit-star");
-                            element.nextElementSibling.classList.add("gold-star");
-                            element.checked = true;
-                        }
-                    });
-
-                    if (watchlist[`${id}`].watched === true) {
-                        editModalWatchButton.classList.toggle("yellow-button");
-                        document.querySelector('#watch-button-check').checked = true;
-                    }
-
-                    editModal.style.display = "block";
-                }
-                function editModalResetStars() {
-                    editModalStarRating.forEach(element => {
-                        element.checked = false;
-                        element.nextElementSibling.classList.remove("gold-star");
-                        element.nextElementSibling.classList.add("edit-star");
-                    });
-                }
-                function editModalChangeStars(e) {
-                    editModalResetStars();
-                    let rating = e.target.value;
-                    editModalStarRating.forEach(element => {
-                        if (element.value <= rating) {
-                            element.nextElementSibling.classList.remove("edit-star");
-                            element.nextElementSibling.classList.add("gold-star");
-                            element.checked = true;
-                        }
-                    });
-                }
-                function closeEditMovieModal (){
-                    editModalResetStars();
-
-                    document.querySelector('#edit-modal #delete-button-check').checked = false;
-                    editModalDeleteButton.classList.remove("red-button");
-                    editModalDeleteButton.classList.add("delete-button");
-
-                    document.querySelector('#edit-modal #watch-button-check').checked = false;
-                    editModalWatchButton.classList.remove("yellow-button");
-                    editModalWatchButton.classList.add("watch-button");
-
-                    editModal.style.display = "none";
-
-
-                }
-                function editMovieOnGlitch() {
-
-                    const id = document.querySelector('#edit-modal .id').innerHTML;
-
-                    watchlist[`${id}`].watched = document.querySelector('#edit-modal #watch-button-check').checked;
-                    editModalStarRating.forEach((element, index) => {
-                        if (element.checked === true) {
-                            watchlist[`${id}`].rating = index + 1;
-                        }
-                    });
-
-                    showWatchlist(watchlist);
-                    
-                    let wait = () => { closeEditMovieModal(); };
-                    const myTimeout = setTimeout(wait, 150);
-                }
-                function deleteMovieFromGlitch(e) {
-                    editModalDeleteButton.classList.toggle("red-button");
-
-                    const id = document.querySelector('#edit-modal .id').innerHTML;
-                    delete watchlist[`${id}`];
-
-                    showWatchlist(watchlist);
-                    
-                    let wait = () => { closeEditMovieModal(); };
-                    const myTimeout = setTimeout(wait, 250);
-                }
-                function watchButtonToggle() {
-                    editModalWatchButton.classList.toggle("yellow-button");
-                }
-
-                //--| Watchlist Logic |---------------//
-
-                //--| Note: Renders watchlist to screen |---------------//
-                function showWatchlist(list) {              
-                    document.querySelector('#watchlist .items').innerHTML = '';
-
-                    Object.keys(list).forEach(key => {
-                        let element = list[key];
-                        document.querySelector('#watchlist .items').innerHTML += `
-                        <div class="item" data-target="item">
-                            <img src=${element.poster}>
-                            <span hidden>${element.id}</span>
-                        </div>`;
-                    }); 
-                    const items = document.getElementsByClassName("item");
-                    Array.from(items).forEach(element => element.addEventListener("click", showEditMovieModel));
-                }
-                
-                //--| Notes: Pulls list from Glitch & Renders watchlist to screen |-----------------//
-                function getWatchlist(){
-                    fetch(myMovieListUrl)
-                        .then(response => response.json())
-                        .then(data => {
-                            Array.from(data).forEach(element => {
-                                watchlist[`${element.id}`] = element;
-                            });
-                            showWatchlist(watchlist);
-                        })
-                        .catch(err => console.log(err));
-                }
-
-                //--------------------------------//
-                // Event Handlers
-                //--------------------------------// 
-
-                Array.from(leftButtons).forEach(element => element.addEventListener("click", moveCarouselLeft));
-                Array.from(rightButtons).forEach(element => element.addEventListener("click", moveCarouselRight));
-
-                //--------------------------------//
-                // Main Function
-                //--------------------------------// 
-                getMoviesTMDB();
-                getWatchlist();
-
-                //--| Add Modal |-----------------//
-                const addModal = document.getElementById("add-modal");
-                const addModalCloseButton = document.getElementsByClassName("close-button")[0];
-                const addModalStarRating = document.querySelectorAll('input[type=radio][name="addRating"]');
-                const addModalAddButton = document.querySelector('#add-modal .add-button');
-
-                addModalCloseButton.addEventListener("click", closeAddMovieModal);
-                addModalStarRating.forEach(element => element.addEventListener("change", addModalChangeStars));
-                addModalAddButton.addEventListener('click', addMovieToGlitch);
-        
-                //--| Edit Modal |-----------------//
-                const editModal = document.getElementById("edit-modal");
-                const editModalCloseButton = document.getElementsByClassName("close-button")[1];
-                const editModalStarRating = document.querySelectorAll('#edit-modal .stars input');
-
-                editModalCloseButton.addEventListener("click", editMovieOnGlitch);
-                editModalStarRating.forEach(element => element.addEventListener("change", editModalChangeStars));
-
-                //--| Delete Button |---------------//
-                const editModalDeleteButton = document.querySelector('#edit-modal .delete-button');
-                editModalDeleteButton.addEventListener('click', deleteMovieFromGlitch);
-
-                //--| Watched Button |---------------//
-                const editModalWatchButton = document.querySelector('#edit-modal .watch-button');
-                editModalWatchButton.addEventListener('click', watchButtonToggle);
-
-                //--| Events |---------------------//
-                window.addEventListener("click", (event) => { 
-                    if (event.target == addModal) closeAddMovieModal(); 
-                    if (event.target == editModal) editMovieOnGlitch(); 
-                });
-
-                //--| General Functions |---------------------//
-                function clearGlitchDB() {
-                    Object.keys(watchlist).forEach(key => {
-                        fetch(myMovieListUrl + '/' + watchlist[key].id, { method: 'DELETE' }).then(response => console.log(response)).catch(err => console.log(err)); 
-                    });
-                }
-                function postGlitchDB() {
-                    Object.keys(watchlist).forEach(key => {
-                        fetch(myMovieListUrl, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json'},
-                            body: JSON.stringify(watchlist[key])
-                        }).then(response => console.log(response)).catch(err => console.log(err));
-                    });
-                }
+                //--| Main Call |-----------------//
+                main();
             })();
         </script>
     </body>
