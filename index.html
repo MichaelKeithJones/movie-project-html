@@ -32,7 +32,7 @@
             /*-------------------------*\ 
             Carousel
             \*-------------------------*/
-            .poster-carousel {
+            #carousel {
                 height: var(--poster-height);
                 /* 5 Poster -> Poster Width: 200px;  (200px * 5) + (16px margin * 4) = 1064px*/
                 /* 3 Poster -> Poster Width: 200px;  (200px * 3) + (16px margin * 2) = 632px*/
@@ -43,7 +43,7 @@
                 margin: 0 auto;
                 z-index: 0;
             }
-            .poster-gallery {
+            #carousel .gallery {
                 list-style: none;
                 position: absolute;
                 z-index: 1;
@@ -527,8 +527,8 @@
 
         <main>
 
-            <div class="poster-carousel">
-                <ul class="poster-gallery" id="poster-gallery-horror">
+            <div id="carousel">
+                <ul class="gallery" id="poster-gallery-horror">
                 </ul>
                 <div class="carousel-buttons">
                   <button class="left-button arrow stretch">&lt</button>
@@ -702,33 +702,79 @@
                     let startListening = () => { e.target.addEventListener("click", moveCarouselRight); }
                     const myTimeout = setTimeout(startListening, 1000);
                 }
-                function buildCarousel(carouselGenre) {
-                    let url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=${carouselGenre}&sort_by=popularity.desc&language=en-US&page=1`;
-                    fetch(url)
-                        .then(response => response.json())
+                function showMoviesTMDB() {
+
+                    console.log(browselist.Action);
+
+                    
+
+                    // document.getElementById(`poster-gallery-${genre[carouselGenre]}`).innerHTML = '';
+
+                    // data.results.forEach(movie => {
+                    //     document.getElementById(`poster-gallery-${genre[carouselGenre]}`).innerHTML += `
+                    //         <div class="poster" data-target="poster">
+                    //             <img src="https://image.tmdb.org/t/p/original${movie.poster_path}">
+                    //             <span hidden>https://image.tmdb.org/t/p/original${movie.poster_path}</span>
+                    //             <span hidden>https://image.tmdb.org/t/p/original${movie.backdrop_path}</span>
+                    //             <span hidden>${movie.title}</span>
+                    //             <span hidden>${convertTMDBDate(movie.release_date)}</span>
+                    //             <span hidden>${movie.overview}</span>
+                    //             <span hidden>${convertTMDBLanguage(movie.original_language)}</span>
+                    //             <span hidden>${convertTMDBGenreIDS(movie.genre_ids)}</span>
+                    //             <span hidden>${movie.id}</span>
+                    //         </div>
+                    //     `;
+                    // })
+                    
+                    // const posters = document.getElementsByClassName("poster");
+                    // Array.from(posters).forEach(element => element.addEventListener("click", showAddMovieModal));
+                }
+                function getMoviesTMDB() {
+                    const getHorrorMovies = fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=27&sort_by=popularity.desc&language=en-US&page=1`);
+                    const getActionMovies = fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=28&sort_by=popularity.desc&language=en-US&page=1`);
+                    const getComdeyMovies = fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=35&sort_by=popularity.desc&language=en-US&page=1`);
+                    const getAnimationMovies = fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=16&sort_by=popularity.desc&language=en-US&page=1`);
+                    const getDramaMovies = fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=18&sort_by=popularity.desc&language=en-US&page=1`);
+
+                    Promise.all([getHorrorMovies, getActionMovies, getComdeyMovies, getAnimationMovies,getDramaMovies])
                         .then(data => {
-                            document.getElementById(`poster-gallery-${genre[carouselGenre]}`).innerHTML = '';
-                            data.results.forEach(movie => {
-                                document.getElementById(`poster-gallery-${genre[carouselGenre]}`).innerHTML += `
-                                    <div class="poster" data-target="poster">
-                                        <img src="https://image.tmdb.org/t/p/original${movie.poster_path}">
-                                        <span hidden>https://image.tmdb.org/t/p/original${movie.poster_path}</span>
-                                        <span hidden>https://image.tmdb.org/t/p/original${movie.backdrop_path}</span>
-                                        <span hidden>${movie.title}</span>
-                                        <span hidden>${convertTMDBDate(movie.release_date)}</span>
-                                        <span hidden>${movie.overview}</span>
-                                        <span hidden>${convertTMDBLanguage(movie.original_language)}</span>
-                                        <span hidden>${convertTMDBGenreIDS(movie.genre_ids)}</span>
-                                        <span hidden>${movie.id}</span>
-                                    </div>
-                                `;
-                            })
-                            const posters = document.getElementsByClassName("poster");
-                            Array.from(posters).forEach(element => element.addEventListener("click", showAddMovieModal));
+                            let test = [];
+                            data.forEach(element => {
+                                 test = element.json().then(data => {
+                                    let tempArray = [];
+                                    let templist = {};
+                                    data.results.forEach((movie, index) => {
+                                        let id = index + 1;
+                                        templist[`${id}`] = { 
+                                            poster: `https://image.tmdb.org/t/p/original${movie.poster_path}`,
+                                            backdrop: `https://image.tmdb.org/t/p/original${movie.backdrop_path}`,
+                                            title: movie.title,
+                                            year: convertTMDBDate(movie.release_date),
+                                            overview: movie.overview,
+                                            language: convertTMDBLanguage(movie.original_language),
+                                            genre: convertTMDBGenreIDS(movie.genre_ids), 
+                                            tmdb: movie.id, 
+                                            id: id 
+                                        };
+                                        tempArray.push(convertTMDBGenreIDS(movie.genre_ids));
+                                    })
+                                    let result = {};
+                                    tempArray.join(', ').split(', ').sort().map(element => { result[element] = result[element] ? result[element] + 1 : 1; });
+                                    for (const key in result) { if (result[key] === 20) { browselist[key] = templist; } }
+
+                                    return browselist;
+                                }).catch(err => console.log(err));
+                                
+                            });
+                            
+                            test.then(data => {
+                                console.log(data.Action)
+                            });
                         })
                         .catch(err => console.log(err));
                 }
-                
+
+
                 //--| Add Modal Logic |----------------//
                 function showAddMovieModal(e){
                     const poster = e.target.parentElement.children;
@@ -905,7 +951,7 @@
                         }
                     });
 
-                    showMyWatchlist(watchlist);
+                    showWatchlist(watchlist);
                     
                     let wait = () => { closeEditMovieModal(); };
                     const myTimeout = setTimeout(wait, 150);
@@ -916,7 +962,7 @@
                     const id = document.querySelector('#edit-modal .id').innerHTML;
                     delete watchlist[`${id}`];
 
-                    showMyWatchlist(watchlist);
+                    showWatchlist(watchlist);
                     
                     let wait = () => { closeEditMovieModal(); };
                     const myTimeout = setTimeout(wait, 250);
@@ -928,7 +974,7 @@
                 //--| Watchlist Logic |---------------//
 
                 //--| Note: Renders watchlist to screen |---------------//
-                function showMyWatchlist(list) {              
+                function showWatchlist(list) {              
                     document.querySelector('#watchlist .items').innerHTML = '';
 
                     Object.keys(list).forEach(key => {
@@ -944,15 +990,14 @@
                 }
                 
                 //--| Notes: Pulls list from Glitch & Renders watchlist to screen |-----------------//
-                function getMyWatchlist(){
+                function getWatchlist(){
                     fetch(myMovieListUrl)
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data.length);
                             Array.from(data).forEach(element => {
                                 watchlist[`${element.id}`] = element;
                             });
-                            showMyWatchlist(watchlist);
+                            showWatchlist(watchlist);
                         })
                         .catch(err => console.log(err));
                 }
@@ -967,8 +1012,8 @@
                 //--------------------------------//
                 // Main Function
                 //--------------------------------// 
-                buildCarousel('27');                                            //-- '27' is genre code: Horror
-                getMyWatchlist();
+                getMoviesTMDB();
+                getWatchlist();
 
                 //--| Add Modal |-----------------//
                 const addModal = document.getElementById("add-modal");
