@@ -571,7 +571,6 @@
                             <span class="director"></span>
                             <span class="writer"></span>
                             <span class="overview"></span>
-                            <span hidden class="id"></span>
                         </div>
                     </div>
                 </div>
@@ -686,15 +685,15 @@
                                     let templist = {};
                                     data.results.forEach((movie, index) => {
                                         templist[`${index + 1}`] = {
-                                            id: index + 1,
-                                            tmdb: movie.id,
-                                            title: movie.title,
-                                            overview: movie.overview,
-                                            year: convertTMDBDate(movie.release_date),
-                                            language: convertTMDBLanguage(movie.original_language),
+                                            backdrop: posterTMDBURL + movie.backdrop_path,
                                             genre: convertTMDBGenreIDS(movie.genre_ids),
+                                            id: index + 1,
+                                            language: convertTMDBLanguage(movie.original_language),
+                                            overview: movie.overview,
                                             poster: posterTMDBURL + movie.poster_path,
-                                            backdrop: posterTMDBURL + movie.backdrop_path
+                                            title: movie.title,
+                                            year: convertTMDBDate(movie.release_date),
+                                            tmdb: movie.id
                                         };
                                         tempArray.push(convertTMDBGenreIDS(movie.genre_ids));
                                     })
@@ -712,6 +711,8 @@
                             Promise.all([promiseBrowselist, promiseWatchlist]).then(data => {
 
                                 //--| Constant Variables |---------------------//
+                                const myMovieListUrl = `https://aluminum-purple-grouse.glitch.me/movies`;
+
                                 const leftButtons = document.getElementsByClassName("left-button");
                                 const rightButtons = document.getElementsByClassName("right-button");
 
@@ -728,6 +729,9 @@
 
                                 const editModal = document.getElementById("edit-modal");
                                 const editModalCloseButton = document.getElementsByClassName("close-button")[1];
+                                const editModalStarRating = document.querySelectorAll('#edit-modal .stars input');
+                                const editModalDeleteButton = document.querySelector('#edit-modal .delete-button');
+                                const editModalWatchButton = document.querySelector('#edit-modal .watch-button');
 
                                 //--| Instance Variables |---------------------//
                                 let browselist = data[0];
@@ -744,11 +748,14 @@
                                 addModalStarRating.forEach(element => element.addEventListener("change", addModalChangeStars));
                                 addModalAddButton.addEventListener('click', addMovieToWatchlist);
 
-                                editModalCloseButton.addEventListener("click", () => { editModal.style.display = "none"; });
+                                editModalCloseButton.addEventListener("click", closeEditMovieModal);
+                                editModalStarRating.forEach(element => element.addEventListener("change", editModalChangeStars));
+                                editModalDeleteButton.addEventListener('click', deleteMovieFromWatchlist);
+                                editModalWatchButton.addEventListener('click', watchButtonToggle);
 
                                 window.addEventListener("click", (event) => {
                                     if (event.target == addModal) { closeAddMovieModal(); };
-                                    if (event.target == editModal) { editModal.style.display = "none"; };
+                                    if (event.target == editModal) { closeEditMovieModal(); };
                                 });
 
                                 //--| Add Modal Logic |----------------//
@@ -800,67 +807,68 @@
                                     addModalAddButton.classList.remove("add-button");
                                     addModalAddButton.classList.add("green-button");
 
+                                    // addModalAddButton.off('click', addMovieToWatchlist);
+
                                     const addModalElement = document.querySelector('#add-modal');
                                     const movie = browselist[addModalElement.getAttribute('data-genre')][addModalElement.getAttribute('data-id')];
 
-                                    console.log(movie);
-                                    // let title = document.querySelector('#add-modal .title').innerHTML;
-                                    // let year = document.querySelector('#add-modal .release-date').innerHTML;
-                                    // let poster = document.querySelector('#add-modal .poster-path').innerHTML;
-                                    // let backdrop = document.querySelector('#add-modal .backdrop-path').innerHTML;
-                                    // let genre = document.querySelector('#add-modal .genres').innerHTML;
-                                    // let overview = document.querySelector('#add-modal .overview').innerHTML;
-                                    // let language = document.querySelector('#add-modal .language').innerHTML;
-                                    //
-                                    // let url = `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&t=${title}&y=${year}`;
-                                    // let rating = 0;
-                                    // addModalStarRating.forEach((element, index) => {
-                                    //     if (element.checked === true)
-                                    //         rating = index + 1;
-                                    // });
-                                    //
-                                    // fetch(url)
-                                    //     .then(response => response.json())
-                                    //     .then(data => {
-                                    //         const movieObj = {
-                                    //             title,
-                                    //             poster,
-                                    //             backdrop,
-                                    //             year,
-                                    //             genre,
-                                    //             country: data.Country,
-                                    //             language,
-                                    //             actors: data.Actors,
-                                    //             director: data.Director,
-                                    //             writer: data.Writer,
-                                    //             overview,
-                                    //             runtime: data.Runtime,
-                                    //             rating,
-                                    //             watched: false
-                                    //         };
-                                    //
-                                    //         fetch(myMovieListUrl, {
-                                    //             method: 'POST',
-                                    //             headers: { 'Content-Type': 'application/json'},
-                                    //             body: JSON.stringify(movieObj)
-                                    //         }).then(response => console.log(response.statusText)).catch(err => console.log(err));
-                                    //
-                                    //         getMyWatchlist();
-                                    //
-                                    //         let wait = () => { closeAddMovieModal(); };
-                                    //         const myTimeout = setTimeout(wait, 750);
-                                    //     })
-                                    //     .then(() => {
-                                    //
-                                    //     })
-                                    //     .catch(err => console.log(err));
+                                    fetch(`https://api.themoviedb.org/3/movie/${movie.tmdb}?api_key=${TMDB_API_KEY}&append_to_response=credits`)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            const country = data.production_countries[0].name;
+                                            const runtime = `${data.runtime} min`;
+                                            const actors = data.credits.cast.map(member => member.name).join(', ');
+                                            let crew = {}
+                                            data.credits.crew.map(member => { crew[member.job] = crew[member.job] ? crew[member.job] + ', ' + member.name : member.name; });
+                                            const director = crew['Director'];
+                                            const writer = crew['Writer'];
+                                            let rating = 0;
+                                            addModalStarRating.forEach((element, index) => {
+                                                if (element.checked === true)
+                                                    rating = index + 1;
+                                            });
+
+                                            const movieObj = {
+                                                title: movie.title,
+                                                poster: movie.poster,
+                                                backdrop: movie.backdrop,
+                                                year: movie.year,
+                                                genre: movie.genre,
+                                                country,
+                                                language: movie.language,
+                                                actors: (actors !== undefined) ? actors : `N/A`,
+                                                director: (director !== undefined) ? director : `N/A`,
+                                                writer: (writer !== undefined) ? writer : `N/A`,
+                                                overview: movie.overview,
+                                                runtime,
+                                                rating,
+                                                watched: false,
+                                                id: (watchlist.length + 1)
+                                            };
+
+                                            watchlist.push(movieObj);
+                                            showWatchlist(watchlist);
+
+                                            // fetch(myMovieListUrl, {
+                                            //     method: 'POST',
+                                            //     headers: { 'Content-Type': 'application/json'},
+                                            //     body: JSON.stringify(movieObj)
+                                            // }).then(response => {
+                                            //     console.log("POST: " + response.statusText);
+                                            //     let wait = () => {
+                                                closeAddMovieModal();
+                                            //     };
+                                            //     const myTimeout = setTimeout(wait, 150);
+                                            //     addModalAddButton.on('click', addMovieToWatchlist);
+                                            // }).catch(err => console.log(err));
+                                        }).catch(err => console.log(err));
                                 }
 
                                 //--| Edit Modal Logic |----------------//
                                 function showEditMovieModel(e) {
                                     const id = e.target.parentElement.getAttribute('data-id') - 1;
 
-                                    document.querySelector('#edit-modal .info').setAttribute('data-id', id);
+                                    document.querySelector('#edit-modal').setAttribute('data-id', id);
                                     document.querySelector('#edit-modal img').setAttribute('src', watchlist[id].poster)
                                     document.querySelector('#edit-modal .title').innerHTML      = `<span class="muted">Title: </span>${watchlist[id].title}`;
                                     document.querySelector('#edit-modal .year').innerHTML       = `<span class="muted">Release Year: </span>${watchlist[id].year}`;
@@ -873,7 +881,107 @@
                                     document.querySelector('#edit-modal .overview').innerHTML   = `<span class="muted">Overview: </span>${watchlist[id].overview}`;
                                     document.querySelector('#edit-modal .runtime').innerHTML    = `<span class="muted">Runtime: </span>${watchlist[id].runtime}`;
 
+                                    editModalStarRating.forEach(element => {
+                                        if (element.value <= watchlist[id].rating) {
+                                            element.nextElementSibling.classList.remove("edit-star");
+                                            element.nextElementSibling.classList.add("gold-star");
+                                            element.checked = true;
+                                        }
+                                    });
+
+                                    if (watchlist[id].watched === true) {
+                                        editModalWatchButton.classList.toggle("blue-button");
+                                        document.querySelector('#watch-button-check').checked = true;
+                                    }
+
                                     editModal.style.display = "block";
+                                }
+                                function editModalResetStars() {
+                                    editModalStarRating.forEach(element => {
+                                        element.checked = false;
+                                        element.nextElementSibling.classList.remove("gold-star");
+                                        element.nextElementSibling.classList.add("edit-star");
+                                    });
+                                }
+                                function editModalChangeStars(e) {
+                                    editModalResetStars();
+                                    let rating = e.target.value;
+                                    editModalStarRating.forEach(element => {
+                                        if (element.value <= rating) {
+                                            element.nextElementSibling.classList.remove("edit-star");
+                                            element.nextElementSibling.classList.add("gold-star");
+                                            element.checked = true;
+                                        }
+                                    });
+                                }
+                                function resetEditMovieModal() {
+                                    editModalResetStars();
+
+                                    document.querySelector('#edit-modal #delete-button-check').checked = false;
+                                    editModalDeleteButton.classList.remove("red-button");
+                                    editModalDeleteButton.classList.add("delete-button");
+
+                                    document.querySelector('#edit-modal #watch-button-check').checked = false;
+                                    editModalWatchButton.classList.remove("blue-button");
+                                    editModalWatchButton.classList.add("watch-button");
+
+                                    editModal.style.display = "none";
+                                }
+                                function closeEditMovieModal (){
+                                    let id = document.querySelector('#edit-modal').getAttribute('data-id');
+                                    console.log(id);
+                                    console.log(watchlist);
+
+                                    watchlist[id].watched = document.querySelector('#edit-modal #watch-button-check').checked;
+                                    editModalStarRating.forEach((element, index) => {
+                                        if (element.checked === true) {
+                                            watchlist[id].rating = index + 1;
+                                        }
+                                    });
+
+                                    console.log(watchlist[id].watched);
+                                    console.log(watchlist[id].rating);
+
+                                //     fetch(myMovieListUrl + `/${watchlist[id].id}`, {
+                                //         method: 'PATCH',
+                                //         headers: { 'Content-Type': 'application/json'},
+                                //         body: JSON.stringify({
+                                //             rating: watchlist[id].rating,
+                                //             watched: watchlist[id].watched
+                                //         })
+                                //     })
+                                //         .then(response => response.json())
+                                //         .then(() => {
+                                //             let wait = () => {
+                                                resetEditMovieModal();
+                                //             };
+                                //             const myTimeout = setTimeout(wait, 150);
+                                //         }).catch(err => console.log(err));
+                                }
+                                function deleteMovieFromWatchlist(e) {
+                                    editModalDeleteButton.classList.toggle("red-button");
+
+                                    // editModalDeleteButton.off('click', deleteMovieFromWatchlist);
+
+                                    let id = document.querySelector('#edit-modal').getAttribute('data-id');
+                                    console.log(id);
+                                    delete watchlist[id];
+
+                                    showWatchlist(watchlist);
+
+                                    // fetch(myMovieListUrl + '/' + id, { method: 'DELETE' })
+                                    //     .then(response => {
+                                    //         console.log(response);
+                                    //         let wait = () => {
+                                            resetEditMovieModal();
+                                    //             editModalDeleteButton.on('click', deleteMovieFromWatchlist);
+                                    //         };
+                                    //         const myTimeout = setTimeout(wait, 150);
+                                    //     })
+                                    //     .catch(err => console.log(err));
+                                }
+                                function watchButtonToggle() {
+                                    editModalWatchButton.classList.toggle("blue-button");
                                 }
 
                                 //--| Carousel Logic |-----------------//
@@ -937,11 +1045,14 @@
                                 showCarousel('horror');
                                 showWatchlist(watchlist);
 
-                                // movie-id: 801071
-                                fetch(`https://api.themoviedb.org/3/movie/801071?api_key=${TMDB_API_KEY}&append_to_response=credits`)
-                                    .then(response => response.json())
-                                    .then(data => console.log(data))
-                                    .catch(err => console.log(err));
+                                //--- Delete the following
+                                // movie-id: 801071 --> speci
+                                // fetch(`https://api.themoviedb.org/3/movie/801071?api_key=${TMDB_API_KEY}&append_to_response=credits`)
+                                // fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_crew=240&with_keywords=720`)
+                                // fetch(`http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=ring&page=2`) // Keyword Search
+                                //     .then(response => response.json())
+                                //     .then(data => console.log(data))
+                                //     .catch(err => console.log(err));
                             })
                         }).catch(err => console.log(err));
                 }
