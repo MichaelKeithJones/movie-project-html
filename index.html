@@ -720,54 +720,85 @@
 
                             Promise.all([promiseBrowselist, promiseWatchlist]).then(data => {
 
-                                //--| Constant Variables |---------------------//
-                                const myMovieListUrl = `https://aluminum-purple-grouse.glitch.me/movies`;
+                                //--------------------------------//
+                                // Constant Variables
+                                //--------------------------------//
 
+                                //--| General |---------------------//
+                                const myMovieListUrl = `https://aluminum-purple-grouse.glitch.me/movies`;
+                                //--| Carousel |---------------------//
                                 const leftButtons = document.getElementsByClassName("left-button");
                                 const rightButtons = document.getElementsByClassName("right-button");
-
                                 const numOfPosters = 5;
                                 const carouselWidth = 1064;
                                 const posterMarginRight = 16;
                                 const posterCount = 20;
                                 const maxX = -((posterCount / numOfPosters) * carouselWidth + (posterMarginRight * (posterCount / numOfPosters)) - carouselWidth - posterMarginRight);
-
+                                //--| Add Modal |---------------------//
                                 const addModal = document.getElementById("add-modal");
                                 const addModalCloseButton = document.getElementsByClassName("close-button")[0];
                                 const addModalStarRating = document.querySelectorAll('#add-modal .stars input');
                                 const addModalAddButton = document.querySelector('#add-modal .add-button');
-
+                                //--| Edit Modal |---------------------//
                                 const editModal = document.getElementById("edit-modal");
                                 const editModalCloseButton = document.getElementsByClassName("close-button")[1];
                                 const editModalStarRating = document.querySelectorAll('#edit-modal .stars input');
                                 const editModalDeleteButton = document.querySelector('#edit-modal .delete-button');
                                 const editModalWatchButton = document.querySelector('#edit-modal .watch-button');
 
-                                //--| Instance Variables |---------------------//
+                                //--------------------------------//
+                                // Instance Variables
+                                //--------------------------------//
+
                                 let browselist = data[0];
                                 let watchlist = data[1];
 
                                 //--------------------------------//
-                                // Event Handlers
+                                // Instance Functions
                                 //--------------------------------//
 
-                                Array.from(leftButtons).forEach(element => element.addEventListener("click", moveCarouselLeft));
-                                Array.from(rightButtons).forEach(element => element.addEventListener("click", moveCarouselRight));
+                                //--| Carousel Logic |-----------------//
+                                function getCurrentTranslateXValue (element) {
+                                    var style = window.getComputedStyle(element);
+                                    var matrix = new WebKitCSSMatrix(style.transform);
+                                    return matrix.m41;
+                                }
+                                function moveCarouselLeft(e) {
+                                    e.target.removeEventListener('click', moveCarouselLeft);
 
-                                addModalCloseButton.addEventListener("click", closeAddMovieModal);
-                                addModalStarRating.forEach(element => element.addEventListener("change", addModalChangeStars));
-                                addModalAddButton.addEventListener('click', addMovieToWatchlist);
+                                    let wrapper = e.target.parentElement.parentElement.firstElementChild;
+                                    const x = getCurrentTranslateXValue(wrapper);
+                                    const value = x + (carouselWidth + posterMarginRight);
+                                    if (x !== 0) wrapper.style.transform = `translateX(${value}px)`;
 
-                                editModalCloseButton.addEventListener("click", closeEditMovieModal);
-                                editModalStarRating.forEach(element => element.addEventListener("change", editModalChangeStars));
-                                editModalDeleteButton.addEventListener('click', deleteMovieFromWatchlist);
-                                editModalWatchButton.addEventListener('click', watchButtonToggle);
+                                    let startListening = () => { e.target.addEventListener("click", moveCarouselLeft); }
+                                    const myTimeout = setTimeout(startListening, 1000);
+                                }
+                                function moveCarouselRight(e) {
+                                    e.target.removeEventListener('click', moveCarouselRight);
 
-                                window.addEventListener("click", (event) => {
-                                    if (event.target == addModal) { closeAddMovieModal(); };
-                                    if (event.target == editModal) { closeEditMovieModal(); };
-                                });
+                                    let wrapper = e.target.parentElement.parentElement.firstElementChild;
+                                    const x = getCurrentTranslateXValue(wrapper);
+                                    const value = x - (carouselWidth + posterMarginRight);
+                                    if (x !== maxX) wrapper.style.transform = `translateX(${value}px)`;
 
+                                    let startListening = () => { e.target.addEventListener("click", moveCarouselRight); }
+                                    const myTimeout = setTimeout(startListening, 1000);
+                                }
+                                function showCarousel(carouselGenre) {
+                                    const galleryElement = document.getElementById(`gallery-${carouselGenre}`);
+                                    let tempMovielist = browselist[carouselGenre];
+                                    galleryElement.innerHTML = '';
+                                    for (const key in tempMovielist) {
+                                        galleryElement.innerHTML += `
+                                            <div class="poster" data-id="${tempMovielist[key].id}" data-genre="${carouselGenre}">
+                                                <img src=${tempMovielist[key].poster}>
+                                            </div>
+                                        `;
+                                    }
+                                    const posters = document.getElementsByClassName("poster");
+                                    Array.from(posters).forEach(element => element.addEventListener("click", showAddMovieModal));
+                                }
                                 //--| Add Modal Logic |----------------//
                                 function showAddMovieModal(e){
                                     const poster = e.target.parentElement;
@@ -872,7 +903,6 @@
                                             }).catch(err => console.log(err));
                                         }).catch(err => console.log(err));
                                 }
-
                                 //--| Edit Modal Logic |----------------//
                                 function showEditMovieModel(e) {
                                     const index = e.target.parentElement.getAttribute('data-index');
@@ -986,50 +1016,6 @@
                                 function watchButtonToggle() {
                                     editModalWatchButton.classList.toggle("blue-button");
                                 }
-
-                                //--| Carousel Logic |-----------------//
-                                function getCurrentTranslateXValue (element) {
-                                    var style = window.getComputedStyle(element);
-                                    var matrix = new WebKitCSSMatrix(style.transform);
-                                    return matrix.m41;
-                                }
-                                function moveCarouselLeft(e) {
-                                    e.target.removeEventListener('click', moveCarouselLeft);
-
-                                    let wrapper = e.target.parentElement.parentElement.firstElementChild;
-                                    const x = getCurrentTranslateXValue(wrapper);
-                                    const value = x + (carouselWidth + posterMarginRight);
-                                    if (x !== 0) wrapper.style.transform = `translateX(${value}px)`;
-
-                                    let startListening = () => { e.target.addEventListener("click", moveCarouselLeft); }
-                                    const myTimeout = setTimeout(startListening, 1000);
-                                }
-                                function moveCarouselRight(e) {
-                                    e.target.removeEventListener('click', moveCarouselRight);
-
-                                    let wrapper = e.target.parentElement.parentElement.firstElementChild;
-                                    const x = getCurrentTranslateXValue(wrapper);
-                                    const value = x - (carouselWidth + posterMarginRight);
-                                    if (x !== maxX) wrapper.style.transform = `translateX(${value}px)`;
-
-                                    let startListening = () => { e.target.addEventListener("click", moveCarouselRight); }
-                                    const myTimeout = setTimeout(startListening, 1000);
-                                }
-                                function showCarousel(carouselGenre) {
-                                    const galleryElement = document.getElementById(`gallery-${carouselGenre}`);
-                                    let tempMovielist = browselist[carouselGenre];
-                                    galleryElement.innerHTML = '';
-                                    for (const key in tempMovielist) {
-                                        galleryElement.innerHTML += `
-                                            <div class="poster" data-id="${tempMovielist[key].id}" data-genre="${carouselGenre}">
-                                                <img src=${tempMovielist[key].poster}>
-                                            </div>
-                                        `;
-                                    }
-                                    const posters = document.getElementsByClassName("poster");
-                                    Array.from(posters).forEach(element => element.addEventListener("click", showAddMovieModal));
-                                }
-
                                 //--| Watchlist Logic |---------------//
                                 function showWatchlist(list) {
                                     document.querySelector('#watchlist .items').innerHTML = '';
@@ -1044,7 +1030,32 @@
                                     Array.from(items).forEach(element => element.addEventListener("click", showEditMovieModel));
                                 }
 
-                                //--| Logic Calls |-----------------//
+                                //--------------------------------//
+                                // Event Handlers
+                                //--------------------------------//
+
+                                //--| General |---------------------//
+                                window.addEventListener("click", (event) => {
+                                    if (event.target == addModal) { closeAddMovieModal(); };
+                                    if (event.target == editModal) { closeEditMovieModal(); };
+                                });
+                                //--| Carousel |---------------------//
+                                Array.from(leftButtons).forEach(element => element.addEventListener("click", moveCarouselLeft));
+                                Array.from(rightButtons).forEach(element => element.addEventListener("click", moveCarouselRight));
+                                //--| Add Modal |---------------------//
+                                addModalCloseButton.addEventListener("click", closeAddMovieModal);
+                                addModalStarRating.forEach(element => element.addEventListener("change", addModalChangeStars));
+                                addModalAddButton.addEventListener('click', addMovieToWatchlist);
+                                //--| Edit Modal |---------------------//
+                                editModalCloseButton.addEventListener("click", closeEditMovieModal);
+                                editModalStarRating.forEach(element => element.addEventListener("change", editModalChangeStars));
+                                editModalDeleteButton.addEventListener('click', deleteMovieFromWatchlist);
+                                editModalWatchButton.addEventListener('click', watchButtonToggle);
+
+                                //--------------------------------//
+                                // Sub-Main
+                                //--------------------------------//
+
                                 showCarousel('horror');
                                 showWatchlist(watchlist);
 
@@ -1060,7 +1071,7 @@
                         }).catch(err => console.log(err));
                 }
 
-                //--| Main Call |-----------------//
+                //--| Main |-----------------//
                 main();
             })();
         </script>
