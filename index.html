@@ -118,6 +118,12 @@
                 background-color: green;
                 border: 1px solid green;
             }
+            #add-modal .green-button:hover {
+                color: white;
+                border: 1px solid green;
+                text-decoration: none;
+                cursor: pointer;
+            }
             #add-modal .stars {
                 position: absolute;
                 left: 80px;
@@ -508,6 +514,9 @@
                 height:  var(--poster-height);
                 background-color: transparent;
             }
+            #watchlist .item:hover {
+                cursor: pointer;
+            }
             #watchlist img{
                 width: 100%;
                 height: 100%;
@@ -527,11 +536,11 @@
                         <div class="title"></div>
                         <label><input hidden type="radio" id="add-button-check" name="add-button-check"><div class="add-button">&plus;</div></label>
                         <div class="stars">
-                            <label><input hidden id="add-star-one" type="radio" name="addRating" value="1"><div class="add-star">&#9733;</div></label>
-                            <label><input hidden id="add-star-two" type="radio" name="addRating" value="2"><div class="add-star">&#9733;</div></label>
-                            <label><input hidden id="add-star-three" type="radio" name="addRating" value="3"><div class="add-star">&#9733;</div></label>
-                            <label><input hidden id="add-star-four" type="radio" name="addRating" value="4"><div class="add-star">&#9733;</div></label>
-                            <label><input hidden id="add-star-five" type="radio" name="addRating" value="5"><div class="add-star">&#9733;</div></label>
+                            <label><input hidden id="add-star-one"      type="checkbox" value="1"><div class="add-star">&#9733;</div></label>
+                            <label><input hidden id="add-star-two"      type="checkbox" value="2"><div class="add-star">&#9733;</div></label>
+                            <label><input hidden id="add-star-three"    type="checkbox" value="3"><div class="add-star">&#9733;</div></label>
+                            <label><input hidden id="add-star-four"     type="checkbox" value="4"><div class="add-star">&#9733;</div></label>
+                            <label><input hidden id="add-star-five"     type="checkbox" value="5"><div class="add-star">&#9733;</div></label>
                         </div>
                     </div>
                     <div class="body">
@@ -634,7 +643,8 @@
                     'th': 'Thai',
                     'de': 'German',
                     'zh': 'Chineses',
-                    'ja': 'Japanese'
+                    'ja': 'Japanese',
+                    'it': 'Italian'
                 }
 
                 //--------------------------------//
@@ -684,10 +694,10 @@
                                     let tempArray = [];
                                     let templist = {};
                                     data.results.forEach((movie, index) => {
-                                        templist[`${index + 1}`] = {
+                                        templist[`${index}`] = {
                                             backdrop: posterTMDBURL + movie.backdrop_path,
                                             genre: convertTMDBGenreIDS(movie.genre_ids),
-                                            id: index + 1,
+                                            id: index,
                                             language: convertTMDBLanguage(movie.original_language),
                                             overview: movie.overview,
                                             poster: posterTMDBURL + movie.poster_path,
@@ -724,7 +734,7 @@
 
                                 const addModal = document.getElementById("add-modal");
                                 const addModalCloseButton = document.getElementsByClassName("close-button")[0];
-                                const addModalStarRating = document.querySelectorAll('input[type=radio][name="addRating"]');
+                                const addModalStarRating = document.querySelectorAll('#add-modal .stars input');
                                 const addModalAddButton = document.querySelector('#add-modal .add-button');
 
                                 const editModal = document.getElementById("edit-modal");
@@ -799,15 +809,12 @@
                                     addModalStarRating.forEach(element => {
                                         element.checked = false;
                                     });
-                                    addModalAddButton.classList.remove("green-button");
-                                    addModalAddButton.classList.add("add-button");
+                                    addModalAddButton.classList.toggle("green-button");
                                     addModal.style.display = "none";
                                 }
                                 function addMovieToWatchlist(e) {
-                                    addModalAddButton.classList.remove("add-button");
-                                    addModalAddButton.classList.add("green-button");
-
-                                    // addModalAddButton.off('click', addMovieToWatchlist);
+                                    addModalAddButton.classList.toggle("green-button");
+                                    addModalAddButton.removeEventListener('click', addMovieToWatchlist);
 
                                     const addModalElement = document.querySelector('#add-modal');
                                     const movie = browselist[addModalElement.getAttribute('data-genre')][addModalElement.getAttribute('data-id')];
@@ -828,6 +835,7 @@
                                                     rating = index + 1;
                                             });
 
+                                            const value = (watchlist === []) ? (watchlist[watchlist.length - 1].id + 1) : 1;
                                             const movieObj = {
                                                 title: movie.title,
                                                 poster: movie.poster,
@@ -843,53 +851,54 @@
                                                 runtime,
                                                 rating,
                                                 watched: false,
-                                                id: (watchlist.length + 1)
+                                                tmdb: movie.tmdb,
+                                                id: value
                                             };
 
                                             watchlist.push(movieObj);
                                             showWatchlist(watchlist);
 
-                                            // fetch(myMovieListUrl, {
-                                            //     method: 'POST',
-                                            //     headers: { 'Content-Type': 'application/json'},
-                                            //     body: JSON.stringify(movieObj)
-                                            // }).then(response => {
-                                            //     console.log("POST: " + response.statusText);
-                                            //     let wait = () => {
-                                                closeAddMovieModal();
-                                            //     };
-                                            //     const myTimeout = setTimeout(wait, 150);
-                                            //     addModalAddButton.on('click', addMovieToWatchlist);
-                                            // }).catch(err => console.log(err));
+                                            fetch(myMovieListUrl, {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json'},
+                                                body: JSON.stringify(movieObj)
+                                            }).then(response => {
+                                                console.log("POST: " + response.statusText);
+                                                let wait = () => {
+                                                    closeAddMovieModal();
+                                                };
+                                                const myTimeout = setTimeout(wait, 150);
+                                                addModalAddButton.addEventListener('click', addMovieToWatchlist);
+                                            }).catch(err => console.log(err));
                                         }).catch(err => console.log(err));
                                 }
 
                                 //--| Edit Modal Logic |----------------//
                                 function showEditMovieModel(e) {
-                                    const id = e.target.parentElement.getAttribute('data-id') - 1;
+                                    const index = e.target.parentElement.getAttribute('data-index');
 
-                                    document.querySelector('#edit-modal').setAttribute('data-id', id);
-                                    document.querySelector('#edit-modal img').setAttribute('src', watchlist[id].poster)
-                                    document.querySelector('#edit-modal .title').innerHTML      = `<span class="muted">Title: </span>${watchlist[id].title}`;
-                                    document.querySelector('#edit-modal .year').innerHTML       = `<span class="muted">Release Year: </span>${watchlist[id].year}`;
-                                    document.querySelector('#edit-modal .genre').innerHTML      = `<span class="muted">Genre: </span>${watchlist[id].genre}`;
-                                    document.querySelector('#edit-modal .country').innerHTML    = `<span class="muted">Country: </span>${watchlist[id].country}`;
-                                    document.querySelector('#edit-modal .language').innerHTML   = `<span class="muted">Language: </span>${watchlist[id].language}`;
-                                    document.querySelector('#edit-modal .actors').innerHTML     = `<span class="muted">Actor: </span>${watchlist[id].actors}`;
-                                    document.querySelector('#edit-modal .director').innerHTML   = `<span class="muted">Director: </span>${watchlist[id].director}`;
-                                    document.querySelector('#edit-modal .writer').innerHTML     = `<span class="muted">Writer: </span>${watchlist[id].writer}`;
-                                    document.querySelector('#edit-modal .overview').innerHTML   = `<span class="muted">Overview: </span>${watchlist[id].overview}`;
-                                    document.querySelector('#edit-modal .runtime').innerHTML    = `<span class="muted">Runtime: </span>${watchlist[id].runtime}`;
+                                    document.querySelector('#edit-modal').setAttribute('data-index', index);
+                                    document.querySelector('#edit-modal img').setAttribute('src', watchlist[index].poster)
+                                    document.querySelector('#edit-modal .title').innerHTML      = `<span class="muted">Title: </span>${watchlist[index].title}`;
+                                    document.querySelector('#edit-modal .year').innerHTML       = `<span class="muted">Release Year: </span>${watchlist[index].year}`;
+                                    document.querySelector('#edit-modal .genre').innerHTML      = `<span class="muted">Genre: </span>${watchlist[index].genre}`;
+                                    document.querySelector('#edit-modal .country').innerHTML    = `<span class="muted">Country: </span>${watchlist[index].country}`;
+                                    document.querySelector('#edit-modal .language').innerHTML   = `<span class="muted">Language: </span>${watchlist[index].language}`;
+                                    document.querySelector('#edit-modal .actors').innerHTML     = `<span class="muted">Actor: </span>${watchlist[index].actors}`;
+                                    document.querySelector('#edit-modal .director').innerHTML   = `<span class="muted">Director: </span>${watchlist[index].director}`;
+                                    document.querySelector('#edit-modal .writer').innerHTML     = `<span class="muted">Writer: </span>${watchlist[index].writer}`;
+                                    document.querySelector('#edit-modal .overview').innerHTML   = `<span class="muted">Overview: </span>${watchlist[index].overview}`;
+                                    document.querySelector('#edit-modal .runtime').innerHTML    = `<span class="muted">Runtime: </span>${watchlist[index].runtime}`;
 
                                     editModalStarRating.forEach(element => {
-                                        if (element.value <= watchlist[id].rating) {
+                                        if (element.value <= watchlist[index].rating) {
                                             element.nextElementSibling.classList.remove("edit-star");
                                             element.nextElementSibling.classList.add("gold-star");
                                             element.checked = true;
                                         }
                                     });
 
-                                    if (watchlist[id].watched === true) {
+                                    if (watchlist[index].watched === true) {
                                         editModalWatchButton.classList.toggle("blue-button");
                                         document.querySelector('#watch-button-check').checked = true;
                                     }
@@ -928,57 +937,51 @@
                                     editModal.style.display = "none";
                                 }
                                 function closeEditMovieModal (){
-                                    let id = document.querySelector('#edit-modal').getAttribute('data-id');
-                                    console.log(id);
-                                    console.log(watchlist);
+                                    let index = document.querySelector('#edit-modal').getAttribute('data-index');
 
-                                    watchlist[id].watched = document.querySelector('#edit-modal #watch-button-check').checked;
-                                    editModalStarRating.forEach((element, index) => {
+                                    watchlist[index].watched = document.querySelector('#edit-modal #watch-button-check').checked;
+                                    editModalStarRating.forEach((element, iterator) => {
                                         if (element.checked === true) {
-                                            watchlist[id].rating = index + 1;
+                                            watchlist[index].rating = iterator + 1;
                                         }
                                     });
 
-                                    console.log(watchlist[id].watched);
-                                    console.log(watchlist[id].rating);
-
-                                //     fetch(myMovieListUrl + `/${watchlist[id].id}`, {
-                                //         method: 'PATCH',
-                                //         headers: { 'Content-Type': 'application/json'},
-                                //         body: JSON.stringify({
-                                //             rating: watchlist[id].rating,
-                                //             watched: watchlist[id].watched
-                                //         })
-                                //     })
-                                //         .then(response => response.json())
-                                //         .then(() => {
-                                //             let wait = () => {
+                                    fetch(myMovieListUrl + `/${watchlist[index].id}`, {
+                                        method: 'PATCH',
+                                        headers: { 'Content-Type': 'application/json'},
+                                        body: JSON.stringify({
+                                            rating: watchlist[index].rating,
+                                            watched: watchlist[index].watched
+                                        })
+                                    })
+                                        .then(response => response.json())
+                                        .then(() => {
+                                            let wait = () => {
                                                 resetEditMovieModal();
-                                //             };
-                                //             const myTimeout = setTimeout(wait, 150);
-                                //         }).catch(err => console.log(err));
+                                            };
+                                            const myTimeout = setTimeout(wait, 150);
+                                        }).catch(err => console.log(err));
                                 }
                                 function deleteMovieFromWatchlist(e) {
                                     editModalDeleteButton.classList.toggle("red-button");
+                                    editModalDeleteButton.removeEventListener('click', deleteMovieFromWatchlist);
 
-                                    // editModalDeleteButton.off('click', deleteMovieFromWatchlist);
+                                    let index = document.querySelector('#edit-modal').getAttribute('data-index');
 
-                                    let id = document.querySelector('#edit-modal').getAttribute('data-id');
-                                    console.log(id);
-                                    delete watchlist[id];
+                                    fetch(myMovieListUrl + '/' + watchlist[index].id, { method: 'DELETE' })
+                                        .then(response => {
+                                            console.log(response);
 
-                                    showWatchlist(watchlist);
+                                            watchlist = watchlist.filter(e => e !== watchlist[index]);
+                                            showWatchlist(watchlist);
 
-                                    // fetch(myMovieListUrl + '/' + id, { method: 'DELETE' })
-                                    //     .then(response => {
-                                    //         console.log(response);
-                                    //         let wait = () => {
-                                            resetEditMovieModal();
-                                    //             editModalDeleteButton.on('click', deleteMovieFromWatchlist);
-                                    //         };
-                                    //         const myTimeout = setTimeout(wait, 150);
-                                    //     })
-                                    //     .catch(err => console.log(err));
+                                            let wait = () => {
+                                                resetEditMovieModal();
+                                                editModalDeleteButton.addEventListener('click', deleteMovieFromWatchlist);
+                                            };
+                                            const myTimeout = setTimeout(wait, 150);
+                                        })
+                                        .catch(err => console.log(err));
                                 }
                                 function watchButtonToggle() {
                                     editModalWatchButton.classList.toggle("blue-button");
@@ -1030,9 +1033,9 @@
                                 //--| Watchlist Logic |---------------//
                                 function showWatchlist(list) {
                                     document.querySelector('#watchlist .items').innerHTML = '';
-                                    list.forEach(element => {
+                                    list.forEach((element, index) => {
                                         document.querySelector('#watchlist .items').innerHTML += `
-                                            <div class="item" data-id="${element.id}">
+                                            <div class="item" data-index="${index}">
                                                 <img src=${element.poster}>
                                             </div>
                                         `;
