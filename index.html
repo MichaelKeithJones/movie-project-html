@@ -43,6 +43,10 @@
                 display: flex;
                 justify-content: space-between;
                 background: linear-gradient(15deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 66%, rgba(78,78,78,1) 100%);
+                position: fixed;
+                height: 250px;
+                width: 100%;
+                z-index: 500;
             }
             #navbar .left-side {
                 display: flex;
@@ -113,14 +117,26 @@
             Content Container
             \*-------------------------*/
 
-            #content {
-                display: grid;
-                grid-template-columns: 1fr 4fr;
+            main>.content {
+                padding-top: 250px;
+                padding-left: 200px;
             }
 
             /*-------------------------*\
             Sidebar
             \*-------------------------*/
+
+            #sidebar {
+                height: 100%;
+                width: 200px;
+                position: fixed;
+                z-index: 500;
+                top: 250px;
+                left: 0;
+                background-color: blue;
+                overflow-x: hidden;
+                padding-top: 250px;
+            }
 
             /*-------------------------*\
             Carousel
@@ -244,7 +260,7 @@
                 position: fixed; /* Stay in place */
                 left: 0;
                 top: 0;
-                z-index: 50; /* Sit on top */
+                z-index: 1000; /* Sit on top */
 
                 width: 100%; /* Full width */
                 height: 100%; /* Full height */
@@ -278,7 +294,7 @@
                 margin: 0 20px;
                 font-size: 48px;
                 font-weight: 200;
-                border-bottom: 1px solid rgb(41, 41, 41);
+                border-bottom: 1px solid red;
             }
             #add-modal .add-button {
                 color: white;
@@ -626,6 +642,17 @@
             }
             #edit-modal .muted { color:rgb(87, 87, 87); }
 
+            /*-------------------------*\
+            Footer
+            \*-------------------------*/
+
+            #footer{
+                background: green;
+                padding-left: 200px;
+                width: 100%;
+                height: 200px;
+            }
+
         </style>
     </head>
     <body>
@@ -650,82 +677,91 @@
                 </div>
             </div>
 
-            <div id="content">
+            <!--| Sidebar |----------------------------->
 
-                <!--| Sidebar |----------------------------->
-
-                    <div id="sidebar">
-
-                    </div>
-
-                <!--| Right Panel |------------------------->
-
-                    <!--| Carousel |---------------------------->
-                    <div id="browse-container">
-                        <div class="carousel-container">
-                            <div class="title">Action</div>
-                            <div id="action" class="carousel">
-                                <ul class="gallery" id="gallery-action">
-                                </ul>
-                                <div class="carousel-buttons">
-                                    <button class="left-button arrow stretch">&lt</button>
-                                    <button class="right-button arrow stretch">&gt</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-container">
-                            <div class="title">Documentary</div>
-                            <div id="documentary" class="carousel">
-                                <ul class="gallery" id="gallery-documentary">
-                                </ul>
-                                <div class="carousel-buttons">
-                                    <button class="left-button arrow stretch">&lt</button>
-                                    <button class="right-button arrow stretch">&gt</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-container">
-                            <div class="title">Horror</div>
-                            <div id="horror" class="carousel">
-                                <ul class="gallery" id="gallery-horror">
-                                </ul>
-                                <div class="carousel-buttons">
-                                    <button class="left-button arrow stretch">&lt</button>
-                                    <button class="right-button arrow stretch">&gt</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-container">
-                            <div class="title">Drama</div>
-                            <div id="drama" class="carousel">
-                                <ul class="gallery" id="gallery-drama">
-                                </ul>
-                                <div class="carousel-buttons">
-                                    <button class="left-button arrow stretch">&lt</button>
-                                    <button class="right-button arrow stretch">&gt</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-container">
-                            <div class="title">Animation</div>
-                            <div id="animation" class="carousel">
-                                <ul class="gallery" id="gallery-animation">
-                                </ul>
-                                <div class="carousel-buttons">
-                                    <button class="left-button arrow stretch">&lt</button>
-                                    <button class="right-button arrow stretch">&gt</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--| Watchlist |--------------------------->
-                    <div id="watchlist" hidden>
-                        <div class="items"></div>
-                    </div>
+            <div id="sidebar">
 
             </div>
 
+            <!--| Right Panel |------------------------->
+
+            <main>
+                <!--| Carousel |---------------------------->
+                <div class="content">
+                    <div id="browse-container">
+                        <div class="carousel-container">
+                                <div class="title">Action</div>
+                                <div id="action" class="carousel">
+                                    <ul class="gallery" id="gallery-action">
+                                    </ul>
+                                    <div class="carousel-buttons">
+                                        <button class="left-button arrow stretch">&lt</button>
+                                        <button class="right-button arrow stretch">&gt</button>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="carousel-container">
+                                <div class="title">Documentary</div>
+                                <div id="documentary" class="carousel">
+                                    <ul class="gallery" id="gallery-documentary">
+                                    </ul>
+                                    <div class="carousel-buttons">
+                                        <button class="left-button arrow stretch">&lt</button>
+                                        <button class="right-button arrow stretch">&gt</button>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="carousel-container">
+                                <div class="title">Horror</div>
+                                <div id="horror" class="carousel">
+                                    <ul class="gallery" id="gallery-horror">
+                                    </ul>
+                                    <div class="carousel-buttons">
+                                        <button class="left-button arrow stretch">&lt</button>
+                                        <button class="right-button arrow stretch">&gt</button>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="carousel-container">
+                                <div class="title">Drama</div>
+                                <div id="drama" class="carousel">
+                                    <ul class="gallery" id="gallery-drama">
+                                    </ul>
+                                    <div class="carousel-buttons">
+                                        <button class="left-button arrow stretch">&lt</button>
+                                        <button class="right-button arrow stretch">&gt</button>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="carousel-container">
+                                <div class="title">Animation</div>
+                                <div id="animation" class="carousel">
+                                    <ul class="gallery" id="gallery-animation">
+                                    </ul>
+                                    <div class="carousel-buttons">
+                                        <button class="left-button arrow stretch">&lt</button>
+                                        <button class="right-button arrow stretch">&gt</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <!--| Watchlist |--------------------------->
+                <div class="content"hidden>
+                    <div id="watchlist">
+                        <div class="items"></div>
+                    </div>
+                </div>
+                <!--| Search |--------------------------->
+                <div class="content" hidden>
+                    <div id="search"></div>
+                </div>
+            </main>
+
             <!--| Footer |--------------------->
+
+            <div id="footer">
+            </div>
 
             <!--| Hidden - Modals|---------------------->
 
