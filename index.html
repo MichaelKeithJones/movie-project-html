@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
         <title>Movie Project</title>
         <link rel="icon" type="image/x-icon" href="./img/icons8-popcorn-48.png">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         
         <style>
             /*-------------------------*\ 
@@ -27,6 +29,209 @@
                 padding: 0;
                 margin: 0;
                 font-family: 'Montserrat', sans-serif;
+            }
+            body {
+                background: black;
+            }
+
+            /*-------------------------*\
+            Navbar
+            \*-------------------------*/
+
+            #navbar {
+                padding: 30px 50px;
+                display: flex;
+                justify-content: space-between;
+                background: linear-gradient(15deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 66%, rgba(78,78,78,1) 100%);
+            }
+            #navbar .left-side {
+                display: flex;
+            }
+            #navbar .brand{
+                color: white;
+                text-decoration: none;
+                margin-right: 40px;
+                display: flex;
+                align-items: center;
+            }
+            #navbar .title {
+                height: 150px;
+                padding-left: 10px;
+                border-left: white solid 2px;
+                font-size: 48px;
+                display: flex;
+                align-items: center;
+            }
+            #navbar ul {
+                list-style: none;
+
+                text-transform: uppercase;
+                font-size: 12px;
+                line-height: 20px;
+                font-weight: 500;
+                letter-spacing: 1px;
+
+                display: flex;
+                align-items: center;
+            }
+            #navbar li a {
+                display: block;
+                color: white;
+                background-color: transparent;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+            #navbar li a:hover {
+                color: rgba(199, 88, 88, 0.6);
+                background-color: transparent;
+                transition: 0.25s;
+            }
+            #navbar .right-side {
+                display: flex;
+                align-items: center;
+            }
+            #navbar i {
+                color: white;
+                font-size: 25px;
+            }
+            #navbar input[type=text]{
+                height: 50px;
+                width: 50px;
+                border: grey;
+                border-radius: 2px;
+                background: white url('./img/magnifying-glass.png') no-repeat 10px 10px;
+                transition: width 0.4s ease-in-out;
+                outline: none;
+                padding-left: 50px;
+            }
+            #navbar input[type=text]:focus{
+                width: 500px;
+            }
+
+            /*-------------------------*\
+            Content Container
+            \*-------------------------*/
+
+            #content {
+                display: grid;
+                grid-template-columns: 1fr 4fr;
+            }
+
+            /*-------------------------*\
+            Sidebar
+            \*-------------------------*/
+
+            /*-------------------------*\
+            Carousel
+            \*-------------------------*/
+
+            #browse-container {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            .carousel {
+                height: var(--poster-height);
+                /* 5 Poster -> Poster Width: 200px;  (200px * 5) + (16px margin * 4) = 1064px*/
+                /* 3 Poster -> Poster Width: 200px;  (200px * 3) + (16px margin * 2) = 632px*/
+                /* 1 Poster -> Poster Width: 200px;  (200px * 1) + (16px margin * 0) = 200px*/
+                width: 1064px;
+                position: relative;
+                overflow: hidden;
+                margin: 0 auto;
+                z-index: 0;
+            }
+            .carousel-container .title {
+                color: white;
+                font-size: 24px;
+                width: 200px;
+                padding-bottom: 5px;
+                margin-bottom: 10px;
+                border-bottom: red solid 2px;
+            }
+            .carousel .gallery {
+                list-style: none;
+                position: absolute;
+                z-index: 1;
+                width: 100%;
+                left: 0;
+                margin: 0;
+                padding: 0;
+                transition: all 1s ease;
+                display: flex;
+            }
+            .carousel .poster {
+                display: inline-block;
+                min-width: 200px;
+                height:  var(--poster-height);
+                margin-right: 1rem;
+                background-color: transparent;
+            }
+            .carousel .poster img{
+                width: 100%;
+                height: 100%;
+            }
+            .carousel .poster:hover {
+                cursor: pointer;
+            }
+            .carousel-buttons {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .carousel .left-button { background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
+            .carousel .right-button { background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
+            .carousel .arrow {
+                color: #545454;
+                width: 50px;
+                height: 50%;
+                font-size: 56px;
+                border: none;
+                opacity: 0;
+                transition: all 0.5s ease;
+                z-index: 11;
+                cursor: pointer;
+            }
+            .carousel .arrow:hover {
+                color: white;
+            }
+            .carousel:hover .arrow{ opacity: 1; }
+            .carousel .stretch {
+                display: inline-block;
+                transform: scale(1, 2);
+            }
+
+            /*-------------------------*\
+            Watchlist
+            \*-------------------------*/
+
+            #watchlist {
+                background-color: transparent;
+            }
+            #watchlist .items {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, 200px);
+                grid-gap: 16px;
+                justify-content: center;
+            }
+            #watchlist .item {
+                display: inline-block;
+                width: 200px;
+                height: 300px;
+                height:  var(--poster-height);
+                background-color: transparent;
+            }
+            #watchlist .item:hover {
+                cursor: pointer;
+            }
+            #watchlist img{
+                width: 100%;
+                height: 100%;
             }
 
             /*-------------------------*\
@@ -421,186 +626,165 @@
             }
             #edit-modal .muted { color:rgb(87, 87, 87); }
 
-            /*-------------------------*\
-            Carousel
-            \*-------------------------*/
-
-            #carousel {
-                height: var(--poster-height);
-                /* 5 Poster -> Poster Width: 200px;  (200px * 5) + (16px margin * 4) = 1064px*/
-                /* 3 Poster -> Poster Width: 200px;  (200px * 3) + (16px margin * 2) = 632px*/
-                /* 1 Poster -> Poster Width: 200px;  (200px * 1) + (16px margin * 0) = 200px*/
-                width: 1064px;
-                position: relative;
-                overflow: hidden;
-                margin: 0 auto;
-                z-index: 0;
-            }
-            #carousel .gallery {
-                list-style: none;
-                position: absolute;
-                z-index: 1;
-                width: 100%;
-                left: 0;
-                margin: 0;
-                padding: 0;
-                transition: all 1s ease;
-                display: flex;
-            }
-            .poster {
-                display: inline-block;
-                min-width: 200px;
-                height:  var(--poster-height);
-                margin-right: 1rem;
-                background-color: transparent;
-            }
-            .poster img{
-                width: 100%;
-                height: 100%;
-            }
-            .poster:hover {
-                cursor: pointer;
-            }
-
-            /*-------------------------*\
-            Carousel - Buttons
-            \*-------------------------*/
-
-            .carousel-buttons {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .left-button { background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
-            .right-button { background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
-            .arrow {
-                color: white;
-                width: 50px;
-                height: 100%;
-                font-size: 32px;
-                border: none;
-                opacity: 0;
-                transition: all 0.5s ease;
-                z-index: 11;
-                cursor: pointer;
-            }
-            .arrow:hover { opacity: 1; }
-            .stretch {
-                display: inline-block;
-                transform: scale(1, 3);
-            }
-
-            /*-------------------------*\
-            Watchlist
-            \*-------------------------*/
-
-            #watchlist {
-                background-color: black;
-            }
-            #watchlist .items {
-                width: 100%;
-                display: grid;
-                grid-template-columns: repeat(auto-fit, 200px);
-                grid-gap: 16px;
-                justify-content: center;
-            }
-            #watchlist .item {
-                display: inline-block;
-                width: 200px;
-                height: 300px;
-                height:  var(--poster-height);
-                background-color: transparent;
-            }
-            #watchlist .item:hover {
-                cursor: pointer;
-            }
-            #watchlist img{
-                width: 100%;
-                height: 100%;
-            }
-
         </style>
     </head>
     <body>
 
         <main>
 
-            <!--| Modal-Add |--------------------->
-            <div id="add-modal" class="overlay">
-                <div class="content">
-                    <div class="header">
-                        <div class="close-button">&times;</div>
-                        <div class="title"></div>
-                        <label><input hidden type="radio" id="add-button-check" name="add-button-check"><div class="add-button">&plus;</div></label>
-                        <div class="stars">
-                            <label><input hidden id="add-star-one"      type="checkbox" value="1"><div class="add-star">&#9733;</div></label>
-                            <label><input hidden id="add-star-two"      type="checkbox" value="2"><div class="add-star">&#9733;</div></label>
-                            <label><input hidden id="add-star-three"    type="checkbox" value="3"><div class="add-star">&#9733;</div></label>
-                            <label><input hidden id="add-star-four"     type="checkbox" value="4"><div class="add-star">&#9733;</div></label>
-                            <label><input hidden id="add-star-five"     type="checkbox" value="5"><div class="add-star">&#9733;</div></label>
-                        </div>
-                    </div>
-                    <div class="body">
-                        <section class="release-date"></section>
-                        <section class="overview"></section>
-                        <section><span class="muted">Language: </span><span class="language"></span></section>
-                        <section><span class="muted">Genres: </span><span class="genres"></span></section>
-                    </div>
+            <!--| Navbar |------------------------------>
+
+            <div id="navbar">
+                <div class="left-side">
+                    <a class="brand" href="/" >
+                        <img src="./img/logo.png" alt="" class="logo" />
+                        <span class="title">Watchlist</span>
+                    </a>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Browse</a></li>
+                    </ul>
+                </div>
+                <div class="right-side">
+                    <input type="text" placeholder="Enter title here...">
                 </div>
             </div>
 
-            <!--| Modal-Edit |--------------------->
-            <div id="edit-modal" class="overlay">
-                <div class="content">
-                    <div class="body">
-                        <div class="close-button">&times;</div>
-                        <div class="info">
-                            <img>
-                            <section class="button">
-                                <label><input hidden type="checkbox" id="delete-button-check" name="delete-button-check"><span class="delete-button">&minus;</span></label>
-                                <label><input hidden type="checkbox" id="watch-button-check" name="watch-button-check"><span class="watch-button">&#128065;</span></label>
-                            </section>
-                            <div class="stars">
-                                <label><input hidden id="edit-star-one"     type="checkbox" value="1"><div class="edit-star">&#9733;</div></label>
-                                <label><input hidden id="edit-star-two"     type="checkbox" value="2"><div class="edit-star">&#9733;</div></label>
-                                <label><input hidden id="edit-star-three"   type="checkbox" value="3"><div class="edit-star">&#9733;</div></label>
-                                <label><input hidden id="edit-star-four"    type="checkbox" value="4"><div class="edit-star">&#9733;</div></label>
-                                <label><input hidden id="edit-star-five"    type="checkbox" value="5"><div class="edit-star">&#9733;</div></label>
+            <div id="content">
+
+                <!--| Sidebar |----------------------------->
+
+                    <div id="sidebar">
+
+                    </div>
+
+                <!--| Right Panel |------------------------->
+
+                    <!--| Carousel |---------------------------->
+                    <div id="browse-container">
+                        <div class="carousel-container">
+                            <div class="title">Action</div>
+                            <div id="action" class="carousel">
+                                <ul class="gallery" id="gallery-action">
+                                </ul>
+                                <div class="carousel-buttons">
+                                    <button class="left-button arrow stretch">&lt</button>
+                                    <button class="right-button arrow stretch">&gt</button>
+                                </div>
                             </div>
-                            <span class="title"></span>
-                            <span class="year"></span>
-                            <span class="runtime"></span>
-                            <span class="country"></span>
-                            <span class="language"></span>
-                            <span class="genre"></span>
-                            <span class="actors"></span>
-                            <span class="director"></span>
-                            <span class="writer"></span>
-                            <span class="overview"></span>
+                        </div>
+                        <div class="carousel-container">
+                            <div class="title">Documentary</div>
+                            <div id="documentary" class="carousel">
+                                <ul class="gallery" id="gallery-documentary">
+                                </ul>
+                                <div class="carousel-buttons">
+                                    <button class="left-button arrow stretch">&lt</button>
+                                    <button class="right-button arrow stretch">&gt</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-container">
+                            <div class="title">Horror</div>
+                            <div id="horror" class="carousel">
+                                <ul class="gallery" id="gallery-horror">
+                                </ul>
+                                <div class="carousel-buttons">
+                                    <button class="left-button arrow stretch">&lt</button>
+                                    <button class="right-button arrow stretch">&gt</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-container">
+                            <div class="title">Drama</div>
+                            <div id="drama" class="carousel">
+                                <ul class="gallery" id="gallery-drama">
+                                </ul>
+                                <div class="carousel-buttons">
+                                    <button class="left-button arrow stretch">&lt</button>
+                                    <button class="right-button arrow stretch">&gt</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-container">
+                            <div class="title">Animation</div>
+                            <div id="animation" class="carousel">
+                                <ul class="gallery" id="gallery-animation">
+                                </ul>
+                                <div class="carousel-buttons">
+                                    <button class="left-button arrow stretch">&lt</button>
+                                    <button class="right-button arrow stretch">&gt</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--| Watchlist |--------------------------->
+                    <div id="watchlist" hidden>
+                        <div class="items"></div>
+                    </div>
+
+            </div>
+
+            <!--| Footer |--------------------->
+
+            <!--| Hidden - Modals|---------------------->
+
+                <!----------| Modal-Add |------------------->
+                <div id="add-modal" class="overlay">
+                    <div class="content">
+                        <div class="header">
+                            <div class="close-button">&times;</div>
+                            <div class="title"></div>
+                            <label><input hidden type="radio" id="add-button-check" name="add-button-check"><div class="add-button">&plus;</div></label>
+                            <div class="stars">
+                                <label><input hidden id="add-star-one"      type="checkbox" value="1"><div class="add-star">&#9733;</div></label>
+                                <label><input hidden id="add-star-two"      type="checkbox" value="2"><div class="add-star">&#9733;</div></label>
+                                <label><input hidden id="add-star-three"    type="checkbox" value="3"><div class="add-star">&#9733;</div></label>
+                                <label><input hidden id="add-star-four"     type="checkbox" value="4"><div class="add-star">&#9733;</div></label>
+                                <label><input hidden id="add-star-five"     type="checkbox" value="5"><div class="add-star">&#9733;</div></label>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <section class="release-date"></section>
+                            <section class="overview"></section>
+                            <section><span class="muted">Language: </span><span class="language"></span></section>
+                            <section><span class="muted">Genres: </span><span class="genres"></span></section>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!--| Carousel |--------------------->
-            <div id="carousel">
-                <ul class="gallery" id="gallery-horror">
-                </ul>
-                <div class="carousel-buttons">
-                    <button class="left-button arrow stretch">&lt</button>
-                    <button class="right-button arrow stretch">&gt</button>
+                <!----------| Modal-Edit |------------------>
+                <div id="edit-modal" class="overlay">
+                    <div class="content">
+                        <div class="body">
+                            <div class="close-button">&times;</div>
+                            <div class="info">
+                                <img>
+                                <section class="button">
+                                    <label><input hidden type="checkbox" id="delete-button-check" name="delete-button-check"><span class="delete-button">&minus;</span></label>
+                                    <label><input hidden type="checkbox" id="watch-button-check" name="watch-button-check"><span class="watch-button">&#128065;</span></label>
+                                </section>
+                                <div class="stars">
+                                    <label><input hidden id="edit-star-one"     type="checkbox" value="1"><div class="edit-star">&#9733;</div></label>
+                                    <label><input hidden id="edit-star-two"     type="checkbox" value="2"><div class="edit-star">&#9733;</div></label>
+                                    <label><input hidden id="edit-star-three"   type="checkbox" value="3"><div class="edit-star">&#9733;</div></label>
+                                    <label><input hidden id="edit-star-four"    type="checkbox" value="4"><div class="edit-star">&#9733;</div></label>
+                                    <label><input hidden id="edit-star-five"    type="checkbox" value="5"><div class="edit-star">&#9733;</div></label>
+                                </div>
+                                <span class="title"></span>
+                                <span class="year"></span>
+                                <span class="runtime"></span>
+                                <span class="country"></span>
+                                <span class="language"></span>
+                                <span class="genre"></span>
+                                <span class="actors"></span>
+                                <span class="director"></span>
+                                <span class="writer"></span>
+                                <span class="overview"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <br><hr><br>
-
-            <!--| Watchlist |--------------------->
-            <div id="watchlist">
-                <div class="items"></div>
-            </div>
 
         </main>
         <footer></footer>
@@ -665,8 +849,8 @@
                     const horrorTMDBURL = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=27&sort_by=popularity.desc&language=en-US&page=1`;
                     //--| Action Movie URL|---------------------//
                     const actionTMDBURL = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=28&sort_by=popularity.desc&language=en-US&page=1`;
-                    //--| Comedy Movie URL|---------------------//
-                    const comedyTMDBURL = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=35&sort_by=popularity.desc&language=en-US&page=1`;
+                    //--| Documentary Movie URL|---------------------//
+                    const documentaryTMDBURL = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=99&sort_by=popularity.desc&language=en-US&page=1`;
                     //--| Animation Movie URL|---------------------//
                     const animationTMDBURL = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=16&sort_by=popularity.desc&language=en-US&page=1`;
                     //--| Drama Movie URL|---------------------//
@@ -675,11 +859,11 @@
                     //--| Promise: Movie Genres|---------------------//
                     const promiseHorrorMovies = fetch(horrorTMDBURL);
                     const promiseActionMovies = fetch(actionTMDBURL);
-                    const promiseComedyMovies = fetch(comedyTMDBURL);
+                    const promiseDocumentaryMovies = fetch(documentaryTMDBURL);
                     const promiseAnimationMovies = fetch(animationTMDBURL);
                     const promiseDramaMovies = fetch(dramaTMDBURL);
 
-                    Promise.all([promiseHorrorMovies, promiseActionMovies, promiseComedyMovies, promiseAnimationMovies,promiseDramaMovies])
+                    Promise.all([promiseHorrorMovies, promiseActionMovies, promiseDocumentaryMovies, promiseAnimationMovies,promiseDramaMovies])
                         .then(data => {
                             //--| Constant Variables |---------------------//
                             const posterTMDBURL = `https://image.tmdb.org/t/p/original`;
@@ -757,6 +941,19 @@
                                 // Instance Functions
                                 //--------------------------------//
 
+                                //--| Watchlist Logic |---------------//
+                                function showWatchlist(list) {
+                                    document.querySelector('#watchlist .items').innerHTML = '';
+                                    list.forEach((element, index) => {
+                                        document.querySelector('#watchlist .items').innerHTML += `
+                                            <div class="item" data-index="${index}">
+                                                <img src=${element.poster}>
+                                            </div>
+                                        `;
+                                    })
+                                    const items = document.getElementsByClassName("item");
+                                    Array.from(items).forEach(element => element.addEventListener("click", showEditMovieModel));
+                                }
                                 //--| Carousel Logic |-----------------//
                                 function getCurrentTranslateXValue (element) {
                                     var style = window.getComputedStyle(element);
@@ -799,6 +996,10 @@
                                     const posters = document.getElementsByClassName("poster");
                                     Array.from(posters).forEach(element => element.addEventListener("click", showAddMovieModal));
                                 }
+                                //--| Search Logic |-----------------//
+                                function showSearchPanel() {
+
+                                }                       //--| Not built yet.
                                 //--| Add Modal Logic |----------------//
                                 function showAddMovieModal(e){
                                     const poster = e.target.parentElement;
@@ -1016,19 +1217,6 @@
                                 function watchButtonToggle() {
                                     editModalWatchButton.classList.toggle("blue-button");
                                 }
-                                //--| Watchlist Logic |---------------//
-                                function showWatchlist(list) {
-                                    document.querySelector('#watchlist .items').innerHTML = '';
-                                    list.forEach((element, index) => {
-                                        document.querySelector('#watchlist .items').innerHTML += `
-                                            <div class="item" data-index="${index}">
-                                                <img src=${element.poster}>
-                                            </div>
-                                        `;
-                                    })
-                                    const items = document.getElementsByClassName("item");
-                                    Array.from(items).forEach(element => element.addEventListener("click", showEditMovieModel));
-                                }
 
                                 //--------------------------------//
                                 // Event Handlers
@@ -1039,6 +1227,10 @@
                                     if (event.target == addModal) { closeAddMovieModal(); };
                                     if (event.target == editModal) { closeEditMovieModal(); };
                                 });
+
+                                //--| Navbar |---------------------//
+                                document.querySelector('#navbar input').addEventListener('focus', (e) => { showSearchPanel(); });
+                                document.querySelector('#navbar input').addEventListener('blur', (e) => { e.target.value = ""; });
                                 //--| Carousel |---------------------//
                                 Array.from(leftButtons).forEach(element => element.addEventListener("click", moveCarouselLeft));
                                 Array.from(rightButtons).forEach(element => element.addEventListener("click", moveCarouselRight));
@@ -1056,8 +1248,12 @@
                                 // Sub-Main
                                 //--------------------------------//
 
-                                showCarousel('horror');
                                 showWatchlist(watchlist);
+                                showCarousel('action');
+                                showCarousel('documentary');
+                                showCarousel('horror');
+                                showCarousel('drama');
+                                showCarousel('animation');
 
                                 //--- Delete the following
                                 // movie-id: 801071 --> speci
