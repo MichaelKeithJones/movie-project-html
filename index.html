@@ -31,6 +31,8 @@
                 font-family: 'Montserrat', sans-serif;
             }
             body {
+                width: 100%;
+                min-height: 100vh;
                 background: black;
             }
 
@@ -39,18 +41,18 @@
             \*-------------------------*/
 
             #navbar {
-                padding: 30px 50px;
+                position: fixed;
+                width: 100%;
+                height: 250px;
+                padding: 0 50px;
+                z-index: 500;
+
+                background: linear-gradient(15deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 66%, rgba(78,78,78,1) 100%);
+
                 display: flex;
                 justify-content: space-between;
-                background: linear-gradient(15deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 66%, rgba(78,78,78,1) 100%);
-                position: fixed;
-                height: 250px;
-                width: 100%;
-                z-index: 500;
             }
-            #navbar .left-side {
-                display: flex;
-            }
+            #navbar .left-side { display: flex; }
             #navbar .brand{
                 color: white;
                 text-decoration: none;
@@ -68,13 +70,11 @@
             }
             #navbar ul {
                 list-style: none;
-
                 text-transform: uppercase;
                 font-size: 12px;
                 line-height: 20px;
                 font-weight: 500;
                 letter-spacing: 1px;
-
                 display: flex;
                 align-items: center;
             }
@@ -105,21 +105,19 @@
                 border: grey;
                 border-radius: 2px;
                 background: white url('./img/magnifying-glass.png') no-repeat 10px 10px;
-                transition: width 0.4s ease-in-out;
+                transition: width .75s ease-in-out;
                 outline: none;
                 padding-left: 50px;
             }
-            #navbar input[type=text]:focus{
-                width: 500px;
-            }
+            #navbar input[type=text]:focus{ width: 500px; }
 
             /*-------------------------*\
-            Content Container
+            Middle Section
             \*-------------------------*/
 
-            main>.content {
-                padding-top: 250px;
-                padding-left: 200px;
+            #middle {
+                display: grid;
+                grid-template-columns: 2fr 5fr;
             }
 
             /*-------------------------*\
@@ -127,15 +125,82 @@
             \*-------------------------*/
 
             #sidebar {
-                height: 100%;
-                width: 200px;
-                position: fixed;
-                z-index: 500;
-                top: 250px;
-                left: 0;
-                background-color: blue;
-                overflow-x: hidden;
+                display:inline-block;
                 padding-top: 250px;
+                height: 2100px;
+                background-color: blue;
+            }
+
+            /*-------------------------*\
+            Content
+            \*-------------------------*/
+
+            #content {
+                display:inline-block;
+                padding-top: 250px;
+                height: 2100px;
+                background: yellow;
+            }
+
+            /*-------------------------*\
+            Footer
+            \*-------------------------*/
+
+            footer{
+                display:inline-block;
+                width: 100%;
+                height: 200px;
+                background: green;
+            }
+
+            /*-------------------------*\
+            Hidden - Contents
+            \*-------------------------*/
+
+            .slide-content-left {
+                animation: content-slide-left 2s ease-in-out;
+            }
+            @keyframes content-slide-left {
+                0% { right: -100%; opacity: 0 }
+                100% { right: 0; opacity: 1 }
+            }
+
+            .slide-content-right {
+                animation: content-slide-right 2s ease-in-out;
+            }
+            @keyframes content-slide-right {
+                0% { right: 0; opacity: 1 }
+                100% {
+                    right: -100%;
+                    opacity: 0;
+                    display: none;
+                }
+            }
+
+            #browse {
+                display: none;
+                position: relative;
+                top: 0;
+                right: 0;
+                animation: content-slide-left 2s ease-in-out;
+            }
+
+            #watch {
+                display: none;
+                position: absolute;
+                top: 0;
+                right: 0%;
+                transform: translateX(100%);
+                animation: content-slide-left 2s ease-in-out;
+            }
+
+            #search {
+                display: none;
+                position: absolute;
+                top: 0;
+                right: -1500px;
+                padding-top: 250px;
+                transition: 3s;
             }
 
             /*-------------------------*\
@@ -161,9 +226,9 @@
             .carousel-container .title {
                 color: white;
                 font-size: 24px;
-                width: 200px;
+                width: 1200px;
                 padding-bottom: 5px;
-                margin-bottom: 10px;
+                margin: 0 auto 15px auto;
                 border-bottom: red solid 2px;
             }
             .carousel .gallery {
@@ -225,13 +290,21 @@
             Watchlist
             \*-------------------------*/
 
+            .watch .title {
+                color: white;
+                font-size: 24px;
+                width: 1100px;
+                padding-bottom: 5px;
+                margin: 0 auto 15px auto;
+                border-bottom: red solid 2px;
+            }
             #watchlist {
                 background-color: transparent;
             }
             #watchlist .items {
                 width: 100%;
                 display: grid;
-                grid-template-columns: repeat(auto-fit, 200px);
+                grid-template-columns: repeat(5, 200px);
                 grid-gap: 16px;
                 justify-content: center;
             }
@@ -425,7 +498,7 @@
                 position: fixed; /* Stay in place */
                 left: 0;
                 top: 0;
-                z-index: 50; /* Sit on top */
+                z-index: 1000; /* Sit on top */
 
                 width: 100%; /* Full width */
                 height: 100%; /* Full height */
@@ -642,17 +715,6 @@
             }
             #edit-modal .muted { color:rgb(87, 87, 87); }
 
-            /*-------------------------*\
-            Footer
-            \*-------------------------*/
-
-            #footer{
-                background: green;
-                padding-left: 200px;
-                width: 100%;
-                height: 200px;
-            }
-
         </style>
     </head>
     <body>
@@ -661,35 +723,34 @@
 
             <!--| Navbar |------------------------------>
 
-            <div id="navbar">
+            <nav id="navbar">
                 <div class="left-side">
                     <a class="brand" href="/" >
                         <img src="./img/logo.png" alt="" class="logo" />
                         <span class="title">Watchlist</span>
                     </a>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Browse</a></li>
+                        <li><a id="home-button" href="#">Home</a></li>
+                        <li><a id="browse-button" href="#">Browse</a></li>
                     </ul>
                 </div>
                 <div class="right-side">
                     <input type="text" placeholder="Enter title here...">
                 </div>
-            </div>
+            </nav>
 
-            <!--| Sidebar |----------------------------->
+            <div id="middle">
+                <!--| Sidebar |----------------------------->
 
-            <div id="sidebar">
+                <div id="sidebar"></div>
 
-            </div>
+                <!--| Right Panel |------------------------->
 
-            <!--| Right Panel |------------------------->
-
-            <main>
-                <!--| Carousel |---------------------------->
-                <div class="content">
-                    <div id="browse-container">
-                        <div class="carousel-container">
+                <div id="content">
+                    <!----------| Carousel |-------------------->
+                    <div id="browse">
+                        <div id="browse-container">
+                            <div class="carousel-container">
                                 <div class="title">Action</div>
                                 <div id="action" class="carousel">
                                     <ul class="gallery" id="gallery-action">
@@ -700,7 +761,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="carousel-container">
+                            <div class="carousel-container">
                                 <div class="title">Documentary</div>
                                 <div id="documentary" class="carousel">
                                     <ul class="gallery" id="gallery-documentary">
@@ -711,7 +772,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="carousel-container">
+                            <div class="carousel-container">
                                 <div class="title">Horror</div>
                                 <div id="horror" class="carousel">
                                     <ul class="gallery" id="gallery-horror">
@@ -722,7 +783,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="carousel-container">
+                            <div class="carousel-container">
                                 <div class="title">Drama</div>
                                 <div id="drama" class="carousel">
                                     <ul class="gallery" id="gallery-drama">
@@ -733,7 +794,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="carousel-container">
+                            <div class="carousel-container">
                                 <div class="title">Animation</div>
                                 <div id="animation" class="carousel">
                                     <ul class="gallery" id="gallery-animation">
@@ -744,26 +805,30 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <!----------| Watchlist |------------------->
+                    <div id="watch">
+                        <div class="title">The List</div>
+                        <div id="watchlist">
+                            <div class="items"></div>
+                        </div>
                     </div>
                 </div>
-                <!--| Watchlist |--------------------------->
-                <div class="content"hidden>
-                    <div id="watchlist">
-                        <div class="items"></div>
-                    </div>
-                </div>
-                <!--| Search |--------------------------->
-                <div class="content" hidden>
-                    <div id="search"></div>
-                </div>
-            </main>
-
-            <!--| Footer |--------------------->
-
-            <div id="footer">
             </div>
+            <!--| Footer |------------------------------>
 
+            <footer id="footer"></footer>
+
+        </main>
             <!--| Hidden - Modals|---------------------->
+
+
+
+                <!----------| Search |---------------------->
+                <div id="search">
+                    <div id="searchlist"></div>
+                </div>
 
                 <!----------| Modal-Add |------------------->
                 <div id="add-modal" class="overlay">
@@ -821,9 +886,6 @@
                         </div>
                     </div>
                 </div>
-
-        </main>
-        <footer></footer>
 
         <script src="./key.js"></script>
         <script>
@@ -965,6 +1027,8 @@
                                 const editModalStarRating = document.querySelectorAll('#edit-modal .stars input');
                                 const editModalDeleteButton = document.querySelector('#edit-modal .delete-button');
                                 const editModalWatchButton = document.querySelector('#edit-modal .watch-button');
+                                //--| Browse Modal |---------------------//
+                                const browseModal = document.getElementById("browse");
 
                                 //--------------------------------//
                                 // Instance Variables
@@ -1264,7 +1328,66 @@
                                     if (event.target == editModal) { closeEditMovieModal(); };
                                 });
 
-                                //--| Navbar |---------------------//
+                                 //--| Navbar |---------------------//
+                                // document.querySelector('#home-button').addEventListener('click', (e) => {
+                                //     document.querySelector('#sidebar').style.transform = "transform: translateX(-100%);";
+                                //
+                                //     document.querySelector('main>.watch').style.right = "50%";
+                                //     document.querySelector('main>.watch').style.transform = "translateX(50%)";
+                                //     document.querySelector('main>.watch').style.opacity = "1";
+                                //
+                                //     document.querySelector('main>.browse').style.right = "0";
+                                //     document.querySelector('main>.browse').style.transform = "translateX(100%)";
+                                //     document.querySelector('main>.browse').style.opacity = "0";
+                                // })
+                                // document.querySelector('#browse-button').addEventListener('click', (e) => {
+                                //     document.querySelector('#sidebar').style.width = "0";
+                                //
+                                //     document.querySelector('main>.watch').style.right = "0";
+                                //     document.querySelector('main>.watch').style.transform = "translateX(100%)";
+                                //     document.querySelector('main>.watch').style.opacity = "0";
+                                //
+                                //     document.querySelector('main>.browse').style.right = "50%";
+                                //     document.querySelector('main>.browse').style.transform = "translateX(50%)";
+                                //     document.querySelector('main>.browse').style.opacity = "1";
+                                //
+                                // })
+
+                                // document.querySelector('main>.watch').addEventListener('transitionend', () => {
+                                //     if (watchlistVisible === true) document.querySelector('main>.watch').style.display = 'block';
+                                //     else document.querySelector('main>.watch').style.display = 'none';
+                                //     if (browselistVisible === true) document.querySelector('main>.browse').style.display = 'block';
+                                //     else document.querySelector('main>.browse').style.display = 'none';
+                                // });
+                                // document.querySelector('main>.browse').addEventListener('transitionend', () => {
+                                //     if (browselistVisible === true) document.querySelector('main>.browse').style.display = 'none';
+                                //     else document.querySelector('main>.browse').style.display = 'block';
+                                //     if (watchlistVisible === true) document.querySelector('main>.watch').style.display = 'none';
+                                //     else document.querySelector('main>.watch').style.display = 'block';
+                                // });
+                                // document.querySelector('main>.search').addEventListener('transitionend', () => {
+                                //     if (watchlistVisible === true) document.querySelector('main>.browse').style.display = 'block';
+                                //     else document.querySelector('main>.browse').style.display = 'none';
+                                // });
+
+                                // let browselistVisible = false;
+
+                                document.querySelector('#browse-button').addEventListener('click', (e) => {
+                                    browseModal.style.animation = 'content-slide-left 2s ease-in-out';
+                                    browseModal.style.display = 'block';
+                                    // browselistVisible = true;
+                                });
+                                document.querySelector('#home-button').addEventListener('click', (e) => {
+                                    browseModal.style.animation = 'content-slide-right 2s ease-in-out';
+//                                    browseModal.style.display = 'none';
+
+                                });
+
+                                // browseModal.addEventListener('transitionend', (e) => {
+                                //     console.log('ended');
+                                //     if (!browselistVisible) browseModal.style.display = 'none';
+                                // });
+
                                 document.querySelector('#navbar input').addEventListener('focus', (e) => { showSearchPanel(); });
                                 document.querySelector('#navbar input').addEventListener('blur', (e) => { e.target.value = ""; });
                                 //--| Carousel |---------------------//
