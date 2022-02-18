@@ -20,9 +20,11 @@
             \*-------------------------*/
 
             :root{
+                --navbar-height: 250px;
                 --poster-height: 300px;
                 --add-modal-height: 650px;
                 --edit-modal-height: 550px;
+                --transition-timing: 2s;
             }
             * {
                 box-sizing: border-box;
@@ -117,7 +119,8 @@
 
             #middle {
                 display: grid;
-                grid-template-columns: 2fr 5fr;
+                grid-template-columns: 1fr 5fr;
+                transition: var(--transition-timing) ease;
             }
 
             /*-------------------------*\
@@ -125,10 +128,55 @@
             \*-------------------------*/
 
             #sidebar {
-                display:inline-block;
-                padding-top: 250px;
+                position: relative;
+                padding-top: var(--navbar-height);
                 height: 2100px;
                 background-color: blue;
+            }
+
+            /*-------------------------*\
+            Sidebar - Hidden
+            \*-------------------------*/
+
+            #menu {
+                position: absolute;
+                top: 250px;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: calc(100% - var(--navbar-height));
+                overflow: hidden;
+                transition:  var(--transition-timing) ease;
+                color: white;
+                opacity: 1;
+                padding-right: 20px;
+            }
+            #menu .sub-section {
+                margin-bottom: 25px;
+                display: flex;
+                flex-direction: column;
+            }
+            #menu .title {
+                align-self: end;
+                color: white;
+                font-size: 24px;
+                width: 100px;
+                padding-bottom: 5px;
+                border-bottom: red solid 2px;
+            }
+            #menu ul {
+                list-style: none;
+                align-self: end;
+            }
+            #menu li {
+                margin: 10px 0;
+                /*text-align: end;*/
+            }
+            #menu li:hover {
+                color: rgba(199, 88, 88, 0.6);
+                background-color: transparent;
+                transition: 0.25s;
+                cursor: pointer;
             }
 
             /*-------------------------*\
@@ -136,10 +184,48 @@
             \*-------------------------*/
 
             #content {
+                position: relative;
                 display:inline-block;
-                padding-top: 250px;
+                padding: var(--navbar-height);
                 height: 2100px;
                 background: yellow;
+            }
+
+            /*-------------------------*\
+            Contents - Hidden
+            \*-------------------------*/
+            #browse {
+                position: absolute;
+                top: 250px;
+                right: 0;
+                bottom: 0;
+                width: 0;
+                height: calc(100% - var(--navbar-height));
+                overflow: hidden;
+                transition:  var(--transition-timing) ease;
+                opacity: 0;
+            }
+            #watch {
+                position: absolute;
+                top: 250px;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: calc(100% - var(--navbar-height));
+                overflow: hidden;
+                transition:  var(--transition-timing) ease;
+                opacity: 1;
+            }
+            #search {
+                position: absolute;
+                top: 250px;
+                right: 0;
+                bottom: 0;
+                width: 0;
+                height: calc(100% - var(--navbar-height));
+                overflow: hidden;
+                transition:  var(--transition-timing) ease;
+                opacity: 0;
             }
 
             /*-------------------------*\
@@ -147,60 +233,13 @@
             \*-------------------------*/
 
             footer{
-                display:inline-block;
+                position: relative;
+                bottom: 0;
+                left: 0;
+                right: 0;
                 width: 100%;
                 height: 200px;
                 background: green;
-            }
-
-            /*-------------------------*\
-            Hidden - Contents
-            \*-------------------------*/
-
-            .slide-content-left {
-                animation: content-slide-left 2s ease-in-out;
-            }
-            @keyframes content-slide-left {
-                0% { right: -100%; opacity: 0 }
-                100% { right: 0; opacity: 1 }
-            }
-
-            .slide-content-right {
-                animation: content-slide-right 2s ease-in-out;
-            }
-            @keyframes content-slide-right {
-                0% { right: 0; opacity: 1 }
-                100% {
-                    right: -100%;
-                    opacity: 0;
-                    display: none;
-                }
-            }
-
-            #browse {
-                display: none;
-                position: relative;
-                top: 0;
-                right: 0;
-                animation: content-slide-left 2s ease-in-out;
-            }
-
-            #watch {
-                display: none;
-                position: absolute;
-                top: 0;
-                right: 0%;
-                transform: translateX(100%);
-                animation: content-slide-left 2s ease-in-out;
-            }
-
-            #search {
-                display: none;
-                position: absolute;
-                top: 0;
-                right: -1500px;
-                padding-top: 250px;
-                transition: 3s;
             }
 
             /*-------------------------*\
@@ -290,23 +329,23 @@
             Watchlist
             \*-------------------------*/
 
-            .watch .title {
+            #watch .title {
                 color: white;
                 font-size: 24px;
-                width: 1100px;
+                width: 1200px;
                 padding-bottom: 5px;
                 margin: 0 auto 15px auto;
                 border-bottom: red solid 2px;
             }
             #watchlist {
+                width: 1064px;
                 background-color: transparent;
+                margin: 0 auto;
             }
             #watchlist .items {
-                width: 100%;
                 display: grid;
                 grid-template-columns: repeat(5, 200px);
                 grid-gap: 16px;
-                justify-content: center;
             }
             #watchlist .item {
                 display: inline-block;
@@ -321,6 +360,29 @@
             #watchlist img{
                 width: 100%;
                 height: 100%;
+            }
+
+            /*-------------------------*\
+            Searchlist
+            \*-------------------------*/
+
+            #search .title {
+                color: white;
+                font-size: 24px;
+                width: 1200px;
+                padding-bottom: 5px;
+                margin: 0 auto 15px auto;
+                border-bottom: red solid 2px;
+            }
+            #searchlist {
+                width: 1064px;
+                background-color: transparent;
+                margin: 0 auto;
+            }
+            #searchlist .results {
+                display: grid;
+                grid-template-columns: repeat(5, 200px);
+                grid-gap: 16px;
             }
 
             /*-------------------------*\
@@ -742,7 +804,26 @@
             <div id="middle">
                 <!--| Sidebar |----------------------------->
 
-                <div id="sidebar"></div>
+                <div id="sidebar">
+                    <div id="menu">
+                        <section class="sub-section">
+                            <div class="title">Sort</div>
+                            <ul>
+                                <li id="sort-rating">Rating</li>
+                                <li id="sort-title">Title</li>
+                                <li id="sort-genre">Genre</li>
+                            </ul>
+                        </section>
+                        <section class="sub-section">
+                            <div class="title">Filter</div>
+                            <ul>
+                                <li id="filter-rating">Rating</li>
+                                <li id="filter-title">Title</li>
+                                <li id="filter-genre">Genre</li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
 
                 <!--| Right Panel |------------------------->
 
@@ -814,6 +895,13 @@
                             <div class="items"></div>
                         </div>
                     </div>
+                    <!----------| Search |---------------------->
+                    <div id="search">
+                        <div class="title">Search Results</div>
+                        <div id="searchlist">
+                            <div class="results"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--| Footer |------------------------------>
@@ -822,13 +910,6 @@
 
         </main>
             <!--| Hidden - Modals|---------------------->
-
-
-
-                <!----------| Search |---------------------->
-                <div id="search">
-                    <div id="searchlist"></div>
-                </div>
 
                 <!----------| Modal-Add |------------------->
                 <div id="add-modal" class="overlay">
@@ -1027,8 +1108,14 @@
                                 const editModalStarRating = document.querySelectorAll('#edit-modal .stars input');
                                 const editModalDeleteButton = document.querySelector('#edit-modal .delete-button');
                                 const editModalWatchButton = document.querySelector('#edit-modal .watch-button');
-                                //--| Browse Modal |---------------------//
+                                //--| Watchlist Modal |---------------------//
+                                const watchModal = document.getElementById("watch");
+                                //--| Browselist Modal |---------------------//
                                 const browseModal = document.getElementById("browse");
+                                //--| Searchlist Modal |---------------------//
+                                const searchModal = document.getElementById("search");
+                                //--| Menu Modal |---------------------//
+                                const menuModal = document.getElementById("menu");
 
                                 //--------------------------------//
                                 // Instance Variables
@@ -1097,9 +1184,9 @@
                                     Array.from(posters).forEach(element => element.addEventListener("click", showAddMovieModal));
                                 }
                                 //--| Search Logic |-----------------//
-                                function showSearchPanel() {
-
-                                }                       //--| Not built yet.
+                                function showSearchlist(title) {
+                                    console.log(title);
+                                }
                                 //--| Add Modal Logic |----------------//
                                 function showAddMovieModal(e){
                                     const poster = e.target.parentElement;
@@ -1353,42 +1440,55 @@
                                 //
                                 // })
 
-                                // document.querySelector('main>.watch').addEventListener('transitionend', () => {
-                                //     if (watchlistVisible === true) document.querySelector('main>.watch').style.display = 'block';
-                                //     else document.querySelector('main>.watch').style.display = 'none';
-                                //     if (browselistVisible === true) document.querySelector('main>.browse').style.display = 'block';
-                                //     else document.querySelector('main>.browse').style.display = 'none';
-                                // });
-                                // document.querySelector('main>.browse').addEventListener('transitionend', () => {
-                                //     if (browselistVisible === true) document.querySelector('main>.browse').style.display = 'none';
-                                //     else document.querySelector('main>.browse').style.display = 'block';
-                                //     if (watchlistVisible === true) document.querySelector('main>.watch').style.display = 'none';
-                                //     else document.querySelector('main>.watch').style.display = 'block';
-                                // });
-                                // document.querySelector('main>.search').addEventListener('transitionend', () => {
-                                //     if (watchlistVisible === true) document.querySelector('main>.browse').style.display = 'block';
-                                //     else document.querySelector('main>.browse').style.display = 'none';
-                                // });
+                                document.querySelector('#home-button').addEventListener('click', (e) => {
+                                    document.querySelector('#middle').style.gridTemplateColumns = '1fr 5fr'
 
-                                // let browselistVisible = false;
+                                    watchModal.style.width = '100%';
+                                    watchModal.style.opacity = '1';
+
+                                    menuModal.style.width = '100%';
+                                    menuModal.style.opacity = '1';
+
+                                    browseModal.style.width = '0';
+                                    browseModal.style.opacity = '0';
+
+                                    searchModal.style.width = '0';
+                                    searchModal.style.opacity = '0';
+                                });
 
                                 document.querySelector('#browse-button').addEventListener('click', (e) => {
-                                    browseModal.style.animation = 'content-slide-left 2s ease-in-out';
-                                    browseModal.style.display = 'block';
-                                    // browselistVisible = true;
+                                    document.querySelector('#middle').style.gridTemplateColumns = '0fr 5fr'
+
+                                    watchModal.style.width = '0';
+                                    watchModal.style.opacity = '0';
+
+                                    menuModal.style.width = '0';
+                                    menuModal.style.opacity = '0';
+
+                                    browseModal.style.width = '100%';
+                                    browseModal.style.opacity = '1';
+
+                                    searchModal.style.width = '0';
+                                    searchModal.style.opacity = '0';
                                 });
-                                document.querySelector('#home-button').addEventListener('click', (e) => {
-                                    browseModal.style.animation = 'content-slide-right 2s ease-in-out';
-//                                    browseModal.style.display = 'none';
+
+
+                                document.querySelector('#navbar input').addEventListener('focus', (e) => {
+                                    document.querySelector('#middle').style.gridTemplateColumns = '0fr 5fr'
+
+                                    watchModal.style.width = '0';
+                                    watchModal.style.opacity = '0';
+
+                                    menuModal.style.width = '0';
+                                    menuModal.style.opacity = '0';
+
+                                    browseModal.style.width = '0';
+                                    browseModal.style.opacity = '0';
+
+                                    searchModal.style.width = '100%';
+                                    searchModal.style.opacity = '1';
 
                                 });
-
-                                // browseModal.addEventListener('transitionend', (e) => {
-                                //     console.log('ended');
-                                //     if (!browselistVisible) browseModal.style.display = 'none';
-                                // });
-
-                                document.querySelector('#navbar input').addEventListener('focus', (e) => { showSearchPanel(); });
                                 document.querySelector('#navbar input').addEventListener('blur', (e) => { e.target.value = ""; });
                                 //--| Carousel |---------------------//
                                 Array.from(leftButtons).forEach(element => element.addEventListener("click", moveCarouselLeft));
