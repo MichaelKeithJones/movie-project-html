@@ -384,6 +384,20 @@
                 grid-template-columns: repeat(5, 200px);
                 grid-gap: 16px;
             }
+            #searchlist .result {
+                display: inline-block;
+                width: 200px;
+                height: 300px;
+                height:  var(--poster-height);
+                background-color: transparent;
+            }
+            #searchlist .result:hover {
+                cursor: pointer;
+            }
+            #searchlist img{
+                width: 100%;
+                height: 100%;
+            }
 
             /*-------------------------*\
             Add Modal
@@ -1063,7 +1077,7 @@
                                             id: index,
                                             language: convertTMDBLanguage(movie.original_language),
                                             overview: movie.overview,
-                                            poster: posterTMDBURL + movie.poster_path,
+                                            poster: (posterTMDBURL + movie.poster_path) == 'https://image.tmdb.org/t/p/originalnull' ? `https://dummyimage.com/200x300/000/fff` : posterTMDBURL + movie.poster_path,
                                             title: movie.title,
                                             year: convertTMDBDate(movie.release_date),
                                             tmdb: movie.id
@@ -1185,7 +1199,40 @@
                                 }
                                 //--| Search Logic |-----------------//
                                 function showSearchlist(title) {
-                                    console.log(title);
+                                    const searchTMDBURL = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${title.toLowerCase().split(' ').join('+')}`
+                                    fetch(searchTMDBURL)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            const searchElement = document.querySelector("#searchlist .results");
+                                            if (data.results.length !== 0) {
+                                                let searchlist = {};
+                                                data.results.forEach((movie, index) => {
+                                                    searchlist[`${index}`] = {
+                                                        backdrop: posterTMDBURL + movie.backdrop_path,
+                                                        genre: convertTMDBGenreIDS(movie.genre_ids),
+                                                        id: index,
+                                                        language: convertTMDBLanguage(movie.original_language),
+                                                        overview: movie.overview,
+                                                        poster: (posterTMDBURL + movie.poster_path) == 'https://image.tmdb.org/t/p/originalnull' ? `https://dummyimage.com/200x300/000/fff` : posterTMDBURL + movie.poster_path,
+                                                        title: movie.title,
+                                                        year: convertTMDBDate(movie.release_date),
+                                                        tmdb: movie.id
+                                                    };
+                                                })
+                                                browselist['search'] = searchlist;
+                                                searchElement.innerHTML = "";
+                                                for (const key in searchlist) {
+                                                        searchElement.innerHTML += `
+                                                        <div class="result" data-id="${searchlist[key].id}" data-genre="search">
+                                                            <img src=${searchlist[key].poster}>
+                                                        </div>
+                                                    `;
+                                                }
+                                                const results = document.getElementsByClassName("result");
+                                                Array.from(results).forEach(element => element.addEventListener("click", showAddMovieModal));
+                                            } else { searchElement.innerHTML = `<h2 style="color: white">No results</h2>`; }
+                                        })
+                                        .catch(err => console.log(err));
                                 }
                                 //--| Add Modal Logic |----------------//
                                 function showAddMovieModal(e){
@@ -1442,54 +1489,50 @@
 
                                 document.querySelector('#home-button').addEventListener('click', (e) => {
                                     document.querySelector('#middle').style.gridTemplateColumns = '1fr 5fr'
-
                                     watchModal.style.width = '100%';
                                     watchModal.style.opacity = '1';
-
                                     menuModal.style.width = '100%';
                                     menuModal.style.opacity = '1';
-
                                     browseModal.style.width = '0';
                                     browseModal.style.opacity = '0';
-
                                     searchModal.style.width = '0';
                                     searchModal.style.opacity = '0';
+                                    if (browselist.search) {
+                                        document.querySelector('#searchlist .results').innerHTML = "";
+                                        delete browselist.search;
+                                    }
                                 });
-
                                 document.querySelector('#browse-button').addEventListener('click', (e) => {
                                     document.querySelector('#middle').style.gridTemplateColumns = '0fr 5fr'
-
                                     watchModal.style.width = '0';
                                     watchModal.style.opacity = '0';
-
                                     menuModal.style.width = '0';
                                     menuModal.style.opacity = '0';
-
                                     browseModal.style.width = '100%';
                                     browseModal.style.opacity = '1';
-
                                     searchModal.style.width = '0';
                                     searchModal.style.opacity = '0';
+                                    if (browselist.search) {
+                                        document.querySelector('#searchlist .results').innerHTML = "";
+                                        delete browselist.search;
+                                    }
                                 });
-
-
                                 document.querySelector('#navbar input').addEventListener('focus', (e) => {
                                     document.querySelector('#middle').style.gridTemplateColumns = '0fr 5fr'
-
                                     watchModal.style.width = '0';
                                     watchModal.style.opacity = '0';
-
                                     menuModal.style.width = '0';
                                     menuModal.style.opacity = '0';
-
                                     browseModal.style.width = '0';
                                     browseModal.style.opacity = '0';
-
                                     searchModal.style.width = '100%';
                                     searchModal.style.opacity = '1';
-
                                 });
+                                document.querySelector('#navbar input').addEventListener('keyup', (e) => {
+                                    if (e.keyCode === 13) showSearchlist(document.querySelector('#navbar input').value);
+                                })
                                 document.querySelector('#navbar input').addEventListener('blur', (e) => { e.target.value = ""; });
+
                                 //--| Carousel |---------------------//
                                 Array.from(leftButtons).forEach(element => element.addEventListener("click", moveCarouselLeft));
                                 Array.from(rightButtons).forEach(element => element.addEventListener("click", moveCarouselRight));
@@ -1513,15 +1556,6 @@
                                 showCarousel('horror');
                                 showCarousel('drama');
                                 showCarousel('animation');
-
-                                //--- Delete the following
-                                // movie-id: 801071 --> speci
-                                // fetch(`https://api.themoviedb.org/3/movie/801071?api_key=${TMDB_API_KEY}&append_to_response=credits`)
-                                // fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_crew=240&with_keywords=720`)
-                                // fetch(`http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=ring&page=2`) // Keyword Search
-                                //     .then(response => response.json())
-                                //     .then(data => console.log(data))
-                                //     .catch(err => console.log(err));
                             })
                         }).catch(err => console.log(err));
                 }
