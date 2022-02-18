@@ -1077,7 +1077,7 @@
                                             id: index,
                                             language: convertTMDBLanguage(movie.original_language),
                                             overview: movie.overview,
-                                            poster: (posterTMDBURL + movie.poster_path) == 'https://image.tmdb.org/t/p/originalnull' ? `https://dummyimage.com/200x300/000/fff` : posterTMDBURL + movie.poster_path,
+                                            poster: (posterTMDBURL + movie.poster_path) == 'https://image.tmdb.org/t/p/originalnull' ? `https://dummyimage.com/200x300/000/fff&text=No+Image+Found` : posterTMDBURL + movie.poster_path,
                                             title: movie.title,
                                             year: convertTMDBDate(movie.release_date),
                                             tmdb: movie.id
@@ -1143,9 +1143,15 @@
                                 //--------------------------------//
 
                                 //--| Watchlist Logic |---------------//
-                                function showWatchlist(list) {
+                                function processWatchlist() {
+                                    let temp = watchlist;
+                                    temp.forEach((element, index, array) => { array[index].actors = element.actors.split(', ').filter((element, index) => index < 4).join(', '); });
+                                    watchlist = temp;
+                                }
+                                function showWatchlist() {
+                                    processWatchlist();
                                     document.querySelector('#watchlist .items').innerHTML = '';
-                                    list.forEach((element, index) => {
+                                    watchlist.forEach((element, index) => {
                                         document.querySelector('#watchlist .items').innerHTML += `
                                             <div class="item" data-index="${index}">
                                                 <img src=${element.poster}>
@@ -1213,7 +1219,7 @@
                                                         id: index,
                                                         language: convertTMDBLanguage(movie.original_language),
                                                         overview: movie.overview,
-                                                        poster: (posterTMDBURL + movie.poster_path) == 'https://image.tmdb.org/t/p/originalnull' ? `https://dummyimage.com/200x300/000/fff` : posterTMDBURL + movie.poster_path,
+                                                        poster: (posterTMDBURL + movie.poster_path) == 'https://image.tmdb.org/t/p/originalnull' ? `https://dummyimage.com/200x300/000/fff&text=No+Image+Found` : posterTMDBURL + movie.poster_path,
                                                         title: movie.title,
                                                         year: convertTMDBDate(movie.release_date),
                                                         tmdb: movie.id
@@ -1550,7 +1556,7 @@
                                 // Sub-Main
                                 //--------------------------------//
 
-                                showWatchlist(watchlist);
+                                showWatchlist();
                                 showCarousel('action');
                                 showCarousel('documentary');
                                 showCarousel('horror');
