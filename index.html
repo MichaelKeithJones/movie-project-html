@@ -21,6 +21,7 @@
 
             :root{
                 --navbar-height: 200px;
+                --content-height: 2050px;
                 --poster-height: 300px;
                 --add-modal-height: 650px;
                 --edit-modal-height: 550px;
@@ -130,7 +131,7 @@
             #sidebar {
                 position: relative;
                 padding-top: var(--navbar-height);
-                height: 2100px;
+                height: var( --content-height);
                 background-color: blue;
             }
 
@@ -164,28 +165,9 @@
                 padding-bottom: 5px;
                 border-bottom: red solid 2px;
             }
-            /*#menu ul {*/
-            /*    list-style: none;*/
-            /*    align-self: end;*/
-            /*}*/
-            /*#menu li {*/
-            /*    margin: 10px 0;*/
-            /*    !*text-align: end;*!*/
-            /*}*/
-            /*#menu li:hover {*/
-            /*    color: rgba(199, 88, 88, 0.6);*/
-            /*    background-color: transparent;*/
-            /*    transition: 0.25s;*/
-            /*    cursor: pointer;*/
-            /*}*/
 
-            #filter-rating,
-            #filter-title,
-            #filter-genre{ display: none; }
-
-            #filter-rating + label,
-            #filter-title + label,
-            #filter-genre + label {
+            #filter-watched{ display: none; }
+            #filter-watched + label {
                 align-self: end;
                 margin-top: 10px;
                 color: white;
@@ -193,16 +175,10 @@
                 transition: 0.25s;
                 cursor: pointer;
             }
-
-            #filter-rating + label:hover,
-            #filter-title + label:hover,
-            #filter-genre + label:hover {
+            #filter-watched + label:hover {
                 color: rgba(199, 88, 88, 0.6);
             }
-
-            #filter-rating:checked + label,
-            #filter-title:checked + label,
-            #filter-genre:checked + label {
+            #filter-watched:checked + label {
                 font-weight: 600;
                 color:white;
             }
@@ -224,6 +200,49 @@
                 color:white;
             }
 
+            .dropdown {
+                position: relative;
+                display: inline-block;
+                margin-top: 10px;
+                align-self: end;
+            }
+            .dropdown a{
+                text-decoration: none;
+            }
+            .dropdown-button {
+                color: white;
+                background-color: #4CAF50;
+                border-left: 2px solid rgba(199, 88, 88, 0.6);
+                cursor: pointer;
+            }
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                top: 20px;
+                right: 0;
+                background-color: #f9f9f9;
+                min-width: 175px;
+                z-index: 5;
+            }
+            .dropdown-content a {
+                color: black;
+                padding: 6px 0 6px 26px;
+                text-decoration: none;
+                display: block;
+            }
+            .dropdown-content a:hover {
+                background-color: #f1f1f1;
+                padding-left: 6px;
+                border-left: 2px solid rgba(199, 88, 88, 0.6);
+                transition: all 0.3s ease;
+            }
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+            .dropdown:hover .dropdown-button {
+                background-color: #3e8e41;
+            }
+
             /*-------------------------*\
             Content
             \*-------------------------*/
@@ -232,7 +251,7 @@
                 position: relative;
                 display:inline-block;
                 padding: var(--navbar-height);
-                height: 2100px;
+                height: var( --content-height);
                 background: yellow;
             }
 
@@ -873,9 +892,27 @@
                         </section>
                         <section class="sub-section">
                             <div class="title">Filter</div>
-                            <input id="filter-rating" type="checkbox">  <label class="check" for="filter-rating">Rating</label>
-                            <input id="filter-title" type="checkbox">   <label class="check" for="filter-title">Title</label>
-                            <input id="filter-genre" type="checkbox">   <label class="check" for="filter-genre">Genre</label>
+                            <input id="filter-watched" type="checkbox">  <label class="check" for="filter-watched">Watched</label>
+                            <div class="dropdown">
+                                <a class="dropdown-button" href="#">Rating &dtrif;</a>
+                                <div id="filter-rating" class="dropdown-content">
+                                    <a href="#">&#9733;</a>
+                                    <a href="#">&#9733;&#9733;</a>
+                                    <a href="#">&#9733;&#9733;&#9733;</a>
+                                    <a href="#">&#9733;&#9733;&#9733;&#9733;</a>
+                                    <a href="#">&#9733;&#9733;&#9733;&#9733;&#9733;</a>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-button" href="#">Genre &dtrif;</a>
+                                <div id="filter-genre" class="dropdown-content">
+                                    <a href="#">Action</a>
+                                    <a href="#">Animation</a>
+                                    <a href="#">Documentary</a>
+                                    <a href="#">Drama</a>
+                                    <a href="#">Horror</a>
+                                </div>
+                            </div>
                         </section>
                     </div>
                 </div>
@@ -1169,6 +1206,9 @@
                                 const searchModal = document.getElementById("search");
                                 //--| Menu Modal |---------------------//
                                 const menuModal = document.getElementById("menu");
+                                const watchButton = document.getElementById('filter-watched');
+                                const ratingDropdown = document.querySelectorAll('#filter-rating a');
+                                const genreDropdown = document.querySelectorAll('#filter-genre a');
 
                                 //--------------------------------//
                                 // Instance Variables
@@ -1177,28 +1217,49 @@
                                 let browselist = data[0];
                                 let watchlist = data[1];
 
-                                let sortFlag = "title";
-                                let filterTitleFlag = false;
-                                let filterGenreFlag = false;
-                                let filterRatingFlag = false;
+                                let sortFlag;
+                                let watchedFilter;
+                                let ratingFilter;
+                                let genreFilter;
 
                                 //--------------------------------//
                                 // Instance Functions
                                 //--------------------------------//
 
                                 //--| Watchlist Logic |---------------//
-                                function filterAndSortWatchlist() {
-                                    let finalList = watchlist;
+                                function resetWatchlist(){
+                                    document.querySelector('#sort-rating').checked = false;
+                                    document.querySelector('#sort-genre').checked = false;
+                                    document.querySelector('#sort-title').checked = false;
+                                    sortFlag = "";
+                                    watchedFilter = false;
+                                    ratingFilter = "";
+                                    genreFilter = "";
+                                }
+                                function filterAndSortWatchlist(e) {
+                                    let filterAndSortedList = watchlist.map(a => {return {...a}});
+                                    switch (sortFlag) {
+                                        case 'rating': filterAndSortedList.sort((a, b) => a.rating < b.rating); break;
+                                        case 'title': filterAndSortedList.sort((a, b) => a.title > b.title); break;
+                                        case 'genre': filterAndSortedList.sort((a, b) => a.genre > b.genre); break;
+                                        default: break;
+                                    }
+
+                                    if (watchedFilter) filterAndSortedList = filterAndSortedList.filter(element => element.watched === true);
+                                    if (ratingFilter !== "") filterAndSortedList = filterAndSortedList.filter(element => element.rating === ratingFilter.length);
+                                    if (genreFilter !== "") filterAndSortedList = filterAndSortedList.filter(element => element.genre.includes(genreFilter));
+
+                                    showWatchlist(filterAndSortedList);
                                 }
                                 function processWatchlist() {
                                     let temp = watchlist;
                                     temp.forEach((element, index, array) => { array[index].actors = element.actors.split(', ').filter((element, index) => index < 4).join(', '); });
                                     watchlist = temp;
                                 }
-                                function showWatchlist() {
+                                function showWatchlist(list) {
                                     processWatchlist();
                                     document.querySelector('#watchlist .items').innerHTML = '';
-                                    watchlist.forEach((element, index) => {
+                                    list.forEach((element, index) => {
                                         document.querySelector('#watchlist .items').innerHTML += `
                                             <div class="item" data-index="${index}">
                                                 <img src=${element.poster}>
@@ -1354,7 +1415,7 @@
                                                     rating = index + 1;
                                             });
 
-                                            const value = (watchlist === []) ? (watchlist[watchlist.length - 1].id + 1) : 1;
+                                            const value = (watchlist.length === 0) ? 1 : (watchlist[watchlist.length - 1].id + 1);
                                             const movieObj = {
                                                 title: movie.title,
                                                 poster: movie.poster,
@@ -1514,33 +1575,10 @@
                                     if (event.target == addModal) { closeAddMovieModal(); };
                                     if (event.target == editModal) { closeEditMovieModal(); };
                                 });
-
-                                 //--| Navbar |---------------------//
-                                // document.querySelector('#home-button').addEventListener('click', (e) => {
-                                //     document.querySelector('#sidebar').style.transform = "transform: translateX(-100%);";
-                                //
-                                //     document.querySelector('main>.watch').style.right = "50%";
-                                //     document.querySelector('main>.watch').style.transform = "translateX(50%)";
-                                //     document.querySelector('main>.watch').style.opacity = "1";
-                                //
-                                //     document.querySelector('main>.browse').style.right = "0";
-                                //     document.querySelector('main>.browse').style.transform = "translateX(100%)";
-                                //     document.querySelector('main>.browse').style.opacity = "0";
-                                // })
-                                // document.querySelector('#browse-button').addEventListener('click', (e) => {
-                                //     document.querySelector('#sidebar').style.width = "0";
-                                //
-                                //     document.querySelector('main>.watch').style.right = "0";
-                                //     document.querySelector('main>.watch').style.transform = "translateX(100%)";
-                                //     document.querySelector('main>.watch').style.opacity = "0";
-                                //
-                                //     document.querySelector('main>.browse').style.right = "50%";
-                                //     document.querySelector('main>.browse').style.transform = "translateX(50%)";
-                                //     document.querySelector('main>.browse').style.opacity = "1";
-                                //
-                                // })
-
+                                //--| Navbar |---------------------//
                                 document.querySelector('#home-button').addEventListener('click', (e) => {
+                                    resetWatchlist();
+                                    showWatchlist(watchlist);
                                     document.querySelector('#middle').style.gridTemplateColumns = '1fr 5fr'
                                     watchModal.style.width = '100%';
                                     watchModal.style.opacity = '1';
@@ -1585,7 +1623,23 @@
                                     if (e.keyCode === 13) showSearchlist(document.querySelector('#navbar input').value);
                                 })
                                 document.querySelector('#navbar input').addEventListener('blur', (e) => { e.target.value = ""; });
-
+                                //--| Sidebar |---------------------//
+                                document.querySelectorAll('#sidebar input[type="radio"]').forEach(element => element.addEventListener('change', e => {
+                                    sortFlag = e.target.value;
+                                    filterAndSortWatchlist(e);
+                                }));
+                                watchButton.addEventListener('click', e => {
+                                    watchedFilter = e.target.checked;
+                                    filterAndSortWatchlist(e);
+                                });
+                                ratingDropdown.forEach(element => element.addEventListener('click', e => {
+                                    ratingFilter = e.target.innerText;
+                                    filterAndSortWatchlist(e);
+                                }));
+                                genreDropdown.forEach(element => element.addEventListener('click', e => {
+                                    genreFilter = e.target.innerText;
+                                    filterAndSortWatchlist(e);
+                                }));
                                 //--| Carousel |---------------------//
                                 Array.from(leftButtons).forEach(element => element.addEventListener("click", moveCarouselLeft));
                                 Array.from(rightButtons).forEach(element => element.addEventListener("click", moveCarouselRight));
@@ -1603,7 +1657,8 @@
                                 // Sub-Main
                                 //--------------------------------//
 
-                                showWatchlist();
+                                resetWatchlist();
+                                showWatchlist(watchlist);
                                 showCarousel('action');
                                 showCarousel('documentary');
                                 showCarousel('horror');
