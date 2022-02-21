@@ -20,7 +20,7 @@
             \*-------------------------*/
 
             :root{
-                --navbar-height: 250px;
+                --navbar-height: 200px;
                 --poster-height: 300px;
                 --add-modal-height: 650px;
                 --edit-modal-height: 550px;
@@ -45,7 +45,7 @@
             #navbar {
                 position: fixed;
                 width: 100%;
-                height: 250px;
+                height: var(--navbar-height);
                 padding: 0 50px;
                 z-index: 500;
 
@@ -140,7 +140,7 @@
 
             #menu {
                 position: absolute;
-                top: 250px;
+                top: var(--navbar-height);
                 left: 0;
                 bottom: 0;
                 width: 100%;
@@ -164,19 +164,64 @@
                 padding-bottom: 5px;
                 border-bottom: red solid 2px;
             }
-            #menu ul {
-                list-style: none;
+            /*#menu ul {*/
+            /*    list-style: none;*/
+            /*    align-self: end;*/
+            /*}*/
+            /*#menu li {*/
+            /*    margin: 10px 0;*/
+            /*    !*text-align: end;*!*/
+            /*}*/
+            /*#menu li:hover {*/
+            /*    color: rgba(199, 88, 88, 0.6);*/
+            /*    background-color: transparent;*/
+            /*    transition: 0.25s;*/
+            /*    cursor: pointer;*/
+            /*}*/
+
+            #filter-rating,
+            #filter-title,
+            #filter-genre{ display: none; }
+
+            #filter-rating + label,
+            #filter-title + label,
+            #filter-genre + label {
                 align-self: end;
-            }
-            #menu li {
-                margin: 10px 0;
-                /*text-align: end;*/
-            }
-            #menu li:hover {
-                color: rgba(199, 88, 88, 0.6);
-                background-color: transparent;
+                margin-top: 10px;
+                color: white;
+                background: transparent;
                 transition: 0.25s;
                 cursor: pointer;
+            }
+
+            #filter-rating + label:hover,
+            #filter-title + label:hover,
+            #filter-genre + label:hover {
+                color: rgba(199, 88, 88, 0.6);
+            }
+
+            #filter-rating:checked + label,
+            #filter-title:checked + label,
+            #filter-genre:checked + label {
+                font-weight: 600;
+                color:white;
+            }
+
+            input[type=radio][name="sort"]{ display: none; }
+            input[type=radio][name="sort"] + label{
+                align-self: end;
+                margin-top: 10px;
+                color: white;
+                background: transparent;
+                transition: 0.25s;
+                cursor: pointer;
+            }
+            input[type=radio][name="sort"] + label:hover{
+                color: rgba(199, 88, 88, 0.6);
+            }
+            input[type=radio][name="sort"]:checked + label{
+                font-weight: 600;
+                color:white;
             }
 
             /*-------------------------*\
@@ -196,7 +241,7 @@
             \*-------------------------*/
             #browse {
                 position: absolute;
-                top: 250px;
+                top: var(--navbar-height);
                 right: 0;
                 bottom: 0;
                 width: 0;
@@ -207,7 +252,7 @@
             }
             #watch {
                 position: absolute;
-                top: 250px;
+                top: var(--navbar-height);
                 right: 0;
                 bottom: 0;
                 width: 100%;
@@ -218,7 +263,7 @@
             }
             #search {
                 position: absolute;
-                top: 250px;
+                top: var(--navbar-height);
                 right: 0;
                 bottom: 0;
                 width: 0;
@@ -822,19 +867,15 @@
                     <div id="menu">
                         <section class="sub-section">
                             <div class="title">Sort</div>
-                            <ul>
-                                <li id="sort-rating">Rating</li>
-                                <li id="sort-title">Title</li>
-                                <li id="sort-genre">Genre</li>
-                            </ul>
+                            <input type="radio" id="sort-rating" name="sort" value="rating">    <label for="sort-rating">Rating</label>
+                            <input type="radio" id="sort-title" name="sort" value="title">      <label for="sort-title">Title</label>
+                            <input type="radio" id="sort-genre" name="sort" value="genre">      <label for="sort-genre">Genre</label>
                         </section>
                         <section class="sub-section">
                             <div class="title">Filter</div>
-                            <ul>
-                                <li id="filter-rating">Rating</li>
-                                <li id="filter-title">Title</li>
-                                <li id="filter-genre">Genre</li>
-                            </ul>
+                            <input id="filter-rating" type="checkbox">  <label class="check" for="filter-rating">Rating</label>
+                            <input id="filter-title" type="checkbox">   <label class="check" for="filter-title">Title</label>
+                            <input id="filter-genre" type="checkbox">   <label class="check" for="filter-genre">Genre</label>
                         </section>
                     </div>
                 </div>
@@ -1101,8 +1142,6 @@
                                 // Constant Variables
                                 //--------------------------------//
 
-                                //--| General |---------------------//
-                                const myMovieListUrl = `https://aluminum-purple-grouse.glitch.me/movies`;
                                 //--| Carousel |---------------------//
                                 const leftButtons = document.getElementsByClassName("left-button");
                                 const rightButtons = document.getElementsByClassName("right-button");
@@ -1138,11 +1177,19 @@
                                 let browselist = data[0];
                                 let watchlist = data[1];
 
+                                let sortFlag = "title";
+                                let filterTitleFlag = false;
+                                let filterGenreFlag = false;
+                                let filterRatingFlag = false;
+
                                 //--------------------------------//
                                 // Instance Functions
                                 //--------------------------------//
 
                                 //--| Watchlist Logic |---------------//
+                                function filterAndSortWatchlist() {
+                                    let finalList = watchlist;
+                                }
                                 function processWatchlist() {
                                     let temp = watchlist;
                                     temp.forEach((element, index, array) => { array[index].actors = element.actors.split(', ').filter((element, index) => index < 4).join(', '); });
@@ -1330,7 +1377,7 @@
                                             watchlist.push(movieObj);
                                             showWatchlist(watchlist);
 
-                                            fetch(myMovieListUrl, {
+                                            fetch(watchlistGlitchURL, {
                                                 method: 'POST',
                                                 headers: { 'Content-Type': 'application/json'},
                                                 body: JSON.stringify(movieObj)
@@ -1417,7 +1464,7 @@
                                         }
                                     });
 
-                                    fetch(myMovieListUrl + `/${watchlist[index].id}`, {
+                                    fetch(watchlistGlitchURL + `/${watchlist[index].id}`, {
                                         method: 'PATCH',
                                         headers: { 'Content-Type': 'application/json'},
                                         body: JSON.stringify({
@@ -1439,7 +1486,7 @@
 
                                     let index = document.querySelector('#edit-modal').getAttribute('data-index');
 
-                                    fetch(myMovieListUrl + '/' + watchlist[index].id, { method: 'DELETE' })
+                                    fetch(watchlistGlitchURL + '/' + watchlist[index].id, { method: 'DELETE' })
                                         .then(response => {
                                             console.log(response);
 
