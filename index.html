@@ -909,7 +909,7 @@
                             <div class="dropdown">
                                 <a class="dropdown-button" href="#">Genre &dtrif;</a>
                                 <div id="filter-genre" class="dropdown-content">
-                                    <a class="muted" href="#">No Rating</a>
+                                    <a class="muted" href="#">No Genre</a>
                                     <a href="#">Action</a>
                                     <a href="#">Animation</a>
                                     <a href="#">Documentary</a>
@@ -1251,8 +1251,8 @@
                                     }
 
                                     if (watchedFilter) filterAndSortedList = filterAndSortedList.filter(element => element.watched === true);
-                                    if (ratingFilter !== "") filterAndSortedList = filterAndSortedList.filter(element => element.rating === ratingFilter.length);
-                                    if (genreFilter !== "") filterAndSortedList = filterAndSortedList.filter(element => element.genre.includes(genreFilter));
+                                    if (ratingFilter !== "") filterAndSortedList = filterAndSortedList.filter(element =>  ratingFilter === "No Rating" || element.rating === ratingFilter.length);
+                                    if (genreFilter !== "") filterAndSortedList = filterAndSortedList.filter(element => genreFilter === "No Genre" || element.genre.includes(genreFilter));
 
                                     showWatchlist(filterAndSortedList);
                                 }
