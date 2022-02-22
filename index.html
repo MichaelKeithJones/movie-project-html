@@ -243,6 +243,8 @@
                 background-color: #3e8e41;
             }
 
+            .dropdown .muted { color: #888888; }
+
             /*-------------------------*\
             Content
             \*-------------------------*/
@@ -896,6 +898,7 @@
                             <div class="dropdown">
                                 <a class="dropdown-button" href="#">Rating &dtrif;</a>
                                 <div id="filter-rating" class="dropdown-content">
+                                    <a class="muted" href="#">No Rating</a>
                                     <a href="#">&#9733;</a>
                                     <a href="#">&#9733;&#9733;</a>
                                     <a href="#">&#9733;&#9733;&#9733;</a>
@@ -906,6 +909,7 @@
                             <div class="dropdown">
                                 <a class="dropdown-button" href="#">Genre &dtrif;</a>
                                 <div id="filter-genre" class="dropdown-content">
+                                    <a class="muted" href="#">No Rating</a>
                                     <a href="#">Action</a>
                                     <a href="#">Animation</a>
                                     <a href="#">Documentary</a>
@@ -1233,6 +1237,7 @@
                                     document.querySelector('#sort-title').checked = false;
                                     sortFlag = "";
                                     watchedFilter = false;
+                                    document.querySelector('#filter-watched').checked = false;
                                     ratingFilter = "";
                                     genreFilter = "";
                                 }
@@ -1261,7 +1266,7 @@
                                     document.querySelector('#watchlist .items').innerHTML = '';
                                     list.forEach((element, index) => {
                                         document.querySelector('#watchlist .items').innerHTML += `
-                                            <div class="item" data-index="${index}">
+                                            <div class="item" data-index="${index}" data-tmdb="${element.tmdb}">
                                                 <img src=${element.poster}>
                                             </div>
                                         `;
@@ -1454,30 +1459,31 @@
                                 }
                                 //--| Edit Modal Logic |----------------//
                                 function showEditMovieModel(e) {
-                                    const index = e.target.parentElement.getAttribute('data-index');
+                                    const tmdb = e.target.parentElement.getAttribute('data-tmdb');
+                                    let movie = watchlist.filter(e => e.tmdb == tmdb)[0];
 
-                                    document.querySelector('#edit-modal').setAttribute('data-index', index);
-                                    document.querySelector('#edit-modal img').setAttribute('src', watchlist[index].poster)
-                                    document.querySelector('#edit-modal .title').innerHTML      = `<span class="muted">Title: </span>${watchlist[index].title}`;
-                                    document.querySelector('#edit-modal .year').innerHTML       = `<span class="muted">Release Year: </span>${watchlist[index].year}`;
-                                    document.querySelector('#edit-modal .genre').innerHTML      = `<span class="muted">Genre: </span>${watchlist[index].genre}`;
-                                    document.querySelector('#edit-modal .country').innerHTML    = `<span class="muted">Country: </span>${watchlist[index].country}`;
-                                    document.querySelector('#edit-modal .language').innerHTML   = `<span class="muted">Language: </span>${watchlist[index].language}`;
-                                    document.querySelector('#edit-modal .actors').innerHTML     = `<span class="muted">Actor: </span>${watchlist[index].actors}`;
-                                    document.querySelector('#edit-modal .director').innerHTML   = `<span class="muted">Director: </span>${watchlist[index].director}`;
-                                    document.querySelector('#edit-modal .writer').innerHTML     = `<span class="muted">Writer: </span>${watchlist[index].writer}`;
-                                    document.querySelector('#edit-modal .overview').innerHTML   = `<span class="muted">Overview: </span>${watchlist[index].overview}`;
-                                    document.querySelector('#edit-modal .runtime').innerHTML    = `<span class="muted">Runtime: </span>${watchlist[index].runtime}`;
+                                    document.querySelector('#edit-modal').setAttribute('data-tmdb', e.target.parentElement.getAttribute('data-tmdb'));
+                                    document.querySelector('#edit-modal img').setAttribute('src', movie.poster)
+                                    document.querySelector('#edit-modal .title').innerHTML      = `<span class="muted">Title: </span>${movie.title}`;
+                                    document.querySelector('#edit-modal .year').innerHTML       = `<span class="muted">Release Year: </span>${movie.year}`;
+                                    document.querySelector('#edit-modal .genre').innerHTML      = `<span class="muted">Genre: </span>${movie.genre}`;
+                                    document.querySelector('#edit-modal .country').innerHTML    = `<span class="muted">Country: </span>${movie.country}`;
+                                    document.querySelector('#edit-modal .language').innerHTML   = `<span class="muted">Language: </span>${movie.language}`;
+                                    document.querySelector('#edit-modal .actors').innerHTML     = `<span class="muted">Actor: </span>${movie.actors}`;
+                                    document.querySelector('#edit-modal .director').innerHTML   = `<span class="muted">Director: </span>${movie.director}`;
+                                    document.querySelector('#edit-modal .writer').innerHTML     = `<span class="muted">Writer: </span>${movie.writer}`;
+                                    document.querySelector('#edit-modal .overview').innerHTML   = `<span class="muted">Overview: </span>${movie.overview}`;
+                                    document.querySelector('#edit-modal .runtime').innerHTML    = `<span class="muted">Runtime: </span>${movie.runtime}`;
 
                                     editModalStarRating.forEach(element => {
-                                        if (element.value <= watchlist[index].rating) {
+                                        if (element.value <= movie.rating) {
                                             element.nextElementSibling.classList.remove("edit-star");
                                             element.nextElementSibling.classList.add("gold-star");
                                             element.checked = true;
                                         }
                                     });
 
-                                    if (watchlist[index].watched === true) {
+                                    if (movie.watched === true) {
                                         editModalWatchButton.classList.toggle("blue-button");
                                         document.querySelector('#watch-button-check').checked = true;
                                     }
@@ -1516,21 +1522,22 @@
                                     editModal.style.display = "none";
                                 }
                                 function closeEditMovieModal (){
-                                    let index = document.querySelector('#edit-modal').getAttribute('data-index');
+                                    let tmdb = document.querySelector('#edit-modal').getAttribute('data-tmdb');
+                                    let movie = watchlist.filter(e => e.tmdb == tmdb)[0];
 
-                                    watchlist[index].watched = document.querySelector('#edit-modal #watch-button-check').checked;
+                                    movie.watched = document.querySelector('#edit-modal #watch-button-check').checked;
                                     editModalStarRating.forEach((element, iterator) => {
                                         if (element.checked === true) {
-                                            watchlist[index].rating = iterator + 1;
+                                            movie.rating = iterator + 1;
                                         }
                                     });
 
-                                    fetch(watchlistGlitchURL + `/${watchlist[index].id}`, {
+                                    fetch(watchlistGlitchURL + `/${movie.id}`, {
                                         method: 'PATCH',
                                         headers: { 'Content-Type': 'application/json'},
                                         body: JSON.stringify({
-                                            rating: watchlist[index].rating,
-                                            watched: watchlist[index].watched
+                                            rating: movie.rating,
+                                            watched: movie.watched
                                         })
                                     })
                                         .then(response => response.json())
@@ -1545,13 +1552,14 @@
                                     editModalDeleteButton.classList.toggle("red-button");
                                     editModalDeleteButton.removeEventListener('click', deleteMovieFromWatchlist);
 
-                                    let index = document.querySelector('#edit-modal').getAttribute('data-index');
+                                    let tmdb = document.querySelector('#edit-modal').getAttribute('data-tmdb');
+                                    let movie = watchlist.filter(e => e.tmdb == tmdb)[0];
 
-                                    fetch(watchlistGlitchURL + '/' + watchlist[index].id, { method: 'DELETE' })
+                                    fetch(watchlistGlitchURL + '/' + movie.id, { method: 'DELETE' })
                                         .then(response => {
                                             console.log(response);
 
-                                            watchlist = watchlist.filter(e => e !== watchlist[index]);
+                                            watchlist = watchlist.filter(e => e !== movie);
                                             showWatchlist(watchlist);
 
                                             let wait = () => {
