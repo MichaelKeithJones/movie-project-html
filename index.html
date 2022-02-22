@@ -511,55 +511,6 @@
                 font-weight: 200;
                 border-bottom: 1px solid red;
             }
-            #add-modal .add-button {
-                color: white;
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                margin: 20px;
-
-                font-size: 35px;
-                line-height: 30px;
-
-                text-align: center;
-                background-color: black;
-                border-radius: 50%;
-                border: 1px solid white;
-                width: 35px;
-                height: 35px;
-                transition: .25s;
-            }
-            #add-modal .add-button:hover {
-                color: green;
-                border: 1px solid green;
-                text-decoration: none;
-                cursor: pointer;
-            }
-            #add-modal .green-button {
-                color: white;
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                margin: 20px;
-
-                font-size: 35px;
-                line-height: 30px;
-
-                text-align: center;
-                border-radius: 50%;
-                width: 35px;
-                height: 35px;
-                transition: .25s;
-
-                background-color: green;
-                border: 1px solid green;
-            }
-            #add-modal .green-button:hover {
-                color: white;
-                border: 1px solid green;
-                text-decoration: none;
-                cursor: pointer;
-            }
             #add-modal .stars {
                 position: absolute;
                 left: 80px;
@@ -629,6 +580,37 @@
                 overflow: auto;
             }
             #add-modal .muted { color:rgb(87, 87, 87); }
+
+            #add-button { display: none; }
+            #add-button + label {
+                display: inline-block;
+                color: white;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                margin: 20px;
+
+                font-size: 35px;
+                line-height: 30px;
+
+                text-align: center;
+                background-color: black;
+                border-radius: 50%;
+                border: 1px solid white;
+                width: 35px;
+                height: 35px;
+                transition: .25s;
+                cursor: pointer;
+            }
+            #add-button + label:hover {
+                color: green;
+                border: 1px solid green;
+            }
+            #add-button:checked + label {
+                color: white;
+                background-color: green;
+                border: 1px solid green;
+            }
 
             /*-------------------------*\
             Edit Modal
@@ -723,13 +705,13 @@
             Edit Modal - Delete Button
             \*-------------------------*/
 
-            #edit-modal .delete-button {
+            #delete-button { display: none; }
+            #delete-button + label {
                 display: inline-block;
                 color: white;
 
-                font-size: 25px;
-                font-weight: bold;
-                line-height: 32px;
+                font-size: 35px;
+                line-height: 30px;
 
                 text-align: center;
                 background-color: black;
@@ -738,44 +720,24 @@
                 width: 35px;
                 height: 35px;
                 transition: .25s;
+                cursor: pointer;
             }
-            #edit-modal .delete-button:hover {
-                display: inline-block;
+            #delete-button + label:hover {
                 color: red;
                 border: 1px solid red;
-                text-decoration: none;
-                cursor: pointer;
             }
-            #edit-modal .red-button {
-                display: inline-block;
+            #delete-button:checked + label {
                 color: white;
-
-                font-size: 25px;
-                font-weight: bold;
-                line-height: 32px;
-
-                text-align: center;
-                border-radius: 50%;
-                width: 35px;
-                height: 35px;
-                transition: .25s;
-
                 background-color: red;
                 border: 1px solid red;
-            }
-            #edit-modal .red-button:hover {
-                display: inline-block;
-                color: white;
-                border: 1px solid red;
-                text-decoration: none;
-                cursor: pointer;
             }
 
             /*-------------------------*\
             Edit Modal - Watch Button
             \*-------------------------*/
 
-            #edit-modal .watch-button {
+            #watch-button { display: none; }
+            #watch-button + label {
                 display: inline-block;
                 color: white;
 
@@ -789,36 +751,16 @@
                 width: 35px;
                 height: 35px;
                 transition: .25s;
+                cursor: pointer;
             }
-            #edit-modal .watch-button:hover {
-                display: inline-block;
+            #watch-button + label:hover {
                 color: blue;
                 border: 1px solid blue;
-                text-decoration: none;
-                cursor: pointer;
             }
-            #edit-modal .blue-button {
-                display: inline-block;
+            #watch-button:checked + label {
                 color: white;
-
-                font-size: 25px;
-                line-height: 30px;
-
-                text-align: center;
-                border-radius: 50%;
-                width: 35px;
-                height: 35px;
-                transition: .25s;
-
                 background-color: blue;
                 border: 1px solid blue;
-            }
-            #edit-modal .blue-button:hover {
-                display: inline-block;
-                color: white;
-                border: 1px solid blue;
-                text-decoration: none;
-                cursor: pointer;
             }
 
             /*-------------------------*\
@@ -1013,7 +955,7 @@
                         <div class="header">
                             <div class="close-button">&times;</div>
                             <div class="title"></div>
-                            <label><input hidden type="radio" id="add-button-check" name="add-button-check"><div class="add-button">&plus;</div></label>
+                            <input id="add-button" type="checkbox" name="add-button"><label for="add-button">+</label>
                             <div class="stars">
                                 <label><input hidden id="add-star-one"      type="checkbox" value="1"><div class="add-star">&#9733;</div></label>
                                 <label><input hidden id="add-star-two"      type="checkbox" value="2"><div class="add-star">&#9733;</div></label>
@@ -1039,8 +981,8 @@
                             <div class="info">
                                 <img>
                                 <section class="button">
-                                    <label><input hidden type="checkbox" id="delete-button-check" name="delete-button-check"><span class="delete-button">&minus;</span></label>
-                                    <label><input hidden type="checkbox" id="watch-button-check" name="watch-button-check"><span class="watch-button">&#128065;</span></label>
+                                    <input id="delete-button" type="checkbox" name="delete-button"><label for="delete-button">-</label>
+                                    <input id="watch-button" type="checkbox" name="watch-button"><label for="watch-button">&#128065;</label>
                                 </section>
                                 <div class="stars">
                                     <label><input hidden id="edit-star-one"     type="checkbox" value="1"><div class="edit-star">&#9733;</div></label>
@@ -1195,13 +1137,13 @@
                                 const addModal = document.getElementById("add-modal");
                                 const addModalCloseButton = document.getElementsByClassName("close-button")[0];
                                 const addModalStarRating = document.querySelectorAll('#add-modal .stars input');
-                                const addModalAddButton = document.querySelector('#add-modal .add-button');
+                                const addModalAddButton = document.querySelector('#add-button');
                                 //--| Edit Modal |---------------------//
                                 const editModal = document.getElementById("edit-modal");
                                 const editModalCloseButton = document.getElementsByClassName("close-button")[1];
                                 const editModalStarRating = document.querySelectorAll('#edit-modal .stars input');
-                                const editModalDeleteButton = document.querySelector('#edit-modal .delete-button');
-                                const editModalWatchButton = document.querySelector('#edit-modal .watch-button');
+                                const editModalDeleteButton = document.querySelector('#delete-button');
+                                const editModalWatchButton = document.querySelector('#watch-button');
                                 //--| Watchlist Modal |---------------------//
                                 const watchModal = document.getElementById("watch");
                                 //--| Browselist Modal |---------------------//
@@ -1368,6 +1310,7 @@
                                     document.querySelector('#add-modal .genres').innerHTML          = movie.genre;
                                     document.querySelector('#add-modal').setAttribute('data-genre', poster.getAttribute('data-genre'));
                                     document.querySelector('#add-modal').setAttribute('data-id', poster.getAttribute('data-id'));
+                                    addModalAddButton.checked = false;
                                     addModal.style.display = "block";
                                 }
                                 function addModalResetStars() {
@@ -1390,16 +1333,13 @@
                                 }
                                 function closeAddMovieModal (){
                                     addModalResetStars();
-                                    document.querySelector('#add-modal #add-button-check').checked = false;
                                     addModalStarRating.forEach(element => {
                                         element.checked = false;
                                     });
-                                    addModalAddButton.classList.toggle("green-button");
                                     addModal.style.display = "none";
                                 }
                                 function addMovieToWatchlist(e) {
-                                    addModalAddButton.classList.toggle("green-button");
-                                    addModalAddButton.removeEventListener('click', addMovieToWatchlist);
+                                    addModalAddButton.disabled = true;
 
                                     const addModalElement = document.querySelector('#add-modal');
                                     const movie = browselist[addModalElement.getAttribute('data-genre')][addModalElement.getAttribute('data-id')];
@@ -1451,9 +1391,9 @@
                                                 console.log("POST: " + response.statusText);
                                                 let wait = () => {
                                                     closeAddMovieModal();
+                                                    addModalAddButton.disabled = false;
                                                 };
                                                 const myTimeout = setTimeout(wait, 150);
-                                                addModalAddButton.addEventListener('click', addMovieToWatchlist);
                                             }).catch(err => console.log(err));
                                         }).catch(err => console.log(err));
                                 }
@@ -1483,10 +1423,7 @@
                                         }
                                     });
 
-                                    if (movie.watched === true) {
-                                        editModalWatchButton.classList.toggle("blue-button");
-                                        document.querySelector('#watch-button-check').checked = true;
-                                    }
+                                    if (movie.watched === true) { editModalWatchButton.checked = true; }
 
                                     editModal.style.display = "block";
                                 }
@@ -1511,21 +1448,15 @@
                                 function resetEditMovieModal() {
                                     editModalResetStars();
 
-                                    document.querySelector('#edit-modal #delete-button-check').checked = false;
-                                    editModalDeleteButton.classList.remove("red-button");
-                                    editModalDeleteButton.classList.add("delete-button");
-
-                                    document.querySelector('#edit-modal #watch-button-check').checked = false;
-                                    editModalWatchButton.classList.remove("blue-button");
-                                    editModalWatchButton.classList.add("watch-button");
-
+                                    editModalDeleteButton.checked = false;
+                                    editModalWatchButton.checked = false;
                                     editModal.style.display = "none";
                                 }
                                 function closeEditMovieModal (){
                                     let tmdb = document.querySelector('#edit-modal').getAttribute('data-tmdb');
                                     let movie = watchlist.filter(e => e.tmdb == tmdb)[0];
 
-                                    movie.watched = document.querySelector('#edit-modal #watch-button-check').checked;
+                                    movie.watched = editModalWatchButton.checked;
                                     editModalStarRating.forEach((element, iterator) => {
                                         if (element.checked === true) {
                                             movie.rating = iterator + 1;
@@ -1549,8 +1480,7 @@
                                         }).catch(err => console.log(err));
                                 }
                                 function deleteMovieFromWatchlist(e) {
-                                    editModalDeleteButton.classList.toggle("red-button");
-                                    editModalDeleteButton.removeEventListener('click', deleteMovieFromWatchlist);
+                                    editModalDeleteButton.disabled = true;
 
                                     let tmdb = document.querySelector('#edit-modal').getAttribute('data-tmdb');
                                     let movie = watchlist.filter(e => e.tmdb == tmdb)[0];
@@ -1564,15 +1494,13 @@
 
                                             let wait = () => {
                                                 resetEditMovieModal();
-                                                editModalDeleteButton.addEventListener('click', deleteMovieFromWatchlist);
+                                                editModalDeleteButton.disabled = false;
                                             };
                                             const myTimeout = setTimeout(wait, 150);
                                         })
                                         .catch(err => console.log(err));
                                 }
-                                function watchButtonToggle() {
-                                    editModalWatchButton.classList.toggle("blue-button");
-                                }
+
 
                                 //--------------------------------//
                                 // Event Handlers
@@ -1659,7 +1587,6 @@
                                 editModalCloseButton.addEventListener("click", closeEditMovieModal);
                                 editModalStarRating.forEach(element => element.addEventListener("change", editModalChangeStars));
                                 editModalDeleteButton.addEventListener('click', deleteMovieFromWatchlist);
-                                editModalWatchButton.addEventListener('click', watchButtonToggle);
 
                                 //--------------------------------//
                                 // Sub-Main
