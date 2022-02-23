@@ -20,7 +20,10 @@
             \*-------------------------*/
 
             :root{
+                --container-width: 1400px;
+                --container-height: 2250px;
                 --navbar-height: 200px;
+                --footer-height: 200px;
                 --content-height: 2050px;
                 --poster-height: 300px;
                 --add-modal-height: 650px;
@@ -40,18 +43,48 @@
             }
 
             /*-------------------------*\
+            Container
+            \*-------------------------*/
+
+            .navbar-splash {
+                overflow: hidden;
+                position: fixed;
+                right: 0;
+                top: 0;
+                width: 100vw;
+                height: var(--navbar-height);
+                z-index: 499;
+                background: linear-gradient(15deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 75%, rgba(78,78,78,1) 100%);
+            }
+            .footer-splash {
+                overflow: hidden;
+                position: fixed;
+                width: 100vw;
+                left: 0;
+                bottom: 0;
+                height: var(--footer-height);
+                z-index: -1;
+                background: linear-gradient(195deg, transparent 0%, transparent 75%, rgba(78,78,78,1) 100%);
+            }
+
+            main {
+                position: relative;
+                width: var(--container-width);
+                height: var(--container-height);
+                margin: 0 auto;
+            }
+
+            /*-------------------------*\
             Navbar
             \*-------------------------*/
 
             #navbar {
                 position: fixed;
-                width: 100%;
+                width: var(--container-width);
                 height: var(--navbar-height);
                 padding: 0 50px;
                 z-index: 500;
-
-                background: linear-gradient(15deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 66%, rgba(78,78,78,1) 100%);
-
+                background: transparent;
                 display: flex;
                 justify-content: space-between;
             }
@@ -132,7 +165,6 @@
                 position: relative;
                 padding-top: var(--navbar-height);
                 height: var( --content-height);
-                background-color: blue;
             }
 
             /*-------------------------*\
@@ -206,13 +238,10 @@
                 margin-top: 10px;
                 align-self: end;
             }
-            .dropdown a{
-                text-decoration: none;
-            }
+            .dropdown a{ text-decoration: none; }
             .dropdown-button {
                 color: white;
-                background-color: #4CAF50;
-                border-left: 2px solid rgba(199, 88, 88, 0.6);
+                background-color: transparent;
                 cursor: pointer;
             }
             .dropdown-content {
@@ -220,29 +249,30 @@
                 position: absolute;
                 top: 20px;
                 right: 0;
-                background-color: #f9f9f9;
+                background-color: black;
                 min-width: 175px;
                 z-index: 5;
+                border: 1px solid rgba(255, 0, 0, 0.6);
             }
             .dropdown-content a {
-                color: black;
+                color: white;
                 padding: 6px 0 6px 26px;
                 text-decoration: none;
                 display: block;
             }
             .dropdown-content a:hover {
-                background-color: #f1f1f1;
+                background-color: rgba(128, 128, 128, 0.34);
                 padding-left: 6px;
-                border-left: 2px solid rgba(199, 88, 88, 0.6);
                 transition: all 0.3s ease;
             }
             .dropdown:hover .dropdown-content {
                 display: block;
             }
             .dropdown:hover .dropdown-button {
-                background-color: #3e8e41;
+                background: rgba(255, 0, 0, 0.6);
+                padding-left: 6px;
+                padding-top: 3px;
             }
-
             .dropdown .muted { color: #888888; }
 
             /*-------------------------*\
@@ -254,7 +284,49 @@
                 display:inline-block;
                 padding: var(--navbar-height);
                 height: var( --content-height);
-                background: yellow;
+            }
+
+            /*-------------------------*\
+            Loader
+            \*-------------------------*/
+
+            #loader {
+                width: 200px;
+                height: 200px;
+                position: absolute;
+                top: calc(var(--navbar-height) + 150px);
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: 0 auto;
+                border-radius: 50%;
+                box-shadow: 0 0 5px #444;
+                display: none;
+            }
+            #loader:before {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background: linear-gradient(red, black 60%);
+                animation: spin 2s infinite linear;
+            }
+            #loader:after {
+                content: "";
+                position: absolute;
+                width: 95%;
+                height: 95%;
+                top: 2.5%;
+                left: 2.5%;
+                background-color: #000000;
+                border-radius: 50%;
+                box-shadow: inset 0 0 5px #444;
+            }
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
             }
 
             /*-------------------------*\
@@ -299,13 +371,14 @@
             \*-------------------------*/
 
             #footer{
+                padding-top: 50px;
                 position: relative;
                 bottom: 0;
                 left: 0;
                 right: 0;
                 width: 100%;
                 height: 200px;
-                background: green;
+                background: transparent;
             }
             #footer .title {
                 bottom: 65px;
@@ -314,6 +387,8 @@
                 border-bottom: 1px solid red;
             }
             .footer-links {
+                position: relative;
+                bottom: 0;
                 margin: 0 20px;
 
                 display: flex;
@@ -840,6 +915,7 @@
     </head>
     <body>
 
+        <div class="navbar-splash"></div>
         <main>
 
             <!--| Navbar |------------------------------>
@@ -903,6 +979,7 @@
                 <!--| Right Panel |------------------------->
 
                 <div id="content">
+                    <div id="loader"></div>
                     <!----------| Carousel |-------------------->
                     <div id="browse">
                         <div id="browse-container">
@@ -962,7 +1039,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div >
                     <!----------| Watchlist |------------------->
                     <div id="watch">
                         <div class="title">The List</div>
@@ -976,7 +1053,7 @@
                         <div id="searchlist">
                             <div class="results"></div>
                         </div>
-                    </div>
+                    </div >
                 </div>
             </div>
             <!--| Footer |------------------------------>
@@ -991,6 +1068,7 @@
             </footer>
 
         </main>
+        <div class="footer-splash"></div>
             <!--| Hidden - Modals|---------------------->
 
                 <!----------| Modal-Add |------------------->
@@ -1199,6 +1277,8 @@
                                 const watchButton = document.getElementById('filter-watched');
                                 const ratingDropdown = document.querySelectorAll('#filter-rating a');
                                 const genreDropdown = document.querySelectorAll('#filter-genre a');
+                                //--| Loader |---------------------//
+                                const loader = document.querySelector('#loader');
 
                                 //--------------------------------//
                                 // Instance Variables
@@ -1248,6 +1328,9 @@
                                     watchlist = temp;
                                 }
                                 function showWatchlist(list) {
+                                    watchModal.style.display = "none";
+                                    loader.style.display = "block";
+
                                     processWatchlist();
                                     document.querySelector('#watchlist .items').innerHTML = '';
                                     list.forEach((element, index) => {
@@ -1259,6 +1342,9 @@
                                     })
                                     const items = document.getElementsByClassName("item");
                                     Array.from(items).forEach(element => element.addEventListener("click", showEditMovieModel));
+
+                                    watchModal.style.display = "block";
+                                    loader.style.display = "none";
                                 }
                                 //--| Carousel Logic |-----------------//
                                 function getCurrentTranslateXValue (element) {
@@ -1289,6 +1375,9 @@
                                     const myTimeout = setTimeout(startListening, 1000);
                                 }
                                 function showCarousel(carouselGenre) {
+                                    browseModal.style.display = "none";
+                                    loader.style.display = "block";
+
                                     const galleryElement = document.getElementById(`gallery-${carouselGenre}`);
                                     let tempMovielist = browselist[carouselGenre];
                                     galleryElement.innerHTML = '';
@@ -1301,9 +1390,14 @@
                                     }
                                     const posters = document.getElementsByClassName("poster");
                                     Array.from(posters).forEach(element => element.addEventListener("click", showAddMovieModal));
+                                    browseModal.style.display = "block";
+                                    loader.style.display = "none";
                                 }
                                 //--| Search Logic |-----------------//
                                 function showSearchlist(title) {
+                                    searchModal.style.display = "none";
+                                    loader.style.display = "block";
+
                                     const searchTMDBURL = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${title.toLowerCase().split(' ').join('+')}`
                                     fetch(searchTMDBURL)
                                         .then(response => response.json())
@@ -1336,6 +1430,8 @@
                                                 const results = document.getElementsByClassName("result");
                                                 Array.from(results).forEach(element => element.addEventListener("click", showAddMovieModal));
                                             } else { searchElement.innerHTML = `<h2 style="color: white">No results</h2>`; }
+                                            searchModal.style.display = "block";
+                                            loader.style.display = "none";
                                         })
                                         .catch(err => console.log(err));
                                 }
