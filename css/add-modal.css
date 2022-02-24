@@ -1,0 +1,159 @@
+/*-------------------------*\
+Add Modal
+\*-------------------------*/
+
+#add-modal {
+    display: none; /* Hidden by default */
+
+    position: fixed; /* Stay in place */
+    left: 0;
+    top: 0;
+    z-index: 1000; /* Sit on top */
+
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+
+    background-color: rgba(0, 0, 0, 0.75); /* Black w/ opacity */
+
+    padding-top: 100px; /* Location of the box */
+}
+#add-modal .content {
+    position: relative;
+    background-color: rgb(75, 75, 75);
+    width: 800px;
+    height: var(--add-modal-height);
+    margin: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.75), 0 6px 20px 0 rgba(0, 0, 0, 0.75);
+    animation: modal-slide-down 0.5s ease;
+}
+@keyframes modal-slide-down {
+    0% { top: -300px; opacity: 0 }
+    100% { top: 0; opacity: 1 }
+}
+#add-modal .header {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    color: white;
+}
+#add-modal .title {
+    position: absolute;
+    bottom: 65px;
+    margin: 0 20px;
+    font-size: 48px;
+    font-weight: 200;
+    border-bottom: 1px solid red;
+}
+#add-modal .close-button {
+    color: white;
+    position: absolute;
+    right: 0;
+
+    margin: 20px;
+
+    font-size: 35px;
+    line-height: 27px;
+
+    text-align: center;
+    background-color: black;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    transition: .25s;
+}
+#add-modal .close-button:hover,
+#add-modal .close-button:focus {
+    color: rgb(49, 49, 49);
+    text-decoration: none;
+    cursor: pointer;
+}
+#add-modal .body {
+    width: 100%;
+    height: 200px;
+    background: rgb(0, 0, 0);
+    color: white;
+    font-weight: 400;
+    padding: 20px;
+
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 5fr;
+    grid-auto-flow: column;
+    gap: 10px;
+}
+#add-modal .overview {
+    overflow: auto;
+}
+#add-modal .muted { color:rgb(87, 87, 87); }
+#add-modal img {
+    width: 100%;
+    height: 100%;
+}
+
+/*-------------------------*\
+Add Modal - Add Button
+\*-------------------------*/
+
+#add-button { display: none; }
+#add-button + label {
+    display: inline-block;
+    color: white;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    margin: 20px;
+
+    text-align: center;
+    font-size: 22px;
+    line-height: 22px;
+    padding-top: 6px;
+    padding-left: 1px;
+
+    background-color: black;
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 35px;
+    height: 35px;
+    transition: .25s;
+    cursor: pointer;
+}
+#add-button + label:hover {
+    color: green;
+    border: 1px solid green;
+}
+#add-button:checked + label {
+    color: white;
+    background-color: green;
+    border: 1px solid green;
+}
+
+/*-------------------------*\
+Add Modal - Stars
+\*-------------------------*/
+
+#add-modal .stars {
+    position: absolute;
+    left: 80px;
+    bottom: 18px;
+
+    font-size: 30px;
+    transition: 0.25s;
+}
+#add-modal .add-star{
+    display: inline-block;
+    color: white;
+    background: transparent;
+}
+#add-modal .add-star:hover {
+    color: rgb(49, 49, 49);
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+#add-modal .gold-star {
+    display: inline-block;
+    color: gold;
+    background: transparent;
+}
+

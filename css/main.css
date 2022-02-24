@@ -1,0 +1,9 @@
+/*-------------------------*\
+Main Section
+\*-------------------------*/
+
+#main {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    transition: var(--transition-timing) ease;
+}

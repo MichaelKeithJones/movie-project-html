@@ -1,0 +1,72 @@
+/*-------------------------*\
+Navbar
+\*-------------------------*/
+
+#navbar {
+    position: fixed;
+    width: var(--container-width);
+    height: var(--navbar-height);
+    padding: 0 50px;
+    z-index: 500;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+}
+#navbar .left-side { display: flex; }
+#navbar .brand{
+    color: white;
+    text-decoration: none;
+    margin-right: 40px;
+    display: flex;
+    align-items: center;
+}
+#navbar .title {
+    height: 150px;
+    padding-left: 10px;
+    border-left: white solid 2px;
+    font-size: 48px;
+    display: flex;
+    align-items: center;
+}
+#navbar ul {
+    list-style: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+#navbar li a {
+    display: block;
+    color: white;
+    background-color: transparent;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+#navbar li a:hover {
+    color: rgba(199, 88, 88, 0.6);
+    background-color: transparent;
+    transition: 0.25s;
+}
+#navbar .right-side {
+    display: flex;
+    align-items: center;
+}
+#navbar i {
+    color: white;
+    font-size: 25px;
+}
+#navbar input[type=text]{
+    height: 50px;
+    width: 50px;
+    border: grey;
+    border-radius: 2px;
+    background: white url('../movie-project-html/img/magnifying-glass.png') no-repeat 10px 10px;
+    transition: width .75s ease-in-out;
+    outline: none;
+    padding-left: 50px;
+}
+#navbar input[type=text]:focus{ width: 500px; }

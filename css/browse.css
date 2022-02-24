@@ -1,0 +1,97 @@
+/*-------------------------*\
+Contents - Hidden
+\*-------------------------*/
+#browse {
+    position: absolute;
+    top: var(--navbar-height);
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: calc(100% - var(--navbar-height));
+    overflow: hidden;
+    transition:  var(--transition-timing) ease;
+    opacity: 0;
+}
+
+/*-------------------------*\
+Carousel
+\*-------------------------*/
+
+#browse-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.carousel {
+    height: var(--poster-height);
+    /* 5 Poster -> Poster Width: 200px;  (200px * 5) + (16px margin * 4) = 1064px*/
+    /* 3 Poster -> Poster Width: 200px;  (200px * 3) + (16px margin * 2) = 632px*/
+    /* 1 Poster -> Poster Width: 200px;  (200px * 1) + (16px margin * 0) = 200px*/
+    width: 1064px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    z-index: 0;
+}
+.carousel-container .title {
+    color: white;
+    font-size: 24px;
+    width: 1200px;
+    padding-bottom: 5px;
+    margin: 0 auto 15px auto;
+    border-bottom: red solid 2px;
+}
+.carousel .gallery {
+    list-style: none;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    transition: all 1s ease;
+    display: flex;
+}
+.carousel .poster {
+    display: inline-block;
+    min-width: 200px;
+    height:  var(--poster-height);
+    margin-right: 1rem;
+    background-color: transparent;
+}
+.carousel .poster img{
+    width: 100%;
+    height: 100%;
+}
+.carousel .poster:hover {
+    cursor: pointer;
+}
+.carousel-buttons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.carousel .left-button { background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
+.carousel .right-button { background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
+.carousel .arrow {
+    color: #545454;
+    width: 50px;
+    height: 50%;
+    font-size: 56px;
+    border: none;
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 11;
+    cursor: pointer;
+}
+.carousel .arrow:hover {
+    color: white;
+}
+.carousel:hover .arrow{ opacity: 1; }
+.carousel .stretch {
+    display: inline-block;
+    transform: scale(1, 2);
+}

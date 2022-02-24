@@ -1,0 +1,30 @@
+/*-------------------------*\
+Container & Background
+\*-------------------------*/
+
+.container {
+    position: relative;
+    width: var(--container-width);
+    height: var(--container-height);
+    margin: 0 auto;
+}
+.container-background-top {
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100vw;
+    height: var(--navbar-height);
+    z-index: 499;
+    background: linear-gradient(15deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 75%, rgba(78,78,78,1) 100%);
+}
+.container-background-bottom {
+    overflow: hidden;
+    position: fixed;
+    width: 100vw;
+    left: 0;
+    bottom: 0;
+    height: var(--footer-height);
+    z-index: -1;
+    background: linear-gradient(195deg, transparent 0%, transparent 75%, rgba(78,78,78,1) 100%);
+}

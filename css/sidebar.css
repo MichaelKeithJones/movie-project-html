@@ -1,0 +1,118 @@
+/*-------------------------*\
+Sidebar
+\*-------------------------*/
+
+#sidebar {
+    position: relative;
+    padding-top: var(--navbar-height);
+    height: var( --content-height);
+}
+
+/*-------------------------*\
+Sidebar - Hidden
+\*-------------------------*/
+
+#menu {
+    position: absolute;
+    top: var(--navbar-height);
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(100% - var(--navbar-height));
+    overflow: hidden;
+    transition:  var(--transition-timing) ease;
+    color: white;
+    opacity: 1;
+    padding-right: 20px;
+}
+#menu .sub-section {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+}
+#menu .title {
+    align-self: end;
+    color: white;
+    font-size: 24px;
+    width: 100px;
+    padding-bottom: 5px;
+    border-bottom: red solid 2px;
+}
+
+#filter-watched{ display: none; }
+#filter-watched + label {
+    align-self: end;
+    margin-top: 10px;
+    color: white;
+    background: transparent;
+    transition: 0.25s;
+    cursor: pointer;
+}
+#filter-watched + label:hover {
+    color: rgba(199, 88, 88, 0.6);
+}
+#filter-watched:checked + label {
+    font-weight: 600;
+    color:white;
+}
+
+input[type=radio][name="sort"]{ display: none; }
+input[type=radio][name="sort"] + label{
+    align-self: end;
+    margin-top: 10px;
+    color: white;
+    background: transparent;
+    transition: 0.25s;
+    cursor: pointer;
+}
+input[type=radio][name="sort"] + label:hover{
+    color: rgba(199, 88, 88, 0.6);
+}
+input[type=radio][name="sort"]:checked + label{
+    font-weight: 600;
+    color:white;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-top: 10px;
+    align-self: end;
+}
+.dropdown a{ text-decoration: none; }
+.dropdown-button {
+    color: white;
+    background-color: transparent;
+    cursor: pointer;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 0;
+    background-color: #1e1e1e;
+    min-width: 175px;
+    z-index: 5;
+    border: 5px solid black;
+}
+.dropdown-content a {
+    color: white;
+    padding: 6px 0 6px 26px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover {
+    background-color: rgba(199, 88, 88, 0.6);
+    padding-left: 6px;
+    transition: all 0.3s ease;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropdown:hover .dropdown-button {
+    color: rgba(199, 88, 88, 0.6);
+    background: transparent;
+    padding-left: 6px;
+    padding-top: 3px;
+}
+.dropdown .muted { color: #727272; }
