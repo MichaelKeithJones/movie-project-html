@@ -38,14 +38,6 @@
         'it': 'Italian'
     }
 
-    //--------------------------------//
-    // Global Functions
-    //--------------------------------//
-    let capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1);
-    let convertTMDBGenreIDS = ids => ids.map(genreID => capitalizeFirstLetter(genre[genreID])).join(', ');
-    let convertTMDBLanguage = code => languages[code] ? languages[code] : code;
-    let convertTMDBDate = date => date.split('-')[0];
-
     //--| Horror Movie URL|---------------------//
     const horrorTMDBURL = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=27&sort_by=popularity.desc&language=en-US&page=1`;
     //--| Action Movie URL|---------------------//
@@ -63,6 +55,22 @@
     const promiseDocumentaryMovies = fetch(documentaryTMDBURL);
     const promiseAnimationMovies = fetch(animationTMDBURL);
     const promiseDramaMovies = fetch(dramaTMDBURL);
+
+
+    //--| Loader |---------------------//
+    const loader = document.querySelector('#loader');
+
+    //--------------------------------//
+    // Global Functions
+    //--------------------------------//
+    let capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1);
+    let convertTMDBGenreIDS = ids => ids.map(genreID => capitalizeFirstLetter(genre[genreID])).join(', ');
+    let convertTMDBLanguage = code => languages[code] ? languages[code] : code;
+    let convertTMDBDate = date => date.split('-')[0];
+
+    //--------------------------------//
+    // Global Calls
+    //--------------------------------//
 
     Promise.all([promiseHorrorMovies, promiseActionMovies, promiseDocumentaryMovies, promiseAnimationMovies,promiseDramaMovies])
         .then(data => {
@@ -110,37 +118,35 @@
                 //--------------------------------//
 
                 //--| Carousel |---------------------//
-                const leftButtons = document.getElementsByClassName("left-button");
-                const rightButtons = document.getElementsByClassName("right-button");
+                const leftButtons = document.querySelectorAll(".left-button");
+                const rightButtons = document.querySelectorAll(".right-button");
                 const numOfPosters = 5;
                 const carouselWidth = 1064;
                 const posterMarginRight = 16;
                 const posterCount = 20;
                 const maxX = -((posterCount / numOfPosters) * carouselWidth + (posterMarginRight * (posterCount / numOfPosters)) - carouselWidth - posterMarginRight);
                 //--| Add Modal |---------------------//
-                const addModal = document.getElementById("add-modal");
-                const addModalCloseButton = document.getElementsByClassName("close-button")[0];
+                const addModal = document.querySelector("#add-modal");
+                const addModalCloseButton = document.querySelector("#add-modal .close-button");
                 const addModalStarRating = document.querySelectorAll('#add-modal .stars input');
                 const addModalAddButton = document.querySelector('#add-button');
                 //--| Edit Modal |---------------------//
-                const editModal = document.getElementById("edit-modal");
-                const editModalCloseButton = document.getElementsByClassName("close-button")[1];
+                const editModal = document.querySelector("#edit-modal");
+                const editModalCloseButton = document.querySelector("#edit-modal .close-button");
                 const editModalStarRating = document.querySelectorAll('#edit-modal .stars input');
                 const editModalDeleteButton = document.querySelector('#delete-button');
                 const editModalWatchButton = document.querySelector('#watch-button');
                 //--| Watchlist Modal |---------------------//
-                const watchModal = document.getElementById("watch");
+                const watchModal = document.querySelector("#watch");
                 //--| Browselist Modal |---------------------//
-                const browseModal = document.getElementById("browse");
+                const browseModal = document.querySelector("#browse");
                 //--| Searchlist Modal |---------------------//
-                const searchModal = document.getElementById("search");
+                const searchModal = document.querySelector("#search");
                 //--| Menu Modal |---------------------//
-                const menuModal = document.getElementById("menu");
-                const watchButton = document.getElementById('filter-watched');
+                const menuModal = document.querySelector("#sidebar .menu");
+                const watchButton = document.querySelector('#sidebar .menu input[type=checkbox][id="filter-watched"]');
                 const ratingDropdown = document.querySelectorAll('#filter-rating a');
                 const genreDropdown = document.querySelectorAll('#filter-genre a');
-                //--| Loader |---------------------//
-                const loader = document.querySelector('#loader');
 
                 //--------------------------------//
                 // Instance Variables
@@ -179,7 +185,7 @@
                     }
 
                     if (watchedFilter) filterAndSortedList = filterAndSortedList.filter(element => element.watched === true);
-                    if (ratingFilter !== "") filterAndSortedList = filterAndSortedList.filter(element =>  ratingFilter === "No Rating" || element.rating === ratingFilter.length);
+                    if (ratingFilter !== "") filterAndSortedList = filterAndSortedList.filter(element =>  ratingFilter === 0 || element.rating === ratingFilter);
                     if (genreFilter !== "") filterAndSortedList = filterAndSortedList.filter(element => genreFilter === "No Genre" || element.genre.includes(genreFilter));
 
                     showWatchlist(filterAndSortedList);
@@ -570,7 +576,7 @@
                     filterAndSortWatchlist(e);
                 });
                 ratingDropdown.forEach(element => element.addEventListener('click', e => {
-                    ratingFilter = e.target.innerText;
+                    ratingFilter = e.target.childElementCount;
                     filterAndSortWatchlist(e);
                 }));
                 genreDropdown.forEach(element => element.addEventListener('click', e => {
@@ -600,6 +606,9 @@
                 showCarousel('horror');
                 showCarousel('drama');
                 showCarousel('animation');
+
+                watchModal.style.display = "block";
+                loader.style.display = "none";
             })
         }).catch(err => console.log(err));
 })();

@@ -61,8 +61,7 @@ Add Modal
     height: 28px;
     transition: .25s;
 }
-#add-modal .close-button:hover,
-#add-modal .close-button:focus {
+#add-modal .close-button:hover {
     color: rgb(49, 49, 49);
     text-decoration: none;
     cursor: pointer;

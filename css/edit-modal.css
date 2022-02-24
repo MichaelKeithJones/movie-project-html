@@ -1,6 +1,3 @@
-
-
-
 /*-------------------------*\
 Edit Modal
 \*-------------------------*/
@@ -54,8 +51,7 @@ Edit Modal
     height: 28px;
     transition: .25s;
 }
-#edit-modal .close-button:hover,
-#edit-modal .close-button:focus {
+#edit-modal .close-button:hover {
     color: rgb(49, 49, 49);
     text-decoration: none;
     cursor: pointer;
@@ -85,7 +81,7 @@ Edit Modal
 Edit Modal - Buttons
 \*-------------------------*/
 
-#edit-modal .button {
+#edit-modal .buttons {
     grid-row: span 1;
 
     display: grid;

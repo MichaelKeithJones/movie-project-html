@@ -6,19 +6,21 @@ General
     --container-width: 1400px;
     --container-height: 2250px;
     --navbar-height: 200px;
-    --footer-height: 200px;
     --content-height: 2050px;
     --poster-height: 300px;
     --add-modal-height: 650px;
     --edit-modal-height: 550px;
+    --footer-height: 200px;
     --transition-timing: 2s;
 }
+
 * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
     font-family: 'Montserrat', sans-serif;
 }
+
 body {
     width: 100%;
     min-height: 100vh;

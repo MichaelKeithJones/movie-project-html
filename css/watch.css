@@ -8,6 +8,7 @@
     overflow: hidden;
     transition:  var(--transition-timing) ease;
     opacity: 1;
+    display: none;
 }
 
 /*-------------------------*\
