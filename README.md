@@ -37,6 +37,9 @@ Browse Page
 ## External Dependencies
 
 **The Movie Database (TMDB) API**: https://www.themoviedb.org/documentation/api?language=en-US
+**Font Awesome 4.7**: https://fontawesome.com/v4/examples/
+**Google Fonts**: https://fonts.google.com/specimen/Montserrat
+
 
 ## Background
 
