@@ -1,6 +1,6 @@
-#<p align="center">The Movie Project</p>
+# <p align="center">The Movie Project</p>
 
-###Summary
+### Summary
 
 ---
 
@@ -8,7 +8,7 @@
 
 
 
-###Home
+### Home
 
 ---
 
@@ -21,7 +21,7 @@
 <p align="center">Edit Movie Modal</p>
 
 
-###Browse
+### Browse
 
 ---
 
@@ -35,7 +35,7 @@ Browse Page
 <p align="center"><img width="600" src="./img/add-modal-readme-img.png" alt="Material Bread logo"></p>
 <p align="center">Add Movie Modal</p>
 
-###Search
+### Search
 
 ---
 
@@ -44,7 +44,7 @@ Browse Page
 <p align="center"><img width="600" src="./img/search-readme-img.png" alt="Material Bread logo"></p>
 <p align="center">Search Page</p>
 
-###External Dependencies
+### External Dependencies
 
 ---
 
