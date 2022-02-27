@@ -2,6 +2,8 @@
 
 **The Movie Project** provides a way for users to build a personalized movie watchlist. The web application allows browsing by genre of the most recently popular movies or searching by title. In addition, users can track their personal ratings as well as already watched films. This was done with the use of HTML5, CSS, Ajax, and The Movie Database (TMDB) API.
 
+Link: https://michaelkeithjones.github.io/movie-project-html/
+
 ## Home
 
 **The Home Page** for the web application is the user personal movie listling. Here a user can sort movies by title, rating, and genre. I addition, movies can be filter by rating or genre. Or, if the user only wants to see movies that have already been watched, by a "watched" filter. Bookmarked movies can also be edited. Once selected, a dropdown modal will appear that allows users to mark a new rating for a movie, to mark a movie as watched, or to delete a movie from the list.
