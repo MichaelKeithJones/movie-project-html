@@ -5,18 +5,906 @@ External Import
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 /*-------------------------*\
-Internal Imports
+General
 \*-------------------------*/
-@import "/css/general.css";
-@import "/css/container.css";
-@import "/css/navbar.css";
-@import "/css/main.css";
-@import "/css/sidebar.css";
-@import "/css/content.css";
-@import "/css/loader.css";
-@import "/css/watch.css";
-@import "/css/browse.css";
-@import "/css/search.css";
-@import "/css/footer.css";
-@import "/css/add-modal.css";
-@import "/css/edit-modal.css";
+
+:root{
+    --container-width: 1400px;
+    --container-height: 2250px;
+    --navbar-height: 200px;
+    --content-height: 2050px;
+    --poster-height: 300px;
+    --add-modal-height: 650px;
+    --edit-modal-height: 550px;
+    --footer-height: 200px;
+    --transition-timing: 2s;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background: black;
+}
+
+/*-------------------------*\
+Container & Background
+\*-------------------------*/
+
+.container {
+    position: relative;
+    width: var(--container-width);
+    height: var(--container-height);
+    margin: 0 auto;
+}
+
+.container-background-top {
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100vw;
+    height: var(--navbar-height);
+    z-index: 499;
+    background: linear-gradient(15deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 75%, rgba(78,78,78,1) 100%);
+}
+
+.container-background-bottom {
+    overflow: hidden;
+    position: fixed;
+    width: 100vw;
+    left: 0;
+    bottom: 0;
+    height: var(--footer-height);
+    z-index: -1;
+    background: linear-gradient(195deg, transparent 0%, transparent 75%, rgba(78,78,78,1) 100%);
+}
+
+/*-------------------------*\
+Navbar
+\*-------------------------*/
+
+#navbar {
+    position: fixed;
+    width: var(--container-width);
+    height: var(--navbar-height);
+    padding: 0 50px;
+    z-index: 500;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+}
+#navbar .left-side { display: flex; }
+#navbar .brand{
+    color: white;
+    text-decoration: none;
+    margin-right: 40px;
+    display: flex;
+    align-items: center;
+}
+#navbar .title {
+    height: 150px;
+    padding-left: 10px;
+    border-left: white solid 2px;
+    font-size: 48px;
+    display: flex;
+    align-items: center;
+}
+#navbar ul {
+    list-style: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+#navbar li a {
+    color: white;
+    background-color: transparent;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.25s;
+}
+#navbar li a:hover {
+    color: rgba(199, 88, 88, 0.6);
+}
+#navbar .right-side {
+    display: flex;
+    align-items: center;
+}
+#navbar input[type=text]{
+    height: 50px;
+    width: 50px;
+    border: grey;
+    border-radius: 2px;
+    background: white url('../movie-project-html/img/magnifying-glass.png') no-repeat 10px 10px;
+    outline: none;
+    padding-left: 50px;
+    transition: width .75s ease-in-out;
+}
+#navbar input[type=text]:focus{ width: 500px; }
+
+/*-------------------------*\
+Main Section
+\*-------------------------*/
+
+#main {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    transition: var(--transition-timing) ease;
+}
+
+/*-------------------------*\
+Sidebar
+\*-------------------------*/
+
+#sidebar {
+    position: relative;
+    padding-top: var(--navbar-height);
+    height: var( --content-height);
+}
+
+#sidebar .menu {
+    position: absolute;
+    top: var(--navbar-height);
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(100% - var(--navbar-height));
+    overflow: hidden;
+    transition:  var(--transition-timing) ease;
+    color: white;
+    opacity: 1;
+    padding-right: 20px;
+}
+#sidebar .menu .sub-section {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+}
+#sidebar .menu .title {
+    align-self: end;
+    color: white;
+    font-size: 24px;
+    width: 100px;
+    padding-bottom: 5px;
+    border-bottom: red solid 2px;
+}
+
+#sidebar .menu input[type=checkbox][id="filter-watched"] { display: none; }
+#sidebar .menu input[type=checkbox][id="filter-watched"] + label {
+    align-self: end;
+    margin-top: 10px;
+    color: white;
+    background: transparent;
+    transition: 0.25s;
+    cursor: pointer;
+}
+#sidebar .menu input[type=checkbox][id="filter-watched"] + label:hover {
+    color: rgba(199, 88, 88, 0.6);
+}
+#sidebar .menu input[type=checkbox][id="filter-watched"]:checked + label {
+    font-weight: 600;
+    color:white;
+}
+
+#sidebar .menu input[type=radio][name="sort"] { display: none; }
+#sidebar .menu input[type=radio][name="sort"] + label{
+    align-self: end;
+    margin-top: 10px;
+    color: white;
+    background: transparent;
+    transition: 0.25s;
+    cursor: pointer;
+}
+#sidebar .menu input[type=radio][name="sort"] + label:hover{ color: rgba(199, 88, 88, 0.6); }
+#sidebar .menu input[type=radio][name="sort"]:checked + label{
+    font-weight: 600;
+    color:white;
+}
+
+#sidebar .menu .dropdown {
+    position: relative;
+    display: inline-block;
+    margin-top: 10px;
+    align-self: end;
+}
+#sidebar .menu .dropdown a{ text-decoration: none; }
+#sidebar .menu .dropdown-button {
+    color: white;
+    background-color: transparent;
+    cursor: pointer;
+}
+#sidebar .menu .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 0;
+    background-color: #1e1e1e;
+    min-width: 175px;
+    z-index: 5;
+    border: 5px solid black;
+}
+#sidebar .menu .dropdown-content a {
+    color: white;
+    padding: 6px 0 6px 26px;
+    text-decoration: none;
+    display: block;
+}
+#sidebar .menu .dropdown-content a:hover {
+    background-color: rgba(199, 88, 88, 0.6);
+    padding-left: 6px;
+    transition: all 0.3s ease;
+}
+#sidebar .menu .dropdown:hover .dropdown-content { display: block; }
+#sidebar .menu .dropdown:hover .dropdown-button {
+    color: rgba(199, 88, 88, 0.6);
+    background: transparent;
+    padding-left: 6px;
+    padding-top: 3px;
+}
+#sidebar .menu .dropdown .muted { color: #727272; }
+
+/*-------------------------*\
+Content
+\*-------------------------*/
+
+#content {
+    position: relative;
+    display:inline-block;
+    padding: var(--navbar-height);
+    height: var( --content-height);
+}
+
+/*-------------------------*\
+Loader
+\*-------------------------*/
+
+#loader {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: calc(var(--navbar-height) + 150px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+#loader:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(red, black 60%);
+    animation: spin 2s infinite linear;
+}
+#loader:after {
+    content: "";
+    position: absolute;
+    width: 98%;
+    height: 98%;
+    top: 1%;
+    left: 1%;
+    background-color: #000000;
+    border-radius: 50%;
+}
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#watch {
+    position: absolute;
+    top: var(--navbar-height);
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(100% - var(--navbar-height));
+    overflow: hidden;
+    transition:  var(--transition-timing) ease;
+    opacity: 1;
+    display: none;
+}
+
+/*-------------------------*\
+Watchlist
+\*-------------------------*/
+
+#watch .title {
+    color: white;
+    font-size: 24px;
+    width: 1200px;
+    padding-bottom: 5px;
+    margin: 0 auto 15px auto;
+    border-bottom: red solid 2px;
+}
+#watchlist {
+    width: 1064px;
+    background-color: transparent;
+    margin: 0 auto;
+}
+#watchlist .items {
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
+    grid-gap: 16px;
+}
+#watchlist .item {
+    display: inline-block;
+    width: 200px;
+    height: 300px;
+    height:  var(--poster-height);
+    background-color: transparent;
+}
+#watchlist .item:hover {
+    cursor: pointer;
+}
+#watchlist img{
+    width: 100%;
+    height: 100%;
+}
+
+/*-------------------------*\
+Contents - Hidden
+\*-------------------------*/
+#browse {
+    position: absolute;
+    top: var(--navbar-height);
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: calc(100% - var(--navbar-height));
+    overflow: hidden;
+    transition:  var(--transition-timing) ease;
+    opacity: 0;
+}
+
+/*-------------------------*\
+Carousel
+\*-------------------------*/
+
+#browse-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.carousel {
+    height: var(--poster-height);
+    /* 5 Poster -> Poster Width: 200px;  (200px * 5) + (16px margin * 4) = 1064px*/
+    /* 3 Poster -> Poster Width: 200px;  (200px * 3) + (16px margin * 2) = 632px*/
+    /* 1 Poster -> Poster Width: 200px;  (200px * 1) + (16px margin * 0) = 200px*/
+    width: 1064px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    z-index: 0;
+}
+.carousel-container .title {
+    color: white;
+    font-size: 24px;
+    width: 1200px;
+    padding-bottom: 5px;
+    margin: 0 auto 15px auto;
+    border-bottom: red solid 2px;
+}
+.carousel .gallery {
+    list-style: none;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    transition: all 1s ease;
+    display: flex;
+}
+.carousel .poster {
+    display: inline-block;
+    min-width: 200px;
+    height:  var(--poster-height);
+    margin-right: 1rem;
+    background-color: transparent;
+}
+.carousel .poster img{
+    width: 100%;
+    height: 100%;
+}
+.carousel .poster:hover {
+    cursor: pointer;
+}
+.carousel-buttons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.carousel .left-button { background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
+.carousel .right-button { background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)); }
+.carousel .arrow {
+    color: #545454;
+    width: 50px;
+    height: 50%;
+    font-size: 56px;
+    border: none;
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 11;
+    cursor: pointer;
+}
+.carousel .arrow:hover {
+    color: white;
+}
+.carousel:hover .arrow{ opacity: 1; }
+.carousel .stretch {
+    display: inline-block;
+    transform: scale(1, 2);
+}
+
+#search {
+    position: absolute;
+    top: var(--navbar-height);
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: calc(100% - var(--navbar-height));
+    overflow: hidden;
+    transition:  var(--transition-timing) ease;
+    opacity: 0;
+}
+
+/*-------------------------*\
+Searchlist
+\*-------------------------*/
+
+#search .title {
+    color: white;
+    font-size: 24px;
+    width: 1200px;
+    padding-bottom: 5px;
+    margin: 0 auto 15px auto;
+    border-bottom: red solid 2px;
+}
+#searchlist {
+    width: 1064px;
+    background-color: transparent;
+    margin: 0 auto;
+}
+#searchlist .results {
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
+    grid-gap: 16px;
+}
+#searchlist .result {
+    display: inline-block;
+    width: 200px;
+    height: 300px;
+    height:  var(--poster-height);
+    background-color: transparent;
+}
+#searchlist .result:hover {
+    cursor: pointer;
+}
+#searchlist img{
+    width: 100%;
+    height: 100%;
+}
+
+/*-------------------------*\
+Footer
+\*-------------------------*/
+
+#footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+    height: 200px;
+
+    background: transparent;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+#footer .top {
+    width: 65%;
+
+    padding-bottom: 20px;
+    margin: 0 auto;
+
+    border-bottom: 2px red solid;
+
+    display: grid;
+    grid-column: span 2;
+
+    align-items: end;
+    justify-content: center;
+}
+#footer .bottom-left {
+    color: white;
+
+    padding: 20px 0;
+
+    display: grid;
+    justify-content: center;
+}
+#footer .bottom-right {
+    padding: 20px 0;
+
+    display: grid;
+    justify-content: center;
+}
+#footer ul {
+    list-style: none;
+
+    display: flex;
+    gap: 15px;
+}
+#footer a {
+    text-decoration: none;
+    color: white;
+}
+#footer a:hover {
+    color: rgba(199, 88, 88, 0.6);
+}
+
+/*-------------------------*\
+Add Modal
+\*-------------------------*/
+
+#add-modal {
+    display: none; /* Hidden by default */
+
+    position: fixed; /* Stay in place */
+    left: 0;
+    top: 0;
+    z-index: 1000; /* Sit on top */
+
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+
+    background-color: rgba(0, 0, 0, 0.75); /* Black w/ opacity */
+
+    padding-top: 100px; /* Location of the box */
+}
+#add-modal .content {
+    position: relative;
+    background-color: rgb(75, 75, 75);
+    width: 800px;
+    height: var(--add-modal-height);
+    margin: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.75), 0 6px 20px 0 rgba(0, 0, 0, 0.75);
+    animation: modal-slide-down 0.5s ease;
+}
+@keyframes modal-slide-down {
+    0% { top: -300px; opacity: 0 }
+    100% { top: 0; opacity: 1 }
+}
+#add-modal .header {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    color: white;
+}
+#add-modal .title {
+    position: absolute;
+    bottom: 65px;
+    margin: 0 20px;
+    font-size: 48px;
+    font-weight: 200;
+    border-bottom: 1px solid red;
+}
+#add-modal .close-button {
+    color: white;
+    position: absolute;
+    right: 0;
+
+    margin: 20px;
+
+    font-size: 35px;
+    line-height: 27px;
+
+    text-align: center;
+    background-color: black;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    transition: .25s;
+}
+#add-modal .close-button:hover {
+    color: rgb(49, 49, 49);
+    text-decoration: none;
+    cursor: pointer;
+}
+#add-modal .body {
+    width: 100%;
+    height: 200px;
+    background: rgb(0, 0, 0);
+    color: white;
+    font-weight: 400;
+    padding: 20px;
+
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 5fr;
+    grid-auto-flow: column;
+    gap: 10px;
+}
+#add-modal .overview {
+    overflow: auto;
+}
+#add-modal .muted { color:rgb(87, 87, 87); }
+#add-modal img {
+    width: 100%;
+    height: 100%;
+}
+
+/*-------------------------*\
+Add Modal - Add Button
+\*-------------------------*/
+
+#add-button { display: none; }
+#add-button + label {
+    display: inline-block;
+    color: white;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    margin: 20px;
+
+    text-align: center;
+    font-size: 22px;
+    line-height: 22px;
+    padding-top: 6px;
+    padding-left: 1px;
+
+    background-color: black;
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 35px;
+    height: 35px;
+    transition: .25s;
+    cursor: pointer;
+}
+#add-button + label:hover {
+    color: green;
+    border: 1px solid green;
+}
+#add-button:checked + label {
+    color: white;
+    background-color: green;
+    border: 1px solid green;
+}
+
+/*-------------------------*\
+Add Modal - Stars
+\*-------------------------*/
+
+#add-modal .stars {
+    position: absolute;
+    left: 80px;
+    bottom: 18px;
+
+    font-size: 30px;
+    transition: 0.25s;
+}
+#add-modal .add-star{
+    display: inline-block;
+    color: white;
+    background: transparent;
+}
+#add-modal .add-star:hover {
+    color: rgb(49, 49, 49);
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+#add-modal .gold-star {
+    display: inline-block;
+    color: gold;
+    background: transparent;
+}
+
+/*-------------------------*\
+Edit Modal
+\*-------------------------*/
+
+#edit-modal {
+    display: none; /* Hidden by default */
+
+    position: fixed; /* Stay in place */
+    left: 0;
+    top: 0;
+    z-index: 1000; /* Sit on top */
+
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+
+    background-color: rgba(0, 0, 0, 0.75); /* Black w/ opacity */
+
+    padding-top: 100px; /* Location of the box */
+}
+#edit-modal .content {
+    position: relative;
+    width: 800px;
+    height: var(--edit-modal-height);
+    margin: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.75), 0 6px 20px 0 rgba(0, 0, 0, 0.75);
+    animation: modal-slide-down 0.5s ease;
+}
+#edit-modal .body {
+    position: relative;
+
+    width: 100%;
+    height: var(--edit-modal-height);
+
+    color: white;
+    background: black;
+}
+#edit-modal .close-button {
+    color: white;
+    position: absolute;
+    right: 0;
+
+    margin: 20px;
+
+    font-size: 35px;
+    line-height: 27px;
+
+    text-align: center;
+    background-color: black;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    transition: .25s;
+}
+#edit-modal .close-button:hover {
+    color: rgb(49, 49, 49);
+    text-decoration: none;
+    cursor: pointer;
+}
+#edit-modal .info {
+    width: 100%;
+    height: var(--edit-modal-height);
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: repeat(9, 1fr) 6fr;
+    grid-gap: 15px;
+    grid-auto-flow:column;
+    padding: 10px;
+}
+#edit-modal .overview {
+    overflow: auto;
+}
+#edit-modal .muted { color:rgb(87, 87, 87); }
+#edit-modal img {
+    width: 200px;
+    height: 300px;
+    object-fit: contain;
+    grid-row: span 8;
+}
+
+/*-------------------------*\
+Edit Modal - Buttons
+\*-------------------------*/
+
+#edit-modal .buttons {
+    grid-row: span 1;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    align-items: center;
+}
+
+/*-------------------------*\
+Edit Modal - Delete Button
+\*-------------------------*/
+
+#delete-button { display: none; }
+#delete-button + label {
+    display: inline-block;
+    color: white;
+
+    text-align: center;
+    font-size: 22px;
+    line-height: 22px;
+    padding-top: 6px;
+    padding-left: 1px;
+
+    background-color: black;
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 35px;
+    height: 35px;
+    transition: .25s;
+    cursor: pointer;
+}
+#delete-button + label:hover {
+    color: red;
+    border: 1px solid red;
+}
+#delete-button:checked + label {
+    color: white;
+    background-color: red;
+    border: 1px solid red;
+}
+
+/*-------------------------*\
+Edit Modal - Watch Button
+\*-------------------------*/
+
+#watch-button { display: none; }
+#watch-button + label {
+    display: inline-block;
+    color: white;
+
+    text-align: center;
+    font-size: 22px;
+    line-height: 22px;
+    padding-top: 4px;
+    padding-left: 1px;
+
+    background-color: black;
+    border-radius: 50%;
+    border: 1px solid white;
+    width: 35px;
+    height: 35px;
+    transition: .25s;
+    cursor: pointer;
+}
+#watch-button + label:hover {
+    color: blue;
+    border: 1px solid blue;
+}
+#watch-button:checked + label {
+    color: white;
+    background-color: blue;
+    border: 1px solid blue;
+}
+
+/*-------------------------*\
+Edit Modal - Stars
+\*-------------------------*/
+
+#edit-modal .stars {
+    font-size: 30px;
+    transition: 0.25s;
+
+    grid-row: span 1;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-items: center;
+    align-items: start;
+}
+#edit-modal .edit-star{
+    display: inline-block;
+    color: white;
+    background: transparent;
+}
+#edit-modal .edit-star:hover {
+    color: rgb(49, 49, 49);
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+#edit-modal .gold-star {
+    display: inline-block;
+    color: gold;
+    background: transparent;
+}
