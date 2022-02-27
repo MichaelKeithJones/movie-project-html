@@ -34,6 +34,11 @@ Browse Page
 <p align="center"><img width="600" src="./img/search-readme-img.png" alt="Material Bread logo"></p>
 <p align="center">Search Page</p>
 
+## To Do
+
+- Move search bar to left of browse link. Place "hamburger" where search bar is.
+- Add username and login capabilities with unique accounts/profiles.
+
 ## External Dependencies
 
 - **The Movie Database (TMDB) API**: https://www.themoviedb.org/documentation/api?language=en-US
