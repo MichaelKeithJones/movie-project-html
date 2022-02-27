@@ -124,7 +124,7 @@ Navbar
     width: 50px;
     border: grey;
     border-radius: 2px;
-    background: white url('/img/magnifying-glass.png') no-repeat 10px 10px;
+    background: white url('./img/magnifying-glass.png') no-repeat 10px 10px;
     outline: none;
     padding-left: 50px;
     transition: width .75s ease-in-out;
