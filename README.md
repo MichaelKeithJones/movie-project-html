@@ -1,6 +1,6 @@
 ## Summary
 
-**The Movie Project** provides a way for users to build a personalized movie watchlist. The web application allows browsing by genre of the most recently popular movies or searching by title. In addition, users can track their personal ratings as well as already watched films. This was done with the use of HTML5, CSS, Ajax, and The Movie Database (TMDB) API.
+**The Movie Project** demonstrates how a potential personalized movie database might function. This web application allows browsing by movie genre or searching by title. In addition, users can track their personal ratings as well as already watched films. This was done using HTML5, CSS, Ajax, and The Movie Database (TMDB) API.
 
 Github Page: https://michaelkeithjones.github.io/movie-project-html/
 
