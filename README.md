@@ -1,5 +1,3 @@
-# <p align="center">The Movie Project</p>
-
 ## Summary
 
 **The Movie Project** provides a way for users to build a personalized movie watchlist. The web application allows browsing by genre of the most recently popular movies or searching by title. In addition, users can track their personal ratings as well as already watched films. This was done with the use of HTML5, CSS, Ajax, and The Movie Database (TMDB) API.
@@ -65,3 +63,13 @@ The above project was an assignment given by the CodeUp Full Stack Web Developer
 
 - Each movie should have a "delete" button
 - When this button is clicked, your javascript should send a DELETE request
+
+#### Bonus:
+
+- Add a disabled attribute to buttons while their corresponding ajax request is still pending.
+- Show a loading animation instead of just text that says "loading...".
+- Use modals for the creating and editing movie forms.
+- Add a genre property to every movie.
+- Allow users to sort the movies by rating, title, or genre (if you have it).
+- Allow users to search through the movies by rating, title, or genre (if you have it).
+- Use a free movie API like OMDB to include extra info or render movie posters.
